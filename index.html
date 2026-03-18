@@ -311,7 +311,7 @@ async function fetchByGPS(){
         // Reverse geocode with Open-Meteo + nominatim
         const [wxRes, geoRes]=await Promise.all([
           fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,uv_index&hourly=surface_pressure&forecast_days=1&timezone=Asia/Tokyo`),
-          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja`)
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja&zoom=10`, {headers: {'User-Agent': 'HealthWeatherApp/1.0'}})
         ]);
 
         const wxData=await wxRes.json();
@@ -338,7 +338,12 @@ async function fetchByGPS(){
 
         // 地名を取得
         const addr=geoData.address||{};
-        const city='現在地';
+        const parts = [];
+        if (addr.city) parts.push(addr.city);
+        else if (addr.town) parts.push(addr.town);
+        else if (addr.village) parts.push(addr.village);
+        if (addr.state) parts.push(addr.state);
+        const city = parts.length ? parts.join(' ') : '現在地';
 
         const wxObj={code,temp,humidity,pressure,pressKey,wind,precip,uv,city,lat:+lat,lon:+lon};
         localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
