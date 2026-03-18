@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="体調×気候">
+<title>体調 × 気候 相関分析</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Space+Grotesk:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;}
+body{
+  min-height:100vh;
+  background:linear-gradient(150deg,#06101f 0%,#0b1c36 45%,#071420 100%);
+  font-family:'Noto Sans JP',sans-serif;
+  color:#dff0ff;
+  padding:20px 16px 80px;
+}
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;bottom:0;
+  background:radial-gradient(ellipse 60% 40% at 20% 15%,rgba(56,139,253,0.10) 0%,transparent 60%),
+             radial-gradient(ellipse 50% 50% at 80% 80%,rgba(79,172,254,0.07) 0%,transparent 55%);
+  pointer-events:none;z-index:0;
+}
+.wrap{max-width:680px;margin:0 auto;position:relative;z-index:1;}
+.hdr{text-align:center;padding:8px 0 24px;}
+.hdr-title{font-family:'Space Grotesk',sans-serif;font-size:22px;font-weight:600;color:#eef7ff;}
+.hdr-sub{font-size:12px;color:rgba(185,218,255,0.82);margin-top:5px;}
+.card{background:rgba(255,255,255,0.045);border:1px solid rgba(110,165,255,0.2);border-radius:20px;padding:18px;margin-bottom:12px;box-shadow:0 4px 28px rgba(0,0,0,0.3),inset 0 1px 0 rgba(255,255,255,0.07);}
+.sec-label{font-size:9px;font-weight:500;color:rgba(175,212,255,0.92);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.sec-label::after{content:'';flex:1;height:1px;background:rgba(110,165,255,0.18);}
+
+/* GPS fetch button */
+.fetch-area{display:flex;flex-direction:column;gap:10px;}
+.gps-btn{width:100%;padding:14px;background:rgba(56,139,253,0.22);border:1px solid rgba(56,139,253,0.45);border-radius:14px;color:#dff0ff;font-size:15px;font-weight:500;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .2s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.gps-btn:hover{background:rgba(56,139,253,0.38);transform:translateY(-1px);}
+.gps-btn:active{transform:translateY(0);}
+.gps-btn:disabled{opacity:.4;cursor:not-allowed;transform:none;}
+.gps-status{font-size:12px;color:rgba(160,205,255,0.78);min-height:18px;text-align:center;}
+
+/* Weather hero */
+.wx-hero{display:none;align-items:center;gap:16px;padding:15px 17px;background:rgba(56,139,253,0.09);border:1px solid rgba(56,139,253,0.22);border-radius:16px;margin-top:12px;}
+.wx-hero.show{display:flex;}
+.wx-icon{font-size:46px;line-height:1;flex-shrink:0;}
+.wx-place{font-size:11px;color:rgba(160,205,255,0.82);margin-bottom:2px;}
+.wx-temp{font-family:'Space Grotesk',sans-serif;font-size:36px;font-weight:600;color:#eef7ff;line-height:1;}
+.wx-desc{font-size:13px;color:rgba(200,232,255,0.92);margin-top:3px;}
+.wx-updated{font-size:10px;color:rgba(140,185,240,0.55);margin-top:4px;}
+
+/* Alerts */
+.alerts{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px;}
+.pill{padding:5px 11px;border-radius:20px;font-size:11px;font-weight:500;}
+.pr{background:rgba(240,60,60,0.14);border:1px solid rgba(240,60,60,0.3);color:#ff9090;}
+.po{background:rgba(240,140,40,0.14);border:1px solid rgba(240,140,40,0.28);color:#ffb06a;}
+.pb{background:rgba(56,139,253,0.14);border:1px solid rgba(56,139,253,0.26);color:#90c8ff;}
+.pg{background:rgba(79,200,120,0.12);border:1px solid rgba(79,200,120,0.25);color:#80f0a0;}
+
+/* Metric grid */
+.metric-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px;}
+.metric{background:rgba(255,255,255,0.04);border:1px solid rgba(110,165,255,0.14);border-radius:13px;padding:11px 13px;}
+.metric.warn{background:rgba(250,180,60,0.08);border-color:rgba(250,180,60,0.3);}
+.metric.danger{background:rgba(240,80,80,0.08);border-color:rgba(240,80,80,0.3);}
+.metric.ok{background:rgba(79,200,120,0.07);border-color:rgba(79,200,120,0.24);}
+.m-icon{font-size:18px;display:block;margin-bottom:5px;}
+.m-val{font-size:14px;font-weight:600;color:#eef7ff;font-family:'Space Grotesk',sans-serif;}
+.m-lbl{font-size:10px;color:rgba(180,215,255,0.82);margin-top:3px;line-height:1.45;}
+
+/* Pollen */
+.pollen-box{display:none;background:rgba(240,60,60,0.05);border:1px solid rgba(240,60,60,0.18);border-radius:14px;padding:13px 15px;margin-top:12px;}
+.pollen-box.show{display:block;}
+.pollen-hdr{font-size:11px;font-weight:500;color:rgba(255,170,170,0.92);margin-bottom:11px;}
+.p-row{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+.p-row:last-child{margin-bottom:0;}
+.p-name{font-size:11px;color:rgba(190,225,255,0.88);width:80px;flex-shrink:0;}
+.p-bar-bg{flex:1;height:7px;background:rgba(255,255,255,0.08);border-radius:4px;overflow:hidden;}
+.p-bar{height:100%;border-radius:4px;transition:width .6s ease;}
+.p-badge{font-size:10px;padding:2px 9px;border-radius:20px;font-weight:500;white-space:nowrap;min-width:54px;text-align:center;}
+
+/* Score */
+.score-display{display:flex;align-items:center;gap:16px;margin-bottom:18px;}
+.score-ring{width:76px;height:76px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-size:30px;font-weight:600;transition:all .3s;}
+.rg{background:rgba(79,200,120,0.14);border:2.5px solid rgba(79,200,120,0.65);color:#a8f0c0;}
+.rm{background:rgba(250,200,80,0.14);border:2.5px solid rgba(250,200,80,0.65);color:#ffe994;}
+.rb{background:rgba(240,80,80,0.14);border:2.5px solid rgba(240,80,80,0.65);color:#ffb0b0;}
+.score-msg{font-size:15px;font-weight:500;color:#e8f5ff;margin-bottom:4px;}
+.score-sub{font-size:12px;color:rgba(185,222,255,0.82);}
+input[type=range]{width:100%;height:7px;-webkit-appearance:none;appearance:none;background:linear-gradient(to right,rgba(79,200,120,0.75),rgba(250,200,80,0.75) 50%,rgba(240,80,80,0.75));border-radius:4px;outline:none;cursor:pointer;display:block;margin:13px 0 8px;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;height:28px;border-radius:50%;background:#d8efff;border:2.5px solid rgba(56,139,253,0.75);cursor:pointer;box-shadow:0 2px 10px rgba(0,0,0,0.45);}
+.ticks{display:flex;justify-content:space-between;padding:0 4px;}
+.ticks span{font-size:10px;color:rgba(185,218,255,0.6);font-family:'Space Grotesk',sans-serif;}
+.feel-lbl{font-size:11px;color:rgba(185,220,255,0.9);margin-top:16px;margin-bottom:8px;}
+.feel-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:7px;}
+.feel-btn{padding:11px 4px;border-radius:12px;border:1px solid rgba(110,165,255,0.22);background:rgba(255,255,255,0.04);color:rgba(200,232,255,0.9);font-size:11px;cursor:pointer;transition:all .2s;text-align:center;font-family:'Noto Sans JP',sans-serif;outline:none;}
+.feel-btn.on{background:rgba(210,230,255,0.22);border-color:rgba(225,242,255,0.82);color:#fff;box-shadow:0 0 16px rgba(190,220,255,0.42);}
+.feel-icon{font-size:20px;display:block;margin-bottom:4px;}
+.save-btn{width:100%;padding:14px;background:rgba(56,139,253,0.24);border:1px solid rgba(56,139,253,0.45);border-radius:13px;color:#dff0ff;font-size:14px;font-weight:500;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .2s;margin-top:16px;}
+.save-btn:hover{background:rgba(56,139,253,0.4);transform:translateY(-1px);}
+.save-btn:active{transform:translateY(0);}
+
+/* Tabs */
+.tabs{display:flex;gap:5px;margin-bottom:15px;}
+.tab{flex:1;padding:10px 6px;border-radius:10px;border:1px solid rgba(110,165,255,0.2);background:transparent;color:#b8d8f8;font-size:13px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .2s;text-align:center;}
+.tab.on{background:rgba(56,139,253,0.26);border-color:rgba(56,139,253,0.55);color:#eef7ff;}
+
+/* Graph toggles */
+.graph-toggles{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;}
+.gtog{padding:5px 12px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid;transition:all .2s;font-family:'Noto Sans JP',sans-serif;}
+.gtog.off{opacity:.35;}
+.g-sc{border-color:rgba(100,185,255,0.6);color:#64b9ff;background:rgba(100,185,255,0.12);}
+.g-pr{border-color:rgba(180,120,255,0.6);color:#c080ff;background:rgba(180,120,255,0.12);}
+.g-te{border-color:rgba(255,120,80,0.6);color:#ff9060;background:rgba(255,120,80,0.12);}
+.g-hu{border-color:rgba(80,180,255,0.6);color:#50b4ff;background:rgba(80,180,255,0.12);}
+.g-po{border-color:rgba(255,180,80,0.6);color:#ffb450;background:rgba(255,180,80,0.12);}
+
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:13px;}
+.stat{background:rgba(255,255,255,0.04);border:1px solid rgba(110,165,255,0.13);border-radius:11px;padding:12px;text-align:center;}
+.stat-v{font-size:22px;font-weight:600;color:#eef7ff;font-family:'Space Grotesk',sans-serif;}
+.stat-l{font-size:10px;color:rgba(185,220,255,0.75);margin-top:3px;}
+.graph-legend{display:flex;flex-wrap:wrap;gap:10px;margin-top:10px;font-size:10px;color:rgba(175,212,255,0.7);}
+.legend-item{display:flex;align-items:center;gap:5px;}
+.legend-line{width:18px;height:2px;display:inline-block;}
+
+.a-card{border-radius:12px;padding:13px 15px;margin-bottom:9px;border:1px solid;}
+.a-card.info{background:rgba(56,139,253,0.07);border-color:rgba(56,139,253,0.25);}
+.a-card.warn{background:rgba(250,180,60,0.07);border-color:rgba(250,180,60,0.28);}
+.a-tag{font-size:9px;font-weight:500;letter-spacing:1.3px;text-transform:uppercase;margin-bottom:6px;}
+.a-tag.info{color:#90c8ff;}.a-tag.warn{color:#ffd060;}
+.a-text{font-size:12px;color:#c8e6ff;line-height:1.82;}
+
+.adv-list{display:flex;flex-direction:column;gap:9px;}
+.adv{background:rgba(255,255,255,0.035);border:1px solid rgba(110,165,255,0.15);border-radius:13px;padding:13px 15px;display:flex;gap:12px;}
+.adv.caution{border-color:rgba(250,180,60,0.28);background:rgba(250,180,60,0.06);}
+.adv.urgent{border-color:rgba(240,80,80,0.28);background:rgba(240,80,80,0.06);}
+.adv-icon{font-size:21px;flex-shrink:0;margin-top:1px;}
+.adv-t{font-size:13px;font-weight:500;color:#ddf2ff;margin-bottom:4px;}
+.adv-b{font-size:12px;color:#b4d6f8;line-height:1.8;}
+.no-data{text-align:center;padding:36px 0;color:rgba(175,212,255,0.58);font-size:13px;line-height:1.8;}
+.chart-hint{font-size:10px;color:rgba(175,212,255,0.62);text-align:center;margin-top:8px;}
+
+.spin{display:inline-block;width:14px;height:14px;border:2px solid rgba(110,165,255,0.2);border-top-color:rgba(110,165,255,0.85);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;}
+@keyframes spin{to{transform:rotate(360deg);}}
+
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:rgba(12,36,95,0.97);border:1px solid rgba(56,139,253,0.5);color:#dff0ff;padding:12px 28px;border-radius:30px;font-size:13px;transition:transform .3s ease;z-index:999;white-space:nowrap;}
+.toast.show{transform:translateX(-50%) translateY(0);}
+
+@media(max-width:400px){
+  .metric-grid{grid-template-columns:repeat(2,1fr);}
+  .wx-temp{font-size:30px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hdr">
+    <div class="hdr-title">体調 × 気候 相関分析</div>
+    <div class="hdr-sub" id="hdrSub">今日の気象を取得してください</div>
+  </div>
+
+  <!-- Weather card -->
+  <div class="card">
+    <div class="sec-label">今日の気象（位置情報から自動取得）</div>
+    <div class="fetch-area">
+      <button class="gps-btn" id="fetchBtn" onclick="fetchByGPS()">
+        <span id="fetchIcon">📍</span>
+        <span id="fetchLabel">現在地から気象データを取得</span>
+      </button>
+      <div class="gps-status" id="gpsStatus">ボタンを押すと位置情報の許可を求めます</div>
+    </div>
+
+    <div class="wx-hero" id="wxHero">
+      <div class="wx-icon" id="wxIcon">🌤️</div>
+      <div>
+        <div class="wx-place" id="wxPlace"></div>
+        <div class="wx-temp" id="wxTemp"></div>
+        <div class="wx-desc" id="wxDesc"></div>
+        <div class="wx-updated" id="wxUpdated"></div>
+      </div>
+    </div>
+
+    <div class="alerts" id="alertsRow" style="display:none;"></div>
+    <div class="metric-grid" id="metricGrid" style="display:none;"></div>
+    <div class="pollen-box" id="pollenBox"></div>
+  </div>
+
+  <!-- Score card -->
+  <div class="card">
+    <div class="sec-label">今日のしんどさ</div>
+    <div class="score-display">
+      <div class="score-ring rm" id="scoreRing">5</div>
+      <div>
+        <div class="score-msg" id="scoreMsg">普通・中くらい</div>
+        <div class="score-sub" id="scoreSub">可もなく不可もなく</div>
+      </div>
+    </div>
+    <input type="range" id="slider" min="1" max="10" step="1" value="5" oninput="onScore(+this.value)">
+    <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+    <div class="feel-lbl">今の症状・気分（複数選択可）</div>
+    <div class="feel-grid" id="feelGrid"></div>
+    <button class="save-btn" onclick="saveEntry()">今日のデータを記録する</button>
+  </div>
+
+  <!-- Graph/Analysis/Advice -->
+  <div class="card">
+    <div class="tabs">
+      <button class="tab on" onclick="showTab('chart',this)">グラフ</button>
+      <button class="tab" onclick="showTab('analysis',this)">分析</button>
+      <button class="tab" onclick="showTab('advice',this)">アドバイス</button>
+    </div>
+    <div id="pChart">
+      <div class="stats" id="statsRow" style="display:none;"></div>
+      <div class="graph-toggles">
+        <button class="gtog g-sc" onclick="toggleGraph(0,this)">● しんどさ</button>
+        <button class="gtog g-pr" onclick="toggleGraph(1,this)">● 気圧変化</button>
+        <button class="gtog g-te" onclick="toggleGraph(2,this)">● 気温</button>
+        <button class="gtog g-hu" onclick="toggleGraph(3,this)">● 湿度</button>
+        <button class="gtog g-po" onclick="toggleGraph(4,this)">● 花粉</button>
+      </div>
+      <div style="position:relative;height:240px;"><canvas id="mc"></canvas></div>
+      <div class="graph-legend">
+        <span class="legend-item"><span class="legend-line" style="background:#64b9ff;"></span>しんどさ（左軸）</span>
+        <span class="legend-item"><span class="legend-line" style="background:repeating-linear-gradient(to right,#c080ff 0,#c080ff 4px,transparent 4px,transparent 8px);"></span>気圧変化</span>
+        <span class="legend-item"><span class="legend-line" style="background:#ff9060;"></span>気温°C（右軸）</span>
+        <span class="legend-item"><span class="legend-line" style="background:repeating-linear-gradient(to right,#50b4ff 0,#50b4ff 3px,transparent 3px,transparent 6px);"></span>湿度%</span>
+        <span class="legend-item"><span class="legend-line" style="background:repeating-linear-gradient(to right,#ffb450 0,#ffb450 5px,transparent 5px,transparent 9px);"></span>花粉</span>
+      </div>
+    </div>
+    <div id="pAnalysis" style="display:none;"></div>
+    <div id="pAdvice" style="display:none;"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const WX_CODES={0:'快晴',1:'晴れ',2:'晴れ時々曇り',3:'曇り',45:'霧',48:'霧氷',51:'小雨',53:'雨',55:'強雨',61:'小雨',63:'雨',65:'大雨',71:'小雪',73:'雪',75:'大雪',80:'にわか雨',81:'雨',82:'激しい雨',95:'雷雨',99:'激しい雷雨'};
+const WX_ICONS={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌧️',55:'🌧️',61:'🌦️',63:'🌧️',65:'⛈️',71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',99:'⛈️'};
+const PRESS_SCORE={up_big:-2,up_small:-1,stable:0,down_small:2,down_big:4};
+const POLLEN_SCORE={none:0,low:1,mid:2,high:3,vhigh:4};
+const SCORE_DATA=[null,
+  {t:'絶好調！',s:'最高のコンディション',c:'rg'},
+  {t:'とても元気',s:'体の調子がいいですね',c:'rg'},
+  {t:'まあまあ元気',s:'良好な状態です',c:'rg'},
+  {t:'少し疲れ気味',s:'無理せず過ごしましょう',c:'rm'},
+  {t:'普通・中くらい',s:'可もなく不可もなく',c:'rm'},
+  {t:'やや重い',s:'体がだるい感じがしますね',c:'rm'},
+  {t:'かなりしんどい',s:'今日は無理しないで',c:'rb'},
+  {t:'つらい',s:'体をいたわってあげましょう',c:'rb'},
+  {t:'とてもつらい',s:'しっかり休息を',c:'rb'},
+  {t:'かなりつらい',s:'今日は休むことが最優先',c:'rb'},
+];
+const FEELS=[{icon:'😊',l:'元気'},{icon:'😐',l:'普通'},{icon:'😩',l:'疲れ'},{icon:'🤕',l:'頭痛'},{icon:'😴',l:'眠い'}];
+
+const st={
+  score:5,feels:new Set(),wx:null,pollen:null,
+  entries:(()=>{try{return JSON.parse(localStorage.getItem('hwa_gps')||'[]');}catch(e){return [];}})(),
+  chart:null
+};
+
+function init(){
+  const fg=document.getElementById('feelGrid');
+  FEELS.forEach(f=>{
+    const b=document.createElement('button');
+    b.className='feel-btn';
+    b.innerHTML=`<span class="feel-icon">${f.icon}</span>${f.l}`;
+    b.addEventListener('click',()=>{
+      if(st.feels.has(f.l)){st.feels.delete(f.l);b.classList.remove('on');}
+      else{st.feels.add(f.l);b.classList.add('on');}
+    });
+    fg.appendChild(b);
+  });
+  onScore(5);
+  renderChart();
+  renderAdvice();
+  // 今日既に取得済みならキャッシュを使う
+  const cached=localStorage.getItem('hwa_wx_cache');
+  if(cached){
+    try{
+      const obj=JSON.parse(cached);
+      const today=new Date().toDateString();
+      if(obj.date===today){applyWx(obj.data);return;}
+    }catch(e){}
+  }
+}
+
+async function fetchByGPS(){
+  const btn=document.getElementById('fetchBtn');
+  const status=document.getElementById('gpsStatus');
+  const lbl=document.getElementById('fetchLabel');
+  const icon=document.getElementById('fetchIcon');
+
+  if(!navigator.geolocation){
+    status.textContent='❌ このブラウザは位置情報に対応していません';
+    status.style.color='rgba(255,120,100,0.95)';
+    return;
+  }
+
+  btn.disabled=true;
+  icon.innerHTML='<span class="spin"></span>';
+  lbl.textContent='位置情報を取得中...';
+  status.textContent='';
+  status.style.color='rgba(160,200,255,0.8)';
+
+  navigator.geolocation.getCurrentPosition(
+    async pos=>{
+      const lat=pos.coords.latitude.toFixed(4);
+      const lon=pos.coords.longitude.toFixed(4);
+      lbl.textContent='気象データを取得中...';
+
+      try{
+        // Reverse geocode with Open-Meteo + nominatim
+        const [wxRes, geoRes]=await Promise.all([
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,uv_index&hourly=surface_pressure&forecast_days=1&timezone=Asia/Tokyo`),
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja`)
+        ]);
+
+        const wxData=await wxRes.json();
+        const geoData=await geoRes.json();
+
+        const c=wxData.current;
+        const temp=Math.round(c.temperature_2m);
+        const humidity=Math.round(c.relativehumidity_2m);
+        const code=c.weathercode;
+        const pressure=Math.round(c.surface_pressure);
+        const wind=Math.round(c.windspeed_10m*10)/10;
+        const precip=Math.round(c.precipitation*10)/10;
+        const uv=Math.round(c.uv_index||0);
+
+        const hp=wxData.hourly.surface_pressure;
+        const hi=new Date().getHours();
+        const prev=Math.round(hp[Math.max(0,hi-6)]||pressure);
+        const diff=pressure-prev;
+        let pressKey='stable';
+        if(diff>=5)pressKey='up_big';
+        else if(diff>=1)pressKey='up_small';
+        else if(diff<=-5)pressKey='down_big';
+        else if(diff<=-1)pressKey='down_small';
+
+        // 地名を取得
+        const addr=geoData.address||{};
+        const city=addr.city||addr.town||addr.village||addr.county||addr.state||'現在地';
+
+        const wxObj={code,temp,humidity,pressure,pressKey,wind,precip,uv,city,lat:+lat,lon:+lon};
+        localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
+        applyWx(wxObj);
+
+        icon.textContent='📍';
+        lbl.textContent='現在地から気象データを取得';
+        btn.disabled=false;
+        status.textContent=`✅ ${city} の気象データを取得しました`;
+        status.style.color='rgba(120,230,150,0.95)';
+        toast('気象データを取得しました！');
+
+      }catch(e){
+        icon.textContent='📍';
+        lbl.textContent='現在地から気象データを取得';
+        btn.disabled=false;
+        status.textContent='❌ 気象データの取得に失敗しました: '+e.message;
+        status.style.color='rgba(255,120,100,0.95)';
+      }
+    },
+    err=>{
+      icon.textContent='📍';
+      lbl.textContent='現在地から気象データを取得';
+      btn.disabled=false;
+      const msgs={1:'位置情報の許可が必要です。ブラウザの設定から許可してください。',2:'位置情報を取得できませんでした。',3:'タイムアウトしました。もう一度お試しください。'};
+      status.textContent='❌ '+(msgs[err.code]||err.message);
+      status.style.color='rgba(255,120,100,0.95)';
+    },
+    {timeout:10000,maximumAge:300000,enableHighAccuracy:false}
+  );
+}
+
+function applyWx(w){
+  st.wx=w;
+  const pressAlert=w.pressKey==='down_big'||w.pressKey==='down_small';
+
+  const hero=document.getElementById('wxHero');
+  hero.style.borderColor=pressAlert?'rgba(250,180,60,0.4)':'rgba(56,139,253,0.22)';
+  hero.style.background=pressAlert?'rgba(250,180,60,0.07)':'rgba(56,139,253,0.09)';
+  hero.classList.add('show');
+  document.getElementById('wxIcon').textContent=WX_ICONS[w.code]||'🌡️';
+  document.getElementById('wxPlace').textContent='📍 '+w.city;
+  document.getElementById('wxTemp').textContent=w.temp+'°C';
+  document.getElementById('wxDesc').textContent=(WX_CODES[w.code]||'')+'　湿度 '+w.humidity+'%'+(pressAlert?' ⚠️ 気圧低下中':'');
+  document.getElementById('wxUpdated').textContent='✓ Open-Meteo 自動取得 — '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
+
+  const today=new Date();
+  document.getElementById('hdrSub').textContent=`${today.getMonth()+1}月${today.getDate()}日（${'日月火水木金土'[today.getDay()]}）`;
+
+  // alerts
+  const ar=document.getElementById('alertsRow');
+  ar.style.display='flex';
+  ar.innerHTML='';
+  if(w.pressKey==='down_big')ar.innerHTML+=`<span class="pill pr">🌀 気圧が大きく低下中</span>`;
+  else if(w.pressKey==='down_small')ar.innerHTML+=`<span class="pill po">🌀 気圧がやや低下中</span>`;
+  else if(w.pressKey==='up_big')ar.innerHTML+=`<span class="pill pg">🌀 気圧が上昇中</span>`;
+  if(w.humidity<=35)ar.innerHTML+=`<span class="pill po">💨 乾燥注意</span>`;
+  if(w.humidity>=75)ar.innerHTML+=`<span class="pill po">💧 高湿度</span>`;
+  if(w.uv>=8)ar.innerHTML+=`<span class="pill pr">☀️ UV非常に強い</span>`;
+  else if(w.uv>=6)ar.innerHTML+=`<span class="pill po">☀️ UV強い</span>`;
+  if(w.temp>=32)ar.innerHTML+=`<span class="pill pr">🥵 熱中症注意</span>`;
+  if(w.precip>0)ar.innerHTML+=`<span class="pill pb">☔ 雨 ${w.precip}mm</span>`;
+  ar.innerHTML+=`<span class="pill pb">🌡️ ${w.temp}°C　💨 ${w.wind}m/s</span>`;
+
+  // metrics
+  const mg=document.getElementById('metricGrid');
+  mg.style.display='grid';
+  const pc=w.pressKey==='down_big'?'danger':w.pressKey==='down_small'?'warn':'ok';
+  const hc=w.humidity>=70?'warn':w.humidity<=35?'warn':'ok';
+  const uc=w.uv>=8?'danger':w.uv>=6?'warn':'ok';
+  mg.innerHTML=`
+    <div class="metric ${hc}"><span class="m-icon">💧</span><div class="m-val">${w.humidity}%</div><div class="m-lbl">湿度<br>${w.humidity>=70?'高湿度注意':w.humidity<=35?'乾燥注意':'快適'}</div></div>
+    <div class="metric ${pc}"><span class="m-icon">🌀</span><div class="m-val">${w.pressure}<small style="font-size:9px;font-weight:400"> hPa</small></div><div class="m-lbl">気圧・${{up_big:'大きく上昇',up_small:'少し上昇',stable:'安定',down_small:'少し下降',down_big:'大きく下降'}[w.pressKey]}<br>${pc==='ok'?'問題なし':'⚠️ 要注意'}</div></div>
+    <div class="metric ${uc}"><span class="m-icon">☀️</span><div class="m-val">${w.uv}</div><div class="m-lbl">UV指数<br>${w.uv>=8?'非常に強い':w.uv>=6?'強い':w.uv>=3?'やや強め':'弱い'}</div></div>
+    <div class="metric ${w.wind>=10?'warn':''}"><span class="m-icon">💨</span><div class="m-val">${w.wind}<small style="font-size:9px;font-weight:400"> m/s</small></div><div class="m-lbl">風速<br>${w.wind>=10?'強風注意':w.wind>=5?'やや強い':'穏やか'}</div></div>
+    <div class="metric ${w.precip>0?'warn':'ok'}"><span class="m-icon">🌂</span><div class="m-val">${w.precip}<small style="font-size:9px;font-weight:400"> mm</small></div><div class="m-lbl">降水量<br>${w.precip>5?'傘が必要':w.precip>0?'小雨あり':'降水なし'}</div></div>
+    <div class="metric ok"><span class="m-icon">🌡️</span><div class="m-val">${w.temp}<small style="font-size:9px;font-weight:400">°C</small></div><div class="m-lbl">気温<br>${w.temp>30?'猛暑日':w.temp>25?'夏日':w.temp>15?'快適':w.temp>5?'やや寒い':'寒い'}</div></div>
+  `;
+
+  renderPollen(new Date().getMonth()+1,w.temp,w.code);
+  renderAdvice();
+}
+
+function renderPollen(month,temp,code){
+  const sunny=code<=2,rainy=code>=51,warm=temp>=12;
+  const lv={cedar:{n:'🌲 スギ',v:'none'},cypress:{n:'🌿 ヒノキ',v:'none'},grass:{n:'🌾 イネ科',v:'none'},ragweed:{n:'🌼 ブタクサ',v:'none'}};
+  if(month===2){lv.cedar.v=sunny&&warm?'high':'mid';}
+  else if(month===3){lv.cedar.v=rainy?'mid':'vhigh';lv.cypress.v=sunny?'mid':'low';}
+  else if(month===4){lv.cedar.v=rainy?'mid':'high';lv.cypress.v=rainy?'low':'vhigh';}
+  else if(month===5){lv.cedar.v='low';lv.cypress.v='mid';lv.grass.v=warm?'mid':'low';}
+  else if(month===6){lv.grass.v=sunny?'high':'mid';}
+  else if(month===7||month===8){lv.grass.v='low';lv.ragweed.v='low';}
+  else if(month===9){lv.ragweed.v=sunny?'vhigh':'high';lv.grass.v='mid';}
+  else if(month===10){lv.ragweed.v='mid';}
+  st.pollen=lv;
+
+  const MAP={none:{l:'ほぼなし',bw:'4%',bc:'rgba(79,200,120,0.6)',p0:'rgba(79,200,120,0.14)',p1:'#80f0a0',p2:'rgba(79,200,120,0.28)'},
+             low:{l:'少ない',bw:'20%',bc:'rgba(79,200,120,0.85)',p0:'rgba(79,200,120,0.14)',p1:'#80f0a0',p2:'rgba(79,200,120,0.28)'},
+             mid:{l:'やや多い',bw:'50%',bc:'rgba(250,200,80,0.9)',p0:'rgba(250,200,80,0.14)',p1:'#ffe070',p2:'rgba(250,200,80,0.28)'},
+             high:{l:'多い',bw:'78%',bc:'rgba(240,140,40,0.9)',p0:'rgba(240,140,40,0.14)',p1:'#ffb060',p2:'rgba(240,140,40,0.28)'},
+             vhigh:{l:'極めて多い',bw:'100%',bc:'rgba(240,60,60,0.95)',p0:'rgba(240,60,60,0.14)',p1:'#ff8080',p2:'rgba(240,60,60,0.28)'}};
+  const pb=document.getElementById('pollenBox');
+  const mname=['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'][month-1];
+  const allNone=Object.values(lv).every(e=>e.v==='none');
+  let html=`<div class="pollen-hdr">🌸 花粉・アレルゲン飛散状況（${mname}）</div>`;
+  if(allNone){html+=`<div style="font-size:12px;color:rgba(175,212,255,0.7);">今の時季は主要花粉の飛散がほぼありません。</div>`;}
+  else{Object.values(lv).forEach(e=>{const m=MAP[e.v];html+=`<div class="p-row"><span class="p-name">${e.n}</span><div class="p-bar-bg"><div class="p-bar" style="width:${m.bw};background:${m.bc};"></div></div><span class="p-badge" style="background:${m.p0};color:${m.p1};border:1px solid ${m.p2};">${m.l}</span></div>`;});}
+  pb.innerHTML=html;
+  pb.classList.add('show');
+}
+
+function onScore(v){
+  st.score=v;
+  const m=SCORE_DATA[v];
+  document.getElementById('scoreRing').textContent=v;
+  document.getElementById('scoreRing').className='score-ring '+m.c;
+  document.getElementById('scoreMsg').textContent=m.t;
+  document.getElementById('scoreSub').textContent=m.s;
+}
+
+function saveEntry(){
+  const today=new Date();
+  const dateStr=`${today.getMonth()+1}/${today.getDate()}`;
+  const entry={
+    date:dateStr,score:st.score,feels:[...st.feels],
+    weather:st.wx?(WX_CODES[st.wx.code]||'不明'):'未記録',
+    temp:st.wx?st.wx.temp:null,humidity:st.wx?st.wx.humidity:null,
+    pressure:st.wx?st.wx.pressure:null,pressKey:st.wx?st.wx.pressKey:'stable',
+    uv:st.wx?st.wx.uv:null,
+    pollen:st.pollen?Object.values(st.pollen).sort((a,b)=>POLLEN_SCORE[b.v]-POLLEN_SCORE[a.v])[0].v:'none',
+    ts:Date.now()
+  };
+  const idx=st.entries.findIndex(e=>e.date===dateStr);
+  if(idx>=0)st.entries[idx]=entry;else st.entries.push(entry);
+  if(st.entries.length>30)st.entries=st.entries.slice(-30);
+  try{localStorage.setItem('hwa_gps',JSON.stringify(st.entries));}catch(e){}
+  toast('記録しました！');
+  renderChart();renderAnalysis();renderAdvice();
+}
+
+function showTab(name,btn){
+  ['chart','analysis','advice'].forEach(n=>{
+    document.getElementById('p'+n[0].toUpperCase()+n.slice(1)).style.display=n===name?'':'none';
+  });
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  if(name==='analysis')renderAnalysis();
+  if(name==='advice')renderAdvice();
+}
+
+function toggleGraph(idx,btn){
+  if(!st.chart)return;
+  const ds=st.chart.data.datasets[idx];
+  ds.hidden=!ds.hidden;
+  btn.classList.toggle('off',ds.hidden);
+  st.chart.update();
+}
+
+function renderChart(){
+  const E=st.entries;
+  const sr=document.getElementById('statsRow');
+  if(!E.length){sr.style.display='none';return;}
+  sr.style.display='grid';
+  const avg=(E.reduce((s,e)=>s+e.score,0)/E.length).toFixed(1);
+  sr.innerHTML=`
+    <div class="stat"><div class="stat-v">${avg}</div><div class="stat-l">平均スコア</div></div>
+    <div class="stat"><div class="stat-v">${Math.min(...E.map(e=>e.score))}</div><div class="stat-l">最良</div></div>
+    <div class="stat"><div class="stat-v">${Math.max(...E.map(e=>e.score))}</div><div class="stat-l">最悪</div></div>
+  `;
+  const labels=E.map(e=>e.date);
+  const scores=E.map(e=>e.score);
+  const pressVals=E.map(e=>PRESS_SCORE[e.pressKey]||0);
+  const temps=E.map(e=>e.temp!=null?e.temp:null);
+  const humids=E.map(e=>e.humidity!=null?e.humidity:null);
+  const pollens=E.map(e=>e.pollen?POLLEN_SCORE[e.pollen]*2.5:null);
+
+  if(st.chart){st.chart.destroy();st.chart=null;}
+  st.chart=new Chart(document.getElementById('mc').getContext('2d'),{
+    type:'line',
+    data:{labels,datasets:[
+      {label:'しんどさ',data:scores,borderColor:'#64b9ff',backgroundColor:'rgba(100,185,255,0.07)',fill:true,tension:0.4,borderWidth:2.5,pointBackgroundColor:scores.map(s=>s>=7?'#ff6060':s>=4?'#ffd060':'#60e890'),pointRadius:5,pointHoverRadius:7,yAxisID:'y'},
+      {label:'気圧変化',data:pressVals,borderColor:'#c080ff',borderDash:[5,4],borderWidth:2,pointRadius:3,fill:false,tension:0.3,yAxisID:'y'},
+      {label:'気温(°C)',data:temps,borderColor:'#ff9060',borderWidth:2,tension:0.4,pointRadius:3,fill:false,pointBackgroundColor:'#ff9060',yAxisID:'y2'},
+      {label:'湿度(%)',data:humids,borderColor:'#50b4ff',borderDash:[3,3],borderWidth:1.5,pointRadius:2,fill:false,tension:0.3,yAxisID:'y2'},
+      {label:'花粉',data:pollens,borderColor:'#ffb450',borderDash:[6,3],borderWidth:1.5,pointRadius:3,fill:false,tension:0.3,pointBackgroundColor:'#ffb450',yAxisID:'y2'},
+    ]},
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      interaction:{mode:'index',intersect:false},
+      plugins:{
+        legend:{display:false},
+        tooltip:{backgroundColor:'rgba(6,14,38,0.96)',titleColor:'#dff0ff',bodyColor:'#b4d6f8',borderColor:'rgba(56,139,253,0.4)',borderWidth:1,
+          callbacks:{label:ctx=>{
+            const v=ctx.parsed.y;
+            if(ctx.dataset.label==='気圧変化'){const m={'-2':'↑↑大きく上昇','-1':'↑少し上昇','0':'→安定','2':'↓少し下降','4':'↓↓大きく下降'};return '気圧: '+(m[v]||v);}
+            if(ctx.dataset.label==='花粉'){return '花粉: '+['なし','少ない','やや多い','多い','極めて多い'][Math.round(v/2.5)];}
+            if(ctx.dataset.label==='湿度(%)')return '湿度: '+v+'%';
+            if(ctx.dataset.label==='気温(°C)')return '気温: '+v+'°C';
+            if(ctx.dataset.label==='しんどさ')return 'しんどさ: '+v;
+            return ctx.dataset.label+': '+v;
+          }}
+        }
+      },
+      scales:{
+        x:{ticks:{color:'#94a8c0',font:{size:11},autoSkip:true,maxTicksLimit:10,maxRotation:0},grid:{color:'rgba(100,160,255,0.07)'},border:{color:'rgba(100,160,255,0.12)'}},
+        y:{min:-1,max:11,ticks:{color:'#94a8c0',font:{size:10},stepSize:2,callback:v=>(v>=1&&v<=10)?v:''},grid:{color:'rgba(100,160,255,0.07)'},border:{color:'rgba(100,160,255,0.12)'},title:{display:true,text:'しんどさ / 気圧',color:'#7090a8',font:{size:10}}},
+        y2:{position:'right',min:0,max:100,ticks:{color:'#94a8c0',font:{size:10},stepSize:20},grid:{display:false},border:{color:'rgba(100,160,255,0.08)'},title:{display:true,text:'気温 / 湿度 / 花粉',color:'#7090a8',font:{size:10}}}
+      }
+    }
+  });
+}
+
+function renderAnalysis(){
+  const el=document.getElementById('pAnalysis');
+  const E=st.entries;
+  if(E.length<3){el.innerHTML='<div class="no-data">3日以上記録すると<br>相関分析が表示されます</div>';return;}
+  let html='';
+  const down=E.filter(e=>e.pressKey==='down_big'||e.pressKey==='down_small');
+  const stb=E.filter(e=>e.pressKey==='stable'||e.pressKey==='up_small'||e.pressKey==='up_big');
+  if(down.length>=2&&stb.length>=2){
+    const ad=(down.reduce((s,e)=>s+e.score,0)/down.length).toFixed(1);
+    const as=(stb.reduce((s,e)=>s+e.score,0)/stb.length).toFixed(1);
+    const d=parseFloat(ad)-parseFloat(as);
+    html+=`<div class="a-card ${d>1?'warn':'info'}"><div class="a-tag ${d>1?'warn':'info'}">気圧との相関</div><div class="a-text">気圧低下日 平均 <strong style="color:#ffd060">${ad}</strong> / 安定・上昇日 平均 <strong style="color:#80f0a0">${as}</strong>${d>1?' — 気圧が下がると体調悪化の傾向あり（差 +'+d.toFixed(1)+'）':''}</div></div>`;
+  }
+  const he=E.filter(e=>e.humidity!=null);
+  if(he.length>=4){
+    const hi=he.filter(e=>e.humidity>=70),lo=he.filter(e=>e.humidity<=45);
+    if(hi.length>=2&&lo.length>=2){
+      const ah=(hi.reduce((s,e)=>s+e.score,0)/hi.length).toFixed(1);
+      const al=(lo.reduce((s,e)=>s+e.score,0)/lo.length).toFixed(1);
+      const d=parseFloat(ah)-parseFloat(al);
+      html+=`<div class="a-card ${d>1?'warn':'info'}"><div class="a-tag ${d>1?'warn':'info'}">湿度との相関</div><div class="a-text">高湿度日(70%↑) 平均 <strong style="color:#ffd060">${ah}</strong> / 低湿度日(45%↓) 平均 <strong style="color:#80f0a0">${al}</strong>${d>1?' — 高湿度日に体調悪化の傾向あり':''}</div></div>`;
+    }
+  }
+  const fm={};
+  E.filter(e=>e.feels&&e.feels.length).forEach(e=>e.feels.forEach(f=>{if(!fm[f]){fm[f]={t:0,c:0};}fm[f].t+=e.score;fm[f].c++;}));
+  const fa=Object.entries(fm).sort((a,b)=>b[1].t/b[1].c-a[1].t/a[1].c);
+  if(fa.length>=2){
+    const w=fa[0],g=fa[fa.length-1];
+    html+=`<div class="a-card info"><div class="a-tag info">症状パターン</div><div class="a-text">「${w[0]}」の日が最もしんどい傾向（平均 ${(w[1].t/w[1].c).toFixed(1)}）、「${g[0]}」の日が最も楽（平均 ${(g[1].t/g[1].c).toFixed(1)}）</div></div>`;
+  }
+  if(!html)html='<div class="no-data">分析データが不足しています</div>';
+  el.innerHTML=html;
+}
+
+function renderAdvice(){
+  const el=document.getElementById('pAdvice');
+  const score=st.score;
+  const wx=st.wx;
+  const advs=[];
+  if(score>=8){
+    advs.push({icon:'🫁',t:'4-8呼吸法でリセット',b:'4秒吸って8秒かけて吐く呼吸を3回。副交感神経を優位にして倦怠感を和らげます。',c:'urgent'});
+    advs.push({icon:'🛌',t:'今日は休息最優先',b:'無理に動こうとせず、横になるだけでも体の回復を助けます。',c:'urgent'});
+  }else if(score>=5){
+    advs.push({icon:'🚶',t:'軽い散歩で血流を促して',b:'10〜15分の軽いウォーキングは中程度のしんどさに効果的です。',c:''});
+  }else{
+    advs.push({icon:'✨',t:'体調良好 — 今日を記録しよう',b:'何が良かったか振り返って。睡眠・食事・気候の条件を記録しておくと次に活かせます。',c:''});
+  }
+  if(wx){
+    if(wx.pressKey==='down_big')advs.push({icon:'🧘',t:'気圧が大きく下降中',b:'自律神経が乱れやすい状態です。首・肩のストレッチ、温かい飲み物、頭痛薬は早めに。',c:'urgent'});
+    else if(wx.pressKey==='down_small')advs.push({icon:'🌀',t:'気圧がやや低下中',b:'軽い頭重感や眠気が出やすいです。こまめに休憩を挟みましょう。',c:'caution'});
+    if(wx.humidity<=35)advs.push({icon:'🌬️',t:'乾燥注意',b:'喉・鼻の粘膜が乾燥しやすい日。マスクとこまめな水分補給を。',c:'caution'});
+    if(wx.humidity>=75)advs.push({icon:'💧',t:'高湿度 — こまめな水分補給を',b:'体温調節に余分なエネルギーを使います。冷房を活用して。',c:'caution'});
+    if(wx.temp>=32)advs.push({icon:'🥵',t:'熱中症リスクが高い日',b:'30分ごとに水分補給、日陰での休憩を。体感でしんどくなくても急に来ます。',c:'urgent'});
+    if(wx.uv>=6)advs.push({icon:'🕶️',t:`UV${wx.uv>=8?'非常に':''}強い日`,b:'SPF30以上の日焼け止め・帽子を。強いUVは疲労感・眠気・免疫低下を引き起こします。',c:'caution'});
+    if(st.pollen){
+      const high=Object.values(st.pollen).filter(p=>p.v==='high'||p.v==='vhigh');
+      if(high.length>0)advs.push({icon:'🌸',t:high.map(p=>p.n).join('・')+'の花粉が多い日',b:'外出時は必ずマスク・花粉用眼鏡を。帰宅後すぐ洗顔・うがいを。',c:'caution'});
+    }
+    if(wx.precip>3)advs.push({icon:'☔',t:'雨の日のメンタルケア',b:'日照不足でセロトニンが下がりやすい日。照明を明るくする・温かい飲み物で気分を上げましょう。',c:''});
+  }else{
+    advs.push({icon:'📍',t:'まず気象データを取得してください',b:'上のボタンから現在地の気象を取得すると、より詳しいアドバイスが表示されます。',c:''});
+  }
+  el.innerHTML=`<div class="adv-list">${advs.map(a=>`<div class="adv ${a.c}"><span class="adv-icon">${a.icon}</span><div><div class="adv-t">${a.t}</div><div class="adv-b">${a.b}</div></div></div>`).join('')}</div>`;
+}
+
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+init();
+</script>
+</body>
+</html>
