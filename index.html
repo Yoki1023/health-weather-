@@ -356,9 +356,12 @@ async function fetchByGPS(){
 
       try{
         // Reverse geocode with Open-Meteo + nominatim
-        const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,uv_index&hourly=surface_pressure&forecast_days=1&timezone=Asia/Tokyo`);
+        const [wxRes, geoRes] = await Promise.all([
+          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,uv_index&hourly=surface_pressure&forecast_days=1&timezone=Asia/Tokyo`),
+          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja&zoom=10`, {headers:{'Accept-Language':'ja'}}).catch(()=>null)
+        ]);
         const wxData = await wxRes.json();
-        const geoData = {address: {}};
+        const geoData = geoRes ? await geoRes.json().catch(()=>({})) : {};
 
         const c=wxData.current;
         const temp=Math.round(c.temperature_2m);
@@ -380,7 +383,9 @@ async function fetchByGPS(){
         else if(diff<=-1)pressKey='down_small';
 
         // 地名を取得
-        const city = latLonToCity(+lat, +lon);
+        const addr = geoData.address || {};
+        const nominatimCity = addr.city || addr.town || addr.village || addr.suburb || addr.county || addr.state;
+        const city = (nominatimCity && !nominatimCity.match(/[a-zA-Z]{4,}/)) ? nominatimCity : latLonToCity(+lat, +lon);
 
         const wxObj={code,temp,humidity,pressure,pressKey,wind,precip,uv,city,lat:+lat,lon:+lon};
         localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
