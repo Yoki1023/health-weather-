@@ -355,13 +355,9 @@ async function fetchByGPS(){
       lbl.textContent='気象データを取得中...';
 
       try{
-        // Reverse geocode with Open-Meteo + nominatim
-        const [wxRes, geoRes] = await Promise.all([
-          fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,uv_index&hourly=surface_pressure&forecast_days=1&timezone=Asia/Tokyo`),
-          fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json&accept-language=ja&zoom=10`, {headers:{'Accept-Language':'ja'}}).catch(()=>null)
-        ]);
+        // 気象データ取得
+        const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,rain,uv_index&hourly=surface_pressure,precipitation&forecast_days=1&timezone=Asia/Tokyo`);
         const wxData = await wxRes.json();
-        const geoData = geoRes ? await geoRes.json().catch(()=>({})) : {};
 
         const c=wxData.current;
         const temp=Math.round(c.temperature_2m);
@@ -369,7 +365,11 @@ async function fetchByGPS(){
         const code=c.weathercode;
         const pressure=Math.round(c.surface_pressure);
         const wind=Math.round(c.windspeed_10m*10)/10;
-        const precip=Math.round(c.precipitation*10)/10;
+        // 過去3時間の降水量合計を使う
+        const hi2=new Date().getHours();
+        const hourlyPrecip=wxData.hourly.precipitation||[];
+        const precipSum=hourlyPrecip.slice(Math.max(0,hi2-2),hi2+1).reduce((a,b)=>a+(b||0),0);
+        const precip=Math.round(precipSum*10)/10;
         const uv=Math.round(c.uv_index||0);
 
         const hp=wxData.hourly.surface_pressure;
@@ -383,9 +383,7 @@ async function fetchByGPS(){
         else if(diff<=-1)pressKey='down_small';
 
         // 地名を取得
-        const addr = geoData.address || {};
-        const nominatimCity = addr.city || addr.town || addr.village || addr.suburb || addr.county || addr.state;
-        const city = (nominatimCity && !nominatimCity.match(/[a-zA-Z]{4,}/)) ? nominatimCity : latLonToCity(+lat, +lon);
+        const city = '現在地';
 
         const wxObj={code,temp,humidity,pressure,pressKey,wind,precip,uv,city,lat:+lat,lon:+lon};
         localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
