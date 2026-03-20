@@ -233,8 +233,21 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:28px;heigh
 <div class="toast" id="toast"></div>
 
 <script>
-const WX_CODES={0:'快晴',1:'晴れ',2:'晴れ時々曇り',3:'曇り',45:'霧',48:'霧氷',51:'小雨',53:'雨',55:'強雨',61:'小雨',63:'雨',65:'大雨',71:'小雪',73:'雪',75:'大雪',80:'にわか雨',81:'雨',82:'激しい雨',95:'雷雨',99:'激しい雷雨'};
-const WX_ICONS={0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌧️',55:'🌧️',61:'🌦️',63:'🌧️',65:'⛈️',71:'🌨️',73:'❄️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',99:'⛈️'};
+function wxCode(id){
+  if(id>=200&&id<300)return{l:'雷雨',i:'⛈️'};
+  if(id>=300&&id<400)return{l:'霧雨',i:'🌦️'};
+  if(id>=500&&id<510)return{l:'雨',i:'🌧️'};
+  if(id===511)return{l:'みぞれ',i:'🌨️'};
+  if(id>=512&&id<600)return{l:'強雨',i:'⛈️'};
+  if(id>=600&&id<700)return{l:'雪',i:'❄️'};
+  if(id>=700&&id<800)return{l:'霧',i:'🌫️'};
+  if(id===800)return{l:'快晴',i:'☀️'};
+  if(id===801)return{l:'晴れ',i:'🌤️'};
+  if(id===802)return{l:'晴れ時々曇り',i:'⛅'};
+  if(id>=803)return{l:'曇り',i:'☁️'};
+  return{l:'--',i:'🌡️'};
+}
+const WX_CODES={};const WX_ICONS={};
 const PRESS_SCORE={up_big:-2,up_small:-1,stable:0,down_small:2,down_big:4};
 const POLLEN_SCORE={none:0,low:1,mid:2,high:3,vhigh:4};
 const SCORE_DATA=[null,
@@ -356,26 +369,22 @@ async function fetchByGPS(){
 
       try{
         // 気象データ取得
-        const wxRes = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relativehumidity_2m,weathercode,surface_pressure,windspeed_10m,precipitation,rain,uv_index&hourly=surface_pressure,precipitation&forecast_days=1&timezone=Asia/Tokyo`);
+        const wxRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=310a1db2273963a2b2552a75b5461714&units=metric&lang=ja`);
         const wxData = await wxRes.json();
 
-        const c=wxData.current;
-        const temp=Math.round(c.temperature_2m);
-        const humidity=Math.round(c.relativehumidity_2m);
-        const code=c.weathercode;
-        const pressure=Math.round(c.surface_pressure);
-        const wind=Math.round(c.windspeed_10m*10)/10;
-        // 過去3時間の降水量合計を使う
-        const hi2=new Date().getHours();
-        const hourlyPrecip=wxData.hourly.precipitation||[];
-        const precipSum=hourlyPrecip.slice(Math.max(0,hi2-2),hi2+1).reduce((a,b)=>a+(b||0),0);
-        const precip=Math.round(precipSum*10)/10;
-        const uv=Math.round(c.uv_index||0);
+        const c=wxData.main;
+        const temp=Math.round(c.temp);
+        const humidity=Math.round(c.humidity);
+        const code=wxData.weather[0].id;
+        const pressure=Math.round(c.pressure);
+        const wind=Math.round((wxData.wind?.speed||0)*10)/10;
+        const precip=Math.round(((wxData.rain?.['1h']||wxData.rain?.['3h']||wxData.snow?.['1h']||0))*10)/10;
+        const uv=0; // OpenWeatherMap無料プランではUV別途取得不要
 
-        const hp=wxData.hourly.surface_pressure;
-        const hi=new Date().getHours();
-        const prev=Math.round(hp[Math.max(0,hi-6)]||pressure);
-        const diff=pressure-prev;
+        // 気圧変化：前回記録との比較
+        const prevPressure = +(localStorage.getItem('hwa_last_pressure')||pressure);
+        localStorage.setItem('hwa_last_pressure', pressure);
+        const diff=pressure-prevPressure;
         let pressKey='stable';
         if(diff>=5)pressKey='up_big';
         else if(diff>=1)pressKey='up_small';
@@ -424,10 +433,10 @@ function applyWx(w){
   hero.style.borderColor=pressAlert?'rgba(250,180,60,0.4)':'rgba(56,139,253,0.22)';
   hero.style.background=pressAlert?'rgba(250,180,60,0.07)':'rgba(56,139,253,0.09)';
   hero.classList.add('show');
-  document.getElementById('wxIcon').textContent=WX_ICONS[w.code]||'🌡️';
+  document.getElementById('wxIcon').textContent=wxCode(w.code).i||'🌡️';
   document.getElementById('wxPlace').textContent='📍 '+w.city;
   document.getElementById('wxTemp').textContent=w.temp+'°C';
-  document.getElementById('wxDesc').textContent=(WX_CODES[w.code]||'')+'　湿度 '+w.humidity+'%'+(pressAlert?' ⚠️ 気圧低下中':'');
+  document.getElementById('wxDesc').textContent=wxCode(w.code).l+'　湿度 '+w.humidity+'%'+(pressAlert?' ⚠️ 気圧低下中':'');
   document.getElementById('wxUpdated').textContent='✓ Open-Meteo 自動取得 — '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'});
 
   const today=new Date();
@@ -509,7 +518,7 @@ function saveEntry(){
   const dateStr=`${today.getMonth()+1}/${today.getDate()}`;
   const entry={
     date:dateStr,score:st.score,feels:[...st.feels],
-    weather:st.wx?(WX_CODES[st.wx.code]||'不明'):'未記録',
+    weather:st.wx?wxCode(st.wx.code).l:'未記録',
     temp:st.wx?st.wx.temp:null,humidity:st.wx?st.wx.humidity:null,
     pressure:st.wx?st.wx.pressure:null,pressKey:st.wx?st.wx.pressKey:'stable',
     uv:st.wx?st.wx.uv:null,
