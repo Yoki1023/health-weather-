@@ -6,6 +6,9 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="体調ログ">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0e0d0b">
+<!-- manifest injected via JS -->
 <title>体調ログ</title>
 <link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@400;600&family=Noto+Sans+JP:wght@300;400;500&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
@@ -30,6 +33,197 @@
   --green:#4a9060;
   --blue:#4878a8;
   --r:18px;
+}
+/* ── ライトモード ── */
+body.light{
+  --ink:#1c1a17;
+  --ink2:#3d3830;
+  --ink3:#706858;
+  --ink4:#a09880;
+  --paper:#faf7f2;
+  --paper2:#f2ede5;
+  --paper3:#e8e0d4;
+  --paper4:#ddd5c8;
+  --border:rgba(30,25,15,0.10);
+  --border2:rgba(30,25,15,0.18);
+  --border3:rgba(30,25,15,0.30);
+  --gold:#7a5a18;
+  --gold2:#8a6820;
+  --gold3:#5a4010;
+  --red:#901818;
+  --orange:#904010;
+  --green:#1a6030;
+  --blue:#1a4888;
+}
+body.light{background:var(--paper);}
+body.light::before{
+  background:
+    radial-gradient(ellipse 100% 50% at 50% 0%, rgba(150,120,60,0.08) 0%, transparent 55%),
+    radial-gradient(ellipse 80% 60% at 0% 50%, rgba(60,100,160,0.05) 0%, transparent 55%),
+    linear-gradient(180deg, #faf7f2 0%, #f5f0e8 100%);
+}
+body.light::after{display:none;}
+
+/* ライトモード: カード・ボーダーを強調 */
+body.light .card,
+body.light .score-card,
+body.light .wx-card,
+body.light .pollen,
+body.light .mtr,
+body.light .hist-panel,
+body.light .past-date-area,
+body.light .record-calendar,
+body.light .stats-row .stat,
+body.light .a-blk,
+body.light .adv-blk,
+body.light .settings-sheet,
+body.light .doctor-panel{
+  box-shadow:0 1px 4px rgba(0,0,0,0.08);
+}
+body.light .sec-kw{color:var(--gold);}
+body.light .hdr-eyebrow{color:var(--gold);}
+body.light .hdr-title span{color:var(--gold2);}
+body.light .rec-btn{
+  background:linear-gradient(135deg,rgba(100,70,10,0.16),rgba(100,70,10,0.08)) !important;
+  border-color:rgba(100,70,10,0.55) !important;
+  color:var(--gold) !important;
+  font-weight:500 !important;
+}
+body.light .rec-btn:hover{
+  background:linear-gradient(135deg,rgba(100,70,10,0.26),rgba(100,70,10,0.16)) !important;
+  border-color:rgba(100,70,10,0.85) !important;
+  box-shadow:
+    0 0 0 3px rgba(100,70,10,0.12),
+    0 6px 24px rgba(100,70,10,0.22),
+    0 2px 8px rgba(0,0,0,0.1) !important;
+  color:var(--gold2) !important;
+}
+body.light .rec-btn:active{
+  transform:scale(0.97) translateY(1px) !important;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.15) !important;
+}
+body.light .gps-btn{
+  background:var(--paper2) !important;
+  border-color:var(--border2) !important;
+  color:var(--ink) !important;
+}
+body.light .gps-btn:hover:not(:disabled){
+  background:var(--paper3) !important;
+  border-color:rgba(100,70,10,0.4) !important;
+  box-shadow:0 4px 16px rgba(0,0,0,0.12),0 0 0 2px rgba(100,70,10,0.1) !important;
+  color:var(--ink) !important;
+}
+body.light .gps-btn:active:not(:disabled){
+  transform:scale(0.98) !important;
+  box-shadow:inset 0 2px 5px rgba(0,0,0,0.1) !important;
+}
+body.light .feel-btn{
+  background:var(--paper2) !important;
+  border-color:var(--border2) !important;
+  color:var(--ink2) !important;
+}
+body.light .feel-btn:not(.on):hover{
+  background:rgba(122,90,24,0.07) !important;
+  border-color:rgba(122,90,24,0.35) !important;
+  box-shadow:0 3px 12px rgba(122,90,24,0.12),0 0 0 1px rgba(122,90,24,0.15) !important;
+  color:var(--ink) !important;
+}
+body.light .feel-btn.on{
+  background:rgba(122,90,24,0.15) !important;
+  border-color:rgba(122,90,24,0.65) !important;
+  color:var(--gold) !important;
+  box-shadow:
+    0 0 0 2px rgba(122,90,24,0.25),
+    0 4px 16px rgba(122,90,24,0.18),
+    inset 0 1px 0 rgba(255,255,255,0.5) !important;
+}
+body.light .feel-btn.on::after{
+  background:linear-gradient(105deg,transparent 40%,rgba(0,0,0,0.05) 50%,transparent 60%) !important;
+}
+body.light .feel-btn:active{
+  transform:scale(0.91) !important;
+  box-shadow:inset 0 2px 6px rgba(0,0,0,0.15) !important;
+}
+body.light input[type=range]{background:rgba(0,0,0,0.1) !important;}
+body.light input[type=range]::-webkit-slider-thumb{
+  background:#fff !important;
+  border-color:var(--gold) !important;
+  box-shadow:0 1px 4px rgba(0,0,0,0.2) !important;
+}
+body.light input[type=range]:hover::-webkit-slider-thumb{
+  box-shadow:0 0 0 8px rgba(122,90,24,0.12) !important;
+}
+body.light input[type=range]:active::-webkit-slider-thumb{
+  box-shadow:0 0 0 14px rgba(122,90,24,0.08) !important;
+}
+body.light .slider-track-glow{
+  box-shadow:0 0 10px rgba(100,70,10,0.35) !important;
+  opacity:0.85 !important;
+}
+body.light input[type=range]::-webkit-slider-thumb{
+  box-shadow:0 1px 4px rgba(0,0,0,0.25),0 0 0 3px rgba(100,70,10,0.1) !important;
+}
+body.light .ticks span.active{color:var(--gold2) !important;}
+body.light .slider-hint{color:var(--ink4) !important;}
+body.light .sc-title{color:var(--ink) !important;}
+body.light .sc-desc{color:var(--ink2) !important;}
+body.light .sc-bar-wrap{background:rgba(0,0,0,0.08) !important;}
+body.light .score-circle{
+  filter:none !important;
+}
+body.light .sc-g{background:rgba(26,96,48,0.12) !important;border-color:rgba(26,96,48,0.5) !important;color:#1a6030 !important;}
+body.light .sc-m{background:rgba(144,64,16,0.10) !important;border-color:rgba(144,64,16,0.45) !important;color:#904010 !important;}
+body.light .sc-b{background:rgba(144,24,24,0.10) !important;border-color:rgba(144,24,24,0.45) !important;color:#901818 !important;}
+body.light .tab{color:var(--ink3) !important;border-bottom-color:transparent !important;}
+body.light .tab:not(.on):hover{background:rgba(100,70,10,0.06) !important;color:var(--ink2) !important;}
+body.light .tab.on{color:var(--gold) !important;border-bottom-color:var(--gold) !important;background:rgba(100,70,10,0.05) !important;}
+body.light .gtog{opacity:0.7;}
+body.light .gtog.off{opacity:0.3 !important;}
+body.light .g-sc{border-color:rgba(26,72,136,0.5) !important;color:#1a4888 !important;}
+body.light .g-pr{border-color:rgba(100,80,180,0.4) !important;color:#604ab0 !important;}
+body.light .g-te{border-color:rgba(144,24,24,0.4) !important;color:#901818 !important;}
+body.light .g-hu{border-color:rgba(26,96,140,0.4) !important;color:#1a608c !important;}
+body.light .g-po{border-color:rgba(122,90,24,0.4) !important;color:var(--gold2) !important;}
+body.light .settings-fab{
+  background:var(--paper2) !important;border-color:var(--border2) !important;
+  color:var(--ink2) !important;
+  box-shadow:0 2px 8px rgba(0,0,0,0.12) !important;
+}
+body.light .settings-fab:hover{box-shadow:0 4px 16px rgba(0,0,0,0.15) !important;}
+body.light .theme-toggle-btn{
+  background:var(--paper2) !important;border-color:var(--border2) !important;
+  color:var(--ink2) !important;
+}
+body.light .toast{
+  background:var(--paper2) !important;
+  border-color:rgba(122,90,24,0.3) !important;
+  color:var(--gold) !important;
+  box-shadow:0 4px 20px rgba(0,0,0,0.12) !important;
+}
+body.light .wx-error-card{
+  background:rgba(144,24,24,0.06) !important;
+  border-color:rgba(144,24,24,0.2) !important;
+}
+body.light .wxe-retry-btn{background:var(--red) !important;}
+body.light .wxe-setting-btn{
+  background:var(--paper3) !important;border-color:var(--border2) !important;color:var(--ink2) !important;
+}
+body.light .mgr-btn{
+  background:var(--paper2) !important;border-color:var(--border2) !important;color:var(--ink3) !important;
+}
+body.light .mgr-btn:hover{background:var(--paper3) !important;color:var(--ink) !important;}
+body.light .save-feedback{
+  background:var(--paper2) !important;border-color:rgba(122,90,24,0.2) !important;
+}
+body.light .ripple-wave{background:rgba(100,70,10,0.18) !important;}
+body.light .wxe-retry-btn .ripple-wave{background:rgba(255,255,255,0.25) !important;}
+/* ライト×高コントラスト */
+body.light.hc{
+  --ink:#000000;--ink2:#111111;--ink3:#333333;--ink4:#555555;
+  --paper:#ffffff;--paper2:#f0f0f0;--paper3:#e0e0e0;--paper4:#cccccc;
+  --border:rgba(0,0,0,0.15);--border2:rgba(0,0,0,0.28);--border3:rgba(0,0,0,0.45);
+  --gold:#5a3800;--gold2:#6a4800;--gold3:#3a2200;
+  --red:#880000;--orange:#884400;--green:#005500;
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{background:var(--paper);}
@@ -70,18 +264,28 @@ body::before{
   background:linear-gradient(to right, transparent, var(--gold), transparent);
   opacity:0.4;
 }
+.hdr-top-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;}
 .hdr-eyebrow{
   font-size:10px;
   letter-spacing:4px;
   color:var(--gold);
   text-transform:uppercase;
-  margin-bottom:16px;
   display:flex;align-items:center;gap:10px;
+  margin-bottom:0;
 }
 .hdr-eyebrow::before{
   content:'';width:24px;height:1px;
   background:var(--gold);opacity:0.5;
 }
+.theme-toggle-btn{
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:20px;padding:6px 14px;
+  color:var(--ink2);font-size:14px;cursor:pointer;
+  transition:all .25s;letter-spacing:0;
+  display:flex;align-items:center;gap:6px;
+  font-family:'Noto Sans JP',sans-serif;font-size:12px;
+}
+.theme-toggle-btn:hover{background:var(--paper4);border-color:var(--border3);}
 .hdr-title{
   font-family:'Shippori Mincho',serif;
   font-size:38px;font-weight:600;
@@ -194,7 +398,8 @@ body::before{
   font-family:'Shippori Mincho',serif;
   font-size:20px;color:var(--ink);line-height:1;
 }
-.mtr-l{font-size:10px;color:var(--ink3);margin-top:5px;line-height:1.4;letter-spacing:0.5px;}
+.mtr-l{font-size:11px;color:var(--ink2);margin-top:5px;line-height:1.3;font-weight:400;}
+.mtr-meta{font-size:9px;color:var(--ink3);margin-top:3px;line-height:1.4;letter-spacing:0.3px;}
 
 /* 花粉 */
 .pollen{
@@ -389,8 +594,1098 @@ input[type=range]::-webkit-slider-thumb{
 }
 .toast.show{transform:translateX(-50%) translateY(0);}
 
+/* ── 高コントラスト / 大文字 モード ── */
+body.hc{
+  --ink:#ffffff;--ink2:#e8e8e8;--ink3:#bbbbbb;--ink4:#999999;
+  --paper:#000000;--paper2:#111111;--paper3:#1c1c1c;--paper4:#242424;
+  --border:rgba(255,255,255,0.18);--border2:rgba(255,255,255,0.30);--border3:rgba(255,255,255,0.45);
+  --gold:#ffd060;--gold2:#ffe080;--gold3:#fff0a0;
+  --red:#ff6060;--orange:#ff9040;--green:#40d080;
+}
+/* ライト×高コントラスト の組み合わせ */
+body.light.hc{
+  --ink:#000000;--ink2:#1a1a1a;--ink3:#444444;--ink4:#666666;
+  --paper:#ffffff;--paper2:#f0f0f0;--paper3:#e0e0e0;--paper4:#cccccc;
+  --border:rgba(0,0,0,0.15);--border2:rgba(0,0,0,0.28);--border3:rgba(0,0,0,0.45);
+  --gold:#7a5000;--gold2:#8a6000;--gold3:#5a3800;
+  --red:#aa0000;--orange:#994400;--green:#006600;
+}
+body.lg{font-size:18px;}
+body.lg .feel-nm{font-size:13px;}
+body.lg .adv-t{font-size:16px;}
+body.lg .adv-b{font-size:14px;}
+body.lg .a-body{font-size:15px;}
+body.lg .mtr-l{font-size:12px;}
+body.lg .ticks span{font-size:12px;}
+
+/* ── 設定パネル ── */
+.settings-fab{
+  position:fixed;bottom:28px;right:20px;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--paper3);border:1px solid var(--border2);
+  color:var(--ink2);font-size:20px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  z-index:100;transition:all .2s;box-shadow:0 4px 16px rgba(0,0,0,0.4);
+}
+.settings-fab:hover{background:var(--paper4);border-color:var(--border3);}
+.settings-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.6);z-index:200;
+  align-items:flex-end;justify-content:center;
+}
+.settings-overlay.show{display:flex;}
+.settings-sheet{
+  width:100%;max-width:640px;
+  background:var(--paper2);
+  border-radius:24px 24px 0 0;
+  border:1px solid var(--border2);
+  padding:28px 24px 48px;
+  animation:slideUp .3s ease;
+}
+@keyframes slideUp{from{transform:translateY(100%);}to{transform:translateY(0);}}
+.sheet-title{
+  font-family:'Shippori Mincho',serif;font-size:20px;
+  color:var(--ink);margin-bottom:24px;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.sheet-close{background:none;border:none;color:var(--ink3);font-size:22px;cursor:pointer;padding:0 4px;}
+
+.set-section{margin-bottom:24px;}
+.set-label{font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;display:flex;align-items:center;gap:10px;}
+.set-label::after{content:'';flex:1;height:1px;background:var(--border);}
+
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--border);}
+.toggle-row:last-child{border-bottom:none;}
+.toggle-info{flex:1;}
+.toggle-name{font-size:14px;color:var(--ink);margin-bottom:2px;}
+.toggle-desc{font-size:11px;color:var(--ink3);}
+.toggle-sw{
+  width:44px;height:26px;border-radius:13px;
+  background:var(--paper4);border:1px solid var(--border2);
+  cursor:pointer;position:relative;transition:all .25s;flex-shrink:0;
+}
+.toggle-sw.on{background:var(--gold);border-color:var(--gold);}
+.toggle-sw::after{
+  content:'';position:absolute;
+  top:3px;left:3px;width:18px;height:18px;
+  border-radius:50%;background:var(--ink2);
+  transition:transform .25s;
+}
+.toggle-sw.on::after{transform:translateX(18px);background:#fff;}
+
+/* 手動地域設定 */
+.loc-row{display:flex;gap:8px;margin-bottom:8px;}
+.loc-input{
+  flex:1;padding:11px 14px;
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:12px;color:var(--ink);
+  font-size:13px;font-family:'Noto Sans JP',sans-serif;
+  outline:none;letter-spacing:1px;
+  transition:border-color .2s;
+}
+.loc-input:focus{border-color:var(--gold);}
+.loc-input::placeholder{color:var(--ink4);font-size:12px;}
+.loc-btn{
+  padding:11px 16px;background:var(--paper3);
+  border:1px solid var(--border2);border-radius:12px;
+  color:var(--ink2);font-size:12px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:all .2s;
+  white-space:nowrap;
+}
+.loc-btn:hover{background:var(--paper4);border-color:var(--border3);}
+.loc-status{font-size:11px;color:var(--ink3);letter-spacing:1px;min-height:16px;}
+.loc-current{
+  font-size:12px;color:var(--gold2);
+  padding:10px 14px;background:rgba(184,147,90,0.08);
+  border:1px solid rgba(184,147,90,0.2);border-radius:10px;
+  margin-bottom:8px;letter-spacing:1px;
+  display:none;
+}
+.loc-current.show{display:block;}
+
+/* エクスポート */
+.exp-btns{display:flex;gap:8px;}
+.exp-btn{
+  flex:1;padding:13px;
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:12px;color:var(--ink2);
+  font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:all .2s;
+  text-align:center;letter-spacing:1px;
+}
+.exp-btn:hover{background:var(--paper4);border-color:var(--border3);color:var(--ink);}
+
+/* ── 医師向けレポートモーダル ── */
+.report-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,0.85);z-index:500;
+  overflow-y:auto;-webkit-overflow-scrolling:touch;
+}
+.report-overlay.show{display:block;}
+.report-sheet{
+  background:#ffffff;color:#1a1a1a;
+  min-height:100vh;padding:0;
+  font-family:'Noto Sans JP',sans-serif;
+  max-width:640px;margin:0 auto;
+}
+/* レポートヘッダー */
+.rp-header{
+  background:#1a1a1a;color:#ffffff;
+  padding:20px 24px 16px;
+  display:flex;align-items:center;justify-content:space-between;
+}
+.rp-header-left{}
+.rp-title{font-family:'Shippori Mincho',serif;font-size:20px;letter-spacing:2px;}
+.rp-subtitle{font-size:11px;color:rgba(255,255,255,0.6);margin-top:4px;letter-spacing:1px;}
+.rp-close-btn{
+  background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);
+  border-radius:50%;width:40px;height:40px;
+  color:#fff;font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;transition:all .2s;
+}
+.rp-close-btn:hover{background:rgba(255,255,255,0.2);}
+
+/* レポート本体 */
+.rp-body{padding:24px;}
+.rp-section{margin-bottom:28px;}
+.rp-section-title{
+  font-size:10px;letter-spacing:4px;text-transform:uppercase;
+  color:#888;border-bottom:1px solid #e0e0e0;
+  padding-bottom:8px;margin-bottom:16px;
+}
+
+/* サマリーカード */
+.rp-summary-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
+.rp-stat{
+  background:#f8f8f8;border-radius:12px;
+  padding:14px;text-align:center;border:1px solid #e8e8e8;
+}
+.rp-stat-val{font-family:'Shippori Mincho',serif;font-size:28px;color:#1a1a1a;line-height:1;}
+.rp-stat-lbl{font-size:10px;color:#888;margin-top:4px;letter-spacing:1px;}
+
+/* スコアカレンダー（シンプル版） */
+.rp-cal{margin-bottom:8px;}
+.rp-cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;}
+.rp-cal-hdr{text-align:center;font-size:9px;color:#aaa;padding-bottom:3px;letter-spacing:1px;}
+.rp-cal-day{
+  aspect-ratio:1;border-radius:6px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:#888;border:1px solid #f0f0f0;
+}
+.rp-cal-day.rp-g{background:#e8f5ee;border-color:#b0d8bc;color:#2a7040;}
+.rp-cal-day.rp-m{background:#fff3e8;border-color:#f0c898;color:#8a5020;}
+.rp-cal-day.rp-b{background:#feeaea;border-color:#f0b0b0;color:#882020;}
+.rp-cal-day.rp-today{box-shadow:0 0 0 2px #1a1a1a;}
+.rp-cal-day.rp-empty{background:transparent;border-color:transparent;}
+
+/* 症状バー */
+.rp-symptom-row{display:flex;align-items:center;gap:10px;margin-bottom:10px;}
+.rp-symptom-name{font-size:12px;color:#444;width:100px;flex-shrink:0;}
+.rp-symptom-bar-wrap{flex:1;height:8px;background:#f0f0f0;border-radius:4px;overflow:hidden;}
+.rp-symptom-bar{height:100%;border-radius:4px;background:#c05858;}
+.rp-symptom-count{font-size:11px;color:#888;width:32px;text-align:right;flex-shrink:0;}
+
+/* 気圧相関 */
+.rp-insight-box{
+  background:#f8f8f8;border-radius:12px;
+  padding:14px 16px;margin-bottom:10px;
+  border-left:3px solid #1a1a1a;
+}
+.rp-insight-label{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#888;margin-bottom:6px;}
+.rp-insight-text{font-size:13px;color:#333;line-height:1.8;}
+.rp-insight-box.warn{border-left-color:#c05858;background:#fff8f8;}
+.rp-insight-box.ok{border-left-color:#4a9060;background:#f4fcf6;}
+
+/* 申し送り文 */
+.rp-note-box{
+  background:#1a1a1a;color:#fff;
+  border-radius:12px;padding:18px;
+}
+.rp-note-title{font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.5);margin-bottom:10px;}
+.rp-note-text{font-size:13px;line-height:2;color:#e8e8e8;white-space:pre-line;}
+
+/* フッター */
+.rp-footer{
+  border-top:1px solid #e0e0e0;
+  padding:16px 24px;
+  font-size:10px;color:#aaa;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.rp-print-btn{
+  padding:10px 20px;min-height:44px;
+  background:#1a1a1a;border:none;border-radius:8px;
+  color:#fff;font-size:12px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;letter-spacing:1px;
+  transition:all .2s;
+}
+.rp-print-btn:hover{background:#333;}
+.rp-copy-btn{
+  padding:10px 20px;min-height:44px;
+  background:transparent;border:1px solid #ccc;border-radius:8px;
+  color:#444;font-size:12px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;letter-spacing:1px;
+  transition:all .2s;
+}
+.rp-copy-btn:hover{background:#f5f5f5;}
+
+/* ── 医師提示モード（印刷用） ── */
+@media print {
+  body { background: white !important; color: #000 !important; padding: 0 !important; }
+  body::before, body::after { display: none !important; }
+  .settings-fab, .offline-banner, .gps-btn, .gps-status,
+  .rec-btn, .rec-date-row, .mgr-btn, .hist-panel,
+  .save-feedback, .tab-row, .g-togs, .feel-grid,
+  .score-card, .datetime-row, .pollen, .wx-pills,
+  .pAnalysis-wrap, .pAdvice-wrap,
+  #pAnalysis, #pAdvice, .settings-overlay { display: none !important; }
+  .hdr { padding: 16px 0 12px; }
+  .hdr-title { font-size: 22px !important; color: #000 !important; }
+  .hdr-eyebrow, .hdr-date, .theme-toggle-btn { display: none !important; }
+  .sec { padding: 12px 0; border: none; }
+  .mtr { background: #f5f5f5 !important; border: 1px solid #ccc !important; break-inside: avoid; }
+  .mtr-v, .tile-val, .stat-val { color: #000 !important; }
+  .mtr-l, .mtr-meta, .tile-lbl, .stat-l { color: #444 !important; }
+  .wx-card { background: #f5f5f5 !important; border: 1px solid #ccc !important; }
+  .wx-temp-n, .wx-cond, .wx-ts { color: #000 !important; }
+  canvas { max-width: 100% !important; }
+  .stats-row { display: grid !important; }
+  .stat { background: #f5f5f5 !important; border: 1px solid #ccc !important; }
+  .print-header { display: block !important; }
+  .print-footer { display: block !important; }
+  * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+}
+.print-header {
+  display: none;
+  background: #f0f0f0;border-bottom: 2px solid #333;
+  padding: 12px 16px;margin-bottom: 16px;
+}
+.print-header-title { font-size: 18px; font-weight: bold; color: #000; }
+.print-header-sub { font-size: 12px; color: #555; margin-top: 4px; }
+.print-footer {
+  display: none;
+  border-top: 1px solid #ccc;padding-top: 10px;
+  margin-top: 20px;font-size: 11px;color: #777;text-align: center;
+}
+
+/* 医師提示モードパネル */
+.doctor-panel {
+  background: var(--paper2);border: 1px solid rgba(72,120,168,0.3);
+  border-radius: 16px;padding: 18px;margin-top: 16px;
+  display: none;
+}
+.doctor-panel.show { display: block; }
+.doctor-kw { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--blue); margin-bottom: 14px; }
+.doctor-summary {
+  background: var(--paper3);border-radius: 12px;
+  padding: 14px;margin-bottom: 12px;font-size: 13px;
+  color: var(--ink2);line-height: 1.9;
+}
+.doctor-btns { display: flex; gap: 8px; }
+.doctor-btn {
+  flex: 1;padding: 13px;min-height: 48px;
+  background: var(--paper3);border: 1px solid var(--border2);
+  border-radius: 12px;color: var(--ink2);
+  font-size: 13px;cursor: pointer;
+  font-family: 'Noto Sans JP', sans-serif;
+  transition: all .2s;text-align: center;letter-spacing: 0.5px;
+}
+.doctor-btn:hover { background: var(--paper4);border-color: var(--border3);color: var(--ink); }
+.doctor-btn.primary {
+  background: rgba(72,120,168,0.15);
+  border-color: rgba(72,120,168,0.4);color: #88b8e8;
+}
+.doctor-btn.primary:hover { background: rgba(72,120,168,0.25); }
+
+/* ── 手動入力フォーム ── */
+.wxe-manual-toggle{
+  margin-top:14px;
+  font-size:12px;color:var(--ink3);
+  cursor:pointer;letter-spacing:1px;
+  padding:8px 0;
+  border-top:1px solid var(--border);
+  transition:color .2s;
+  text-align:center;
+}
+.wxe-manual-toggle:hover{color:var(--ink2);}
+.wxe-manual-form{
+  display:none;
+  margin-top:14px;padding:16px;
+  background:var(--paper3);
+  border:1px solid var(--border2);
+  border-radius:14px;
+  text-align:left;
+}
+.wxe-manual-form.show{display:block;animation:fadeUp .3s ease;}
+.wxe-form-title{
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--ink3);margin-bottom:14px;
+}
+.wxe-form-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:8px;
+}
+.wxe-field{display:flex;flex-direction:column;gap:5px;}
+.wxe-field label{
+  font-size:11px;color:var(--ink3);letter-spacing:0.5px;
+}
+.wxe-field input,
+.wxe-field select{
+  padding:10px 12px;min-height:44px;
+  background:var(--paper2);
+  border:1px solid var(--border2);
+  border-radius:10px;
+  color:var(--ink);
+  font-size:13px;
+  font-family:'Noto Sans JP',sans-serif;
+  outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+  color-scheme:dark;
+}
+body.light .wxe-field input,
+body.light .wxe-field select{color-scheme:light;}
+.wxe-field input:focus,
+.wxe-field select:focus{border-color:var(--gold);}
+.wxe-submit-btn{
+  width:100%;margin-top:12px;padding:13px;min-height:48px;
+  background:linear-gradient(135deg,rgba(184,147,90,0.2),rgba(184,147,90,0.1));
+  border:1px solid rgba(184,147,90,0.45);
+  border-radius:12px;
+  color:var(--gold2);
+  font-size:13px;font-weight:400;
+  cursor:pointer;
+  font-family:'Shippori Mincho',serif;
+  transition:all .2s;letter-spacing:2px;
+  position:relative;overflow:hidden;
+}
+.wxe-submit-btn:hover{
+  background:linear-gradient(135deg,rgba(184,147,90,0.3),rgba(184,147,90,0.18));
+  border-color:rgba(184,147,90,0.7);
+  transform:translateY(-1px);
+  box-shadow:0 4px 16px rgba(184,147,90,0.25);
+}
+.wxe-submit-btn:active{transform:scale(0.98);}
+body.light .wxe-submit-btn{
+  background:linear-gradient(135deg,rgba(100,70,10,0.14),rgba(100,70,10,0.07)) !important;
+  border-color:rgba(100,70,10,0.5) !important;
+  color:var(--gold) !important;
+}
+body.light .wxe-manual-form{
+  background:var(--paper3) !important;border-color:var(--border2) !important;
+}
+body.light .wxe-field input,
+body.light .wxe-field select{
+  background:var(--paper2) !important;
+  border-color:var(--border2) !important;
+  color:var(--ink) !important;
+}
+
+/* ── 手動入力ショートカット ── */
+.manual-shortcut{margin-top:10px;text-align:center;}
+.manual-shortcut-btn{
+  background:transparent;
+  border:none;
+  color:var(--ink3);
+  font-size:12px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+  letter-spacing:1px;padding:6px 12px;
+  border-radius:8px;transition:all .2s;
+}
+.manual-shortcut-btn:hover{color:var(--ink2);background:var(--mist);}
+
+.manual-direct-panel{
+  display:none;
+  margin-top:14px;
+  background:var(--paper2);
+  border:1px solid var(--border2);
+  border-radius:18px;
+  padding:20px;
+  animation:fadeUp .3s ease;
+}
+.manual-direct-panel.show{display:block;}
+.mdp-header{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:16px;
+}
+.mdp-title{
+  font-family:'Shippori Mincho',serif;
+  font-size:16px;color:var(--ink);letter-spacing:1px;
+}
+.mdp-close{
+  background:none;border:1px solid var(--border2);
+  border-radius:50%;width:32px;height:32px;
+  color:var(--ink3);font-size:14px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;
+}
+.mdp-close:hover{background:var(--paper3);color:var(--ink2);}
+body.light .manual-direct-panel{
+  background:var(--paper2) !important;border-color:var(--border2) !important;
+}
+body.light .manual-shortcut-btn{color:var(--ink3) !important;}
+body.light .manual-shortcut-btn:hover{color:var(--ink2) !important;background:var(--paper3) !important;}
+
+/* オフラインバナー */
+.offline-banner{
+  display:none;position:fixed;top:0;left:0;right:0;
+  background:rgba(192,120,64,0.9);color:#fff;
+  text-align:center;padding:8px;font-size:12px;
+  letter-spacing:1px;z-index:300;
+}
+.offline-banner.show{display:block;}
+
 .spin{display:inline-block;width:13px;height:13px;border:2px solid rgba(184,147,90,0.2);border-top-color:var(--gold);border-radius:50%;animation:spin .7s linear infinite;vertical-align:middle;}
 @keyframes spin{to{transform:rotate(360deg);}}
+
+/* ── ボタン共通インタラクション ── */
+/* リップルエフェクト用 */
+.ripple-btn{position:relative;overflow:hidden;}
+.ripple-wave{
+  position:absolute;border-radius:50%;
+  background:rgba(255,255,255,0.25);
+  transform:scale(0);
+  animation:rippleAnim .55s linear;
+  pointer-events:none;
+}
+@keyframes rippleAnim{
+  to{transform:scale(4);opacity:0;}
+}
+
+/* 記録ボタン — 押したとき沈み込む + 光る */
+.rec-btn{
+  position:relative;overflow:hidden;
+  transition:transform .18s cubic-bezier(0.34,1.56,0.64,1),
+             box-shadow .25s, border-color .2s,
+             background .2s !important;
+  background:linear-gradient(135deg,rgba(184,147,90,0.18),rgba(184,147,90,0.08)) !important;
+}
+.rec-btn::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(105deg,
+    transparent 35%,
+    rgba(255,255,255,0.07) 50%,
+    transparent 65%
+  );
+  transform:translateX(-100%);
+  transition:transform 0s;
+}
+.rec-btn:hover::before{
+  transform:translateX(100%);
+  transition:transform .5s ease;
+}
+.rec-btn:hover{
+  box-shadow:
+    0 0 30px rgba(184,147,90,0.4),
+    0 0 10px rgba(184,147,90,0.2),
+    0 8px 24px rgba(0,0,0,0.3) !important;
+  border-color:rgba(184,147,90,0.8) !important;
+  transform:translateY(-3px) !important;
+}
+.rec-btn:active{
+  transform:scale(0.97) translateY(1px) !important;
+  box-shadow:0 0 12px rgba(184,147,90,0.25),inset 0 2px 4px rgba(0,0,0,0.2) !important;
+}
+
+/* GPS取得ボタン */
+.gps-btn{
+  position:relative;overflow:hidden;
+  transition:transform .15s, box-shadow .2s, border-color .2s !important;
+}
+.gps-btn:hover:not(:disabled){
+  box-shadow:0 0 20px rgba(184,147,90,0.2) !important;
+  border-color:var(--border3) !important;
+  transform:translateY(-1px) !important;
+}
+.gps-btn:active:not(:disabled){transform:scale(0.98) !important;}
+
+/* 設定FAB */
+.settings-fab{
+  transition:transform .2s cubic-bezier(0.34,1.56,0.64,1), box-shadow .2s !important;
+}
+.settings-fab:hover{
+  transform:scale(1.12) rotate(30deg) !important;
+  box-shadow:0 4px 20px rgba(0,0,0,0.4) !important;
+}
+.settings-fab:active{transform:scale(0.95) rotate(30deg) !important;}
+
+/* タブボタン */
+.tab{transition:color .2s, border-color .2s, background .2s !important;}
+.tab:not(.on):hover{
+  color:var(--ink2) !important;
+  background:rgba(255,255,255,0.04) !important;
+}
+
+/* グラフトグルボタン */
+.gtog{transition:opacity .2s, transform .15s, box-shadow .2s !important;}
+.gtog:not(.off):hover{
+  transform:translateY(-1px) !important;
+  box-shadow:0 3px 10px rgba(0,0,0,0.3) !important;
+}
+.gtog:active{transform:scale(0.95) !important;}
+
+/* 管理ボタン */
+.mgr-btn{transition:all .2s !important;}
+.mgr-btn:hover{transform:translateY(-1px) !important;}
+
+/* ── エラーカード ── */
+.wx-error-card{
+  display:none;
+  margin-top:16px;
+  background:rgba(192,80,74,0.07);
+  border:1px solid rgba(192,80,74,0.25);
+  border-radius:18px;padding:20px;
+  animation:fadeUp .4s ease;
+  flex-direction:column;
+  align-items:center;
+  text-align:center;
+}
+.wx-error-card.show{display:flex;}
+.wxe-icon{font-size:36px;margin-bottom:12px;animation:iconShake .4s ease .2s both;}
+@keyframes iconShake{
+  0%,100%{transform:rotate(0);}
+  20%{transform:rotate(-12deg);}
+  40%{transform:rotate(10deg);}
+  60%{transform:rotate(-8deg);}
+  80%{transform:rotate(6deg);}
+}
+.wxe-body{width:100%;}
+.wxe-title{font-family:'Shippori Mincho',serif;font-size:16px;color:var(--ink);margin-bottom:6px;}
+.wxe-msg{font-size:12px;color:var(--ink3);line-height:1.7;margin-bottom:16px;letter-spacing:0.5px;}
+.wxe-actions{display:flex;gap:8px;justify-content:center;}
+.wxe-retry-btn{
+  padding:12px 22px;min-height:46px;
+  background:var(--red);border:none;border-radius:12px;
+  color:#fff;font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+  transition:all .2s;letter-spacing:1px;
+  position:relative;overflow:hidden;
+}
+.wxe-retry-btn:hover{background:#d04040;transform:translateY(-2px);box-shadow:0 6px 20px rgba(192,80,74,0.4);}
+.wxe-retry-btn:active{transform:scale(0.97);}
+.wxe-setting-btn{
+  padding:12px 18px;min-height:46px;
+  background:transparent;border:1px solid var(--border2);
+  border-radius:12px;color:var(--ink2);font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:all .2s;letter-spacing:0.5px;
+}
+.wxe-setting-btn:hover{background:var(--paper3);color:var(--ink);transform:translateY(-1px);}
+
+/* ── スライダー強化 ── */
+.slider-wrap{position:relative;padding:4px 0;margin:18px 0 6px;}
+.slider-track-glow{
+  position:absolute;
+  left:0;top:50%;transform:translateY(-50%);
+  height:7px;border-radius:4px;
+  background:linear-gradient(to right,var(--green),var(--gold));
+  pointer-events:none;
+  transition:width .12s ease, background .25s ease, box-shadow .25s ease;
+  box-shadow:0 0 12px rgba(184,147,90,0.5);
+  width:44%; /* 初期値 v=5 → (5-1)/9*100 ≈ 44% */
+  z-index:0;
+}
+input[type=range]{
+  width:100%;height:7px;
+  -webkit-appearance:none;appearance:none;
+  background:rgba(255,255,255,0.08);
+  border-radius:4px;outline:none;cursor:pointer;
+  display:block;margin:0;
+  position:relative;z-index:1;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:30px;height:30px;border-radius:50%;
+  background:var(--ink);
+  border:3px solid var(--gold);
+  cursor:pointer;
+  box-shadow:0 0 0 0 rgba(184,147,90,0.4);
+  transition:box-shadow .2s, transform .15s cubic-bezier(0.34,1.56,0.64,1), border-color .2s;
+}
+input[type=range]:hover::-webkit-slider-thumb{
+  box-shadow:0 0 0 8px rgba(184,147,90,0.15);
+  transform:scale(1.15);
+}
+input[type=range]:active::-webkit-slider-thumb{
+  box-shadow:0 0 0 14px rgba(184,147,90,0.1);
+  transform:scale(1.05);
+  border-color:var(--gold2);
+}
+.ticks{display:flex;justify-content:space-between;padding:2px 4px 0;}
+.ticks span{
+  font-size:11px;color:var(--ink4);
+  transition:color .2s, transform .2s, font-size .15s;
+  cursor:pointer;padding:4px 2px;
+  font-family:'Shippori Mincho',serif;
+}
+.ticks span.active{
+  color:var(--gold2);
+  transform:scale(1.3) translateY(-2px);
+  font-size:13px;
+}
+.slider-hint{
+  font-size:11px;color:var(--ink4);text-align:center;
+  letter-spacing:1px;margin-top:4px;
+  transition:opacity .4s;
+}
+.slider-hint.hidden{opacity:0;}
+
+/* ── ── */
+/* ── 症状ボタン — ホバー光彩 + 選択アニメーション ── */
+.feel-btn{
+  position:relative;overflow:hidden;
+  transition:transform .18s cubic-bezier(0.34,1.56,0.64,1),
+             border-color .2s, background .2s,
+             box-shadow .25s !important;
+}
+/* ホバー: 光の輪郭 */
+.feel-btn:not(.on):hover{
+  border-color:rgba(184,147,90,0.45) !important;
+  background:rgba(184,147,90,0.07) !important;
+  transform:translateY(-2px) scale(1.03) !important;
+  box-shadow:0 4px 16px rgba(184,147,90,0.15),
+             0 0 0 1px rgba(184,147,90,0.2) !important;
+}
+.feel-btn:not(.on):hover .feel-ico{
+  transform:scale(1.15);
+  transition:transform .2s cubic-bezier(0.34,1.56,0.64,1);
+}
+/* 選択時: バウンス + 強い光 */
+.feel-btn.on{
+  transform:scale(1.0) !important;
+  box-shadow:0 0 24px rgba(184,147,90,0.35),
+             0 0 8px rgba(184,147,90,0.2),
+             inset 0 1px 0 rgba(255,255,255,0.12) !important;
+  animation:feelSelect .35s cubic-bezier(0.34,1.56,0.64,1) !important;
+}
+@keyframes feelSelect{
+  0%{transform:scale(1);}
+  40%{transform:scale(1.08);}
+  70%{transform:scale(0.97);}
+  100%{transform:scale(1);}
+}
+/* 選択時の絵文字もバウンス */
+.feel-btn.on .feel-ico{
+  animation:emojiPop .4s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes emojiPop{
+  0%{transform:scale(1);}
+  50%{transform:scale(1.35) rotate(-8deg);}
+  75%{transform:scale(0.9) rotate(4deg);}
+  100%{transform:scale(1) rotate(0);}
+}
+/* 押したとき */
+.feel-btn:active{transform:scale(0.93) !important;}
+
+/* グリッター背景（選択済みボタン内を流れる光） */
+.feel-btn.on::after{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(
+    105deg,
+    transparent 40%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 60%
+  );
+  animation:shimmer 2.5s infinite;
+}
+@keyframes shimmer{
+  0%{transform:translateX(-100%);}
+  100%{transform:translateX(100%);}
+}
+
+/* ── 保存完了フィードバックのアニメーション強化 ── */
+.save-feedback.show{
+  animation:feedbackPop .45s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes feedbackPop{
+  from{opacity:0;transform:scale(0.92) translateY(10px);}
+  to{opacity:1;transform:scale(1) translateY(0);}
+}
+.sf-emoji{
+  display:block;
+  animation:emojiFloat 3s ease-in-out infinite;
+}
+@keyframes emojiFloat{
+  0%,100%{transform:translateY(0);}
+  50%{transform:translateY(-6px);}
+}
+
+/* ── スコアサークル ── */
+.score-circle{
+  transition:transform .3s cubic-bezier(0.34,1.56,0.64,1),
+             background .3s, border-color .3s, box-shadow .3s !important;
+}
+/* スライダー変更時にピコンと動く（JSから付与） */
+.score-circle.ping{
+  animation:scorePing .35s cubic-bezier(0.34,1.56,0.64,1);
+}
+@keyframes scorePing{
+  0%{transform:scale(1);}
+  45%{transform:scale(1.12);}
+  75%{transform:scale(0.95);}
+  100%{transform:scale(1);}
+}
+
+/* ── 医師レポートボタン ── */
+#reportOverlay button[onclick="openReport()"]{
+  position:relative;overflow:hidden;
+  transition:transform .2s, box-shadow .25s, border-color .25s !important;
+}
+#reportOverlay button[onclick="openReport()"]:hover{
+  transform:translateY(-2px) !important;
+  box-shadow:0 8px 24px rgba(72,120,168,0.3) !important;
+}
+
+/* ── ローディングアニメーション（ループ） ── */
+.wx-loader{
+  display:none;
+  text-align:center;padding:28px 0 20px;
+  animation:fadeUp .4s ease;
+}
+.wx-loader.show{display:block;}
+.loader-svg{
+  width:200px;height:120px;
+  display:block;margin:0 auto 16px;
+}
+.ld-line,.ld-circle,.ld-cloud,.ld-ray{
+  fill:none;
+  stroke:var(--gold);
+  stroke-width:1.2;
+  stroke-linecap:round;
+  stroke-linejoin:round;
+}
+.ld-cloud{stroke:var(--ink3);}
+.ld-ray{stroke:var(--gold2);stroke-width:1;}
+
+/* 各要素: 描画 → 保持 → フェードアウト → リセット の4段階をループ */
+/* total cycle = 5s */
+.ld-h   {animation:drawLoop 5s 0.0s ease infinite;}
+.ld-m1  {animation:drawLoop 5s 0.3s ease infinite;}
+.ld-m2  {animation:drawLoop 5s 0.6s ease infinite;}
+.ld-m3  {animation:drawLoop 5s 0.9s ease infinite;}
+.ld-circle{animation:drawLoop 5s 1.1s ease infinite;}
+.ld-r1  {animation:drawLoop 5s 1.6s ease infinite;}
+.ld-r2  {animation:drawLoop 5s 1.7s ease infinite;}
+.ld-r3  {animation:drawLoop 5s 1.8s ease infinite;}
+.ld-r4  {animation:drawLoop 5s 1.9s ease infinite;}
+.ld-r5  {animation:drawLoop 5s 2.0s ease infinite;}
+.ld-cloud{animation:drawLoopCloud 5s 1.3s ease infinite;}
+
+/* 描画→保持→消えてリセット */
+@keyframes drawLoop{
+  0%   {stroke-dashoffset:180;opacity:1;}
+  25%  {stroke-dashoffset:0;  opacity:1;}
+  70%  {stroke-dashoffset:0;  opacity:1;}
+  85%  {stroke-dashoffset:0;  opacity:0;}
+  86%  {stroke-dashoffset:180;opacity:0;}
+  100% {stroke-dashoffset:180;opacity:1;}
+}
+@keyframes drawLoopCloud{
+  0%   {stroke-dashoffset:200;opacity:1;}
+  25%  {stroke-dashoffset:0;  opacity:1;}
+  70%  {stroke-dashoffset:0;  opacity:1;}
+  85%  {stroke-dashoffset:0;  opacity:0;}
+  86%  {stroke-dashoffset:200;opacity:0;}
+  100% {stroke-dashoffset:200;opacity:1;}
+}
+
+.loader-msg{
+  font-size:13px;color:var(--ink2);letter-spacing:2px;
+  margin-bottom:12px;
+  animation:msgFade 5s ease infinite;
+}
+@keyframes msgFade{
+  0%,10%{opacity:0;transform:translateY(4px);}
+  20%,80%{opacity:1;transform:translateY(0);}
+  90%,100%{opacity:0;transform:translateY(-4px);}
+}
+.loader-dots{display:flex;justify-content:center;gap:6px;}
+.loader-dots span{
+  width:5px;height:5px;border-radius:50%;
+  background:var(--gold);opacity:0.3;
+  animation:dotPulse 1.2s ease-in-out infinite;
+}
+.loader-dots span:nth-child(2){animation-delay:.2s;}
+.loader-dots span:nth-child(3){animation-delay:.4s;}
+@keyframes dotPulse{
+  0%,80%,100%{opacity:0.3;transform:scale(1);}
+  40%{opacity:1;transform:scale(1.3);}
+}
+
+/* ── 日時選択 ── */
+.datetime-row{
+  background:var(--paper2);border:1px solid var(--border2);
+  border-radius:16px;padding:16px 18px;margin-bottom:14px;
+}
+.dt-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.dt-inputs{display:flex;gap:8px;}
+.dt-input{
+  flex:1;padding:12px 14px;min-height:46px;
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:12px;color:var(--ink);
+  font-size:14px;font-family:'Noto Sans JP',sans-serif;
+  outline:none;transition:border-color .2s;
+  -webkit-appearance:none;appearance:none;
+  color-scheme:dark;
+}
+body.light .dt-input{color-scheme:light;}
+.dt-input:focus{border-color:var(--gold);}
+.dt-hint{font-size:11px;color:var(--gold2);margin-top:10px;min-height:16px;letter-spacing:0.5px;}
+
+/* ── タッチターゲット強化（44px以上） ── */
+.settings-fab{min-width:48px;min-height:48px;}
+.sheet-close{min-width:48px;min-height:48px;display:flex;align-items:center;justify-content:center;}
+.tab{min-height:48px;display:flex;align-items:center;justify-content:center;}
+.gps-btn{min-height:52px;}
+.rec-btn{min-height:52px;}
+.feel-btn{min-height:52px;}
+.hist-del{min-height:44px;min-width:44px;}
+.del-all{min-height:44px;}
+.toggle-sw{min-height:44px;min-width:52px;display:flex;align-items:center;}
+.toggle-sw::after{top:50%;transform:translateY(-50%);}
+.toggle-sw.on::after{transform:translateY(-50%) translateX(18px);}
+
+/* ── 完了フィードバック強化 ── */
+.save-feedback{
+  display:none;
+  text-align:center;padding:20px;
+  background:var(--paper2);border:1px solid rgba(184,147,90,0.25);
+  border-radius:18px;margin-top:16px;
+  animation:fadeUp .4s ease;
+}
+.save-feedback.show{display:block;}
+.sf-emoji{font-size:44px;margin-bottom:10px;display:block;}
+.sf-title{font-family:'Shippori Mincho',serif;font-size:20px;color:var(--ink);margin-bottom:6px;}
+.sf-msg{font-size:13px;color:var(--ink2);line-height:1.8;}
+.sf-close{
+  margin-top:14px;padding:10px 24px;
+  background:transparent;border:1px solid var(--border2);
+  border-radius:20px;color:var(--ink3);font-size:12px;
+  cursor:pointer;font-family:'Noto Sans JP',sans-serif;
+  transition:all .2s;letter-spacing:1px;min-height:44px;
+}
+.sf-close:hover{background:var(--paper3);color:var(--ink2);}
+
+/* ── インポートボタン ── */
+.imp-btn{
+  flex:1;padding:13px;
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:12px;color:var(--ink2);
+  font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;transition:all .2s;
+  text-align:center;letter-spacing:1px;min-height:48px;
+}
+.imp-btn:hover{background:var(--paper4);border-color:var(--border3);color:var(--ink);}
+
+/* ── パーソナライズ予報カード ── */
+.personal-forecast{
+  background:var(--paper2);border:1px solid var(--border2);
+  border-radius:20px;padding:20px 22px;margin-bottom:12px;
+  position:relative;overflow:hidden;
+  display:none;
+}
+.personal-forecast.show{display:block;}
+.personal-forecast::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--gold),var(--orange),var(--red));
+}
+.pf-kw{
+  font-size:9px;letter-spacing:4px;text-transform:uppercase;
+  color:var(--gold);margin-bottom:12px;display:flex;align-items:center;gap:8px;
+}
+.pf-kw::after{content:'';flex:1;height:1px;background:rgba(184,147,90,0.2);}
+.pf-title{
+  font-family:'Shippori Mincho',serif;
+  font-size:17px;color:var(--ink);margin-bottom:8px;letter-spacing:0.5px;
+  line-height:1.4;
+}
+.pf-body{font-size:12px;color:var(--ink2);line-height:1.95;letter-spacing:0.3px;}
+.pf-score-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  margin-top:12px;padding:8px 14px;
+  background:rgba(184,147,90,0.1);border:1px solid rgba(184,147,90,0.3);
+  border-radius:20px;font-size:11px;color:var(--gold2);letter-spacing:1px;
+}
+.pf-urgent{
+  border-color:rgba(192,80,74,0.4);
+}
+.pf-urgent::before{background:linear-gradient(to right,var(--red),var(--orange));}
+.pf-caution{
+  border-color:rgba(192,120,64,0.3);
+}
+
+/* ── デジタルデトックスバナー ── */
+.detox-banner{
+  display:none;
+  background:var(--paper2);
+  border:1px solid rgba(74,144,96,0.3);
+  border-radius:20px;padding:20px 22px;
+  margin-bottom:12px;position:relative;overflow:hidden;
+}
+.detox-banner.show{display:block;}
+.detox-banner::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--green);}
+.detox-icon{font-size:32px;margin-bottom:10px;display:block;}
+.detox-title{font-family:'Shippori Mincho',serif;font-size:18px;color:var(--ink);margin-bottom:8px;letter-spacing:0.5px;}
+.detox-body{font-size:13px;color:var(--ink2);line-height:2;letter-spacing:0.3px;}
+.detox-close{
+  position:absolute;top:14px;right:16px;
+  background:none;border:none;color:var(--ink3);
+  font-size:18px;cursor:pointer;padding:2px 6px;
+}
+
+/* ── 分析タブのパーソナライズ分析 ── */
+.pf-type-badge{
+  display:inline-block;padding:4px 14px;
+  border-radius:20px;font-size:11px;font-weight:400;
+  letter-spacing:1px;margin-bottom:10px;border:1px solid;
+}
+.pf-type-down{background:rgba(72,120,168,0.12);border-color:rgba(72,120,168,0.4);color:#88b8e8;}
+.pf-type-up{background:rgba(192,80,74,0.1);border-color:rgba(192,80,74,0.35);color:#e09090;}
+.pf-type-humid{background:rgba(74,144,96,0.1);border-color:rgba(74,144,96,0.35);color:#88d8a8;}
+.pf-type-stable{background:rgba(184,147,90,0.1);border-color:rgba(184,147,90,0.35);color:var(--gold2);}
+
+/* ── パーソナライズインサイト ── */
+.insight-card{
+  background:var(--paper2);
+  border:1px solid rgba(184,147,90,0.25);
+  border-radius:20px;
+  padding:20px;
+  margin-bottom:14px;
+  position:relative;
+  overflow:hidden;
+}
+.insight-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(to right,var(--gold),transparent);
+}
+.insight-header{display:flex;align-items:flex-start;gap:14px;margin-bottom:14px;}
+.insight-icon{font-size:28px;flex-shrink:0;margin-top:2px;}
+.insight-title{font-family:'Shippori Mincho',serif;font-size:17px;color:var(--ink);margin-bottom:4px;}
+.insight-subtitle{font-size:11px;color:var(--ink3);letter-spacing:1px;}
+.insight-body{font-size:13px;color:var(--ink2);line-height:1.95;margin-bottom:14px;}
+.insight-body strong{color:var(--gold2);}
+.insight-forecast{
+  background:var(--paper3);border:1px solid var(--border2);
+  border-radius:13px;padding:14px;
+}
+.forecast-label{font-size:9px;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin-bottom:10px;}
+.forecast-row{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.forecast-row:last-child{margin-bottom:0;}
+.forecast-time{font-size:11px;color:var(--ink3);width:32px;flex-shrink:0;font-family:'Shippori Mincho',serif;}
+.forecast-bar-wrap{flex:1;height:5px;background:rgba(255,255,255,0.05);border-radius:3px;overflow:hidden;}
+.forecast-bar{height:100%;border-radius:3px;transition:width .6s ease;}
+.forecast-val{font-size:11px;color:var(--ink2);width:60px;text-align:right;flex-shrink:0;font-family:'Shippori Mincho',serif;}
+.forecast-alert{font-size:11px;padding:3px 9px;border-radius:10px;white-space:nowrap;flex-shrink:0;}
+.fa-warn{background:rgba(192,120,64,0.15);border:1px solid rgba(192,120,64,0.3);color:var(--orange);}
+.fa-ok{background:rgba(74,144,96,0.12);border:1px solid rgba(74,144,96,0.25);color:var(--green);}
+
+/* ── デジタルデトックス ── */
+.detox-card{
+  background:linear-gradient(135deg,rgba(74,144,96,0.08),rgba(72,120,168,0.06));
+  border:1px solid rgba(74,144,96,0.2);
+  border-radius:20px;
+  padding:22px;
+  margin-bottom:14px;
+  text-align:center;
+}
+.detox-icon{font-size:40px;margin-bottom:12px;display:block;}
+.detox-title{font-family:'Shippori Mincho',serif;font-size:18px;color:var(--ink);margin-bottom:8px;}
+.detox-body{font-size:13px;color:var(--ink2);line-height:1.9;margin-bottom:16px;}
+.detox-btn{
+  display:inline-block;padding:11px 24px;
+  background:transparent;border:1px solid rgba(74,144,96,0.4);
+  border-radius:30px;color:var(--green);
+  font-size:13px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+  transition:all .2s;letter-spacing:1px;
+}
+.detox-btn:hover{background:rgba(74,144,96,0.1);}
+
+/* ── 気質バッジ ── */
+.type-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:20px;
+  font-size:12px;letter-spacing:1px;
+  border:1px solid;margin-bottom:12px;
+}
+.type-low{background:rgba(72,120,168,0.1);border-color:rgba(72,120,168,0.3);color:#88b8e8;}
+.type-high{background:rgba(192,80,74,0.1);border-color:rgba(192,80,74,0.3);color:#e09090;}
+.type-both{background:rgba(184,147,90,0.1);border-color:rgba(184,147,90,0.3);color:var(--gold2);}
+.type-none{background:var(--paper3);border-color:var(--border);color:var(--ink3);}
+
+/* 記録済み表示 */
+.qr-done{
+  display:flex;align-items:center;gap:14px;
+  padding:18px;background:var(--paper3);
+  border:1px solid rgba(184,147,90,0.25);
+  border-radius:18px;
+}
+.qr-done-icon{font-size:36px;flex-shrink:0;}
+.qr-done-info{flex:1;}
+.qr-done-score{font-family:'Shippori Mincho',serif;font-size:16px;color:var(--ink);margin-bottom:3px;}
+.qr-done-time{font-size:11px;color:var(--ink3);letter-spacing:1px;}
+.qr-edit-btn{
+  padding:9px 14px;background:transparent;
+  border:1px solid var(--border2);border-radius:10px;
+  color:var(--ink2);font-size:11px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;
+  transition:all .2s;white-space:nowrap;letter-spacing:0.5px;
+}
+.qr-edit-btn:hover{background:var(--paper4);border-color:var(--border3);}
+
+/* 過去日付記録 */
+.rec-date-row{display:flex;gap:8px;}
+.rec-date-row .rec-btn{flex:1;}
+.rec-past-btn{
+  padding:17px 16px;
+  background:transparent;border:1px solid var(--border2);
+  border-radius:var(--r);color:var(--ink2);
+  font-size:18px;cursor:pointer;transition:all .2s;flex-shrink:0;
+}
+.rec-past-btn:hover{background:var(--paper3);border-color:var(--border3);}
+.past-date-area{
+  display:none;margin-top:12px;
+  background:var(--paper2);border:1px solid var(--border);
+  border-radius:16px;padding:16px;
+}
+.past-date-area.show{display:block;}
+.past-date-label{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.past-date-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;}
+.pdate-btn{
+  padding:11px 4px;background:var(--paper3);
+  border:1px solid var(--border);border-radius:12px;
+  color:var(--ink2);font-size:12px;cursor:pointer;
+  font-family:'Noto Sans JP',sans-serif;text-align:center;
+  transition:all .2s;font-family:'Shippori Mincho',serif;
+}
+.pdate-btn:hover{background:var(--paper4);border-color:var(--border2);color:var(--ink);}
+.pdate-btn.has-record{border-color:rgba(184,147,90,0.3);color:var(--gold2);}
+.pdate-btn.selected{background:rgba(184,147,90,0.12);border-color:rgba(184,147,90,0.5);color:var(--gold3);}
+.pdate-dot{width:5px;height:5px;border-radius:50%;background:var(--gold);margin:4px auto 0;}
+
+/* グラフ: 歯抜けを美しく表示するための記録カレンダー */
+.record-calendar{margin-bottom:18px;}
+.cal-title{font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--ink3);margin-bottom:12px;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-day{
+  aspect-ratio:1;border-radius:8px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:11px;color:var(--ink3);
+  background:var(--paper2);border:1px solid var(--border);
+  position:relative;transition:all .2s;cursor:default;
+  font-family:'Shippori Mincho',serif;
+}
+.cal-day.has-rec{border-color:rgba(184,147,90,0.3);cursor:pointer;}
+.cal-day.has-rec:hover{border-color:rgba(184,147,90,0.6);}
+.cal-day.score-g{background:rgba(74,144,96,0.15);border-color:rgba(74,144,96,0.4);}
+.cal-day.score-m{background:rgba(192,120,64,0.15);border-color:rgba(192,120,64,0.35);}
+.cal-day.score-b{background:rgba(192,80,74,0.15);border-color:rgba(192,80,74,0.35);}
+.cal-day.today{box-shadow:0 0 0 1.5px var(--gold);}
+.cal-day.empty{background:transparent;border-color:transparent;}
+.cal-hdr-day{
+  text-align:center;font-size:9px;color:var(--ink3);
+  padding-bottom:4px;letter-spacing:1px;
+}
 
 @keyframes fadeUp{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 .hdr{animation:fadeUp .5s ease both;}
@@ -406,23 +1701,284 @@ input[type=range]::-webkit-slider-thumb{
 </style>
 </head>
 <body>
+<div class="offline-banner" id="offlineBanner">📵 オフラインです — 過去のデータは引き続き確認できます</div>
+<button class="settings-fab" onclick="openSettings()" title="設定">⚙️</button>
+
+<div class="settings-overlay" id="settingsOverlay" onclick="if(event.target===this)closeSettings()">
+  <div class="settings-sheet">
+    <div class="sheet-title">
+      設定
+      <button class="sheet-close" onclick="closeSettings()">✕</button>
+    </div>
+
+    <div class="set-section">
+      <div class="set-label">場所の設定</div>
+      <div class="loc-current" id="locCurrent"></div>
+      <div class="loc-row">
+        <input class="loc-input" id="locInput" type="text" placeholder="郵便番号（例：1000001）または市区町村名（例：大阪市）" maxlength="20">
+        <button class="loc-btn" onclick="searchLocation()">検索</button>
+      </div>
+      <div class="loc-status" id="locStatus"></div>
+      <div style="margin-top:8px;">
+        <button class="loc-btn" style="width:100%;" onclick="useGPSManual()">📍 GPSで現在地を取得する</button>
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-label">表示設定</div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-name">ライトモード</div>
+          <div class="toggle-desc">明るい背景に切り替える（目に優しい昼間向け）</div>
+        </div>
+        <div class="toggle-sw" id="sw-light" onclick="toggleTheme()"></div>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-name">高コントラストモード</div>
+          <div class="toggle-desc">文字と背景のコントラストを強くする</div>
+        </div>
+        <div class="toggle-sw" id="sw-hc" onclick="toggleMode('hc')"></div>
+      </div>
+      <div class="toggle-row">
+        <div class="toggle-info">
+          <div class="toggle-name">大文字モード</div>
+          <div class="toggle-desc">文字サイズを大きくして読みやすくする</div>
+        </div>
+        <div class="toggle-sw" id="sw-lg" onclick="toggleMode('lg')"></div>
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-label">データのエクスポート</div>
+      <div class="exp-btns">
+        <button class="exp-btn" onclick="exportJSON()">📦 JSONで書き出す</button>
+        <button class="exp-btn" onclick="exportCSV()">📊 CSVで書き出す</button>
+      </div>
+      <div class="exp-btns" style="margin-top:8px;">
+        <button class="imp-btn" onclick="importJSON()">📥 JSONから復元する</button>
+      </div>
+      <input type="file" id="importFile" accept=".json" style="display:none;" onchange="handleImport(event)">
+      <div style="font-size:10px;color:var(--ink3);margin-top:10px;letter-spacing:1px;line-height:1.7;">
+        JSONファイルを保存すれば機種変更時にデータを引き継げます。<br>
+        ⚠️ ブラウザのキャッシュ削除でデータが消える場合があります。定期的にバックアップを。
+      </div>
+    </div>
+
+    <div class="set-section">
+      <div class="set-label">アプリについて</div>
+      <div style="font-size:12px;color:var(--ink3);line-height:1.9;letter-spacing:0.5px;">
+        体調ログ v2.0 — PWA対応<br>
+        オフラインでも動作します。<br>
+        iPhoneは Safari → 共有 → ホーム画面に追加<br>
+        Androidは Chrome → メニュー → ホーム画面に追加
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 医師向けレポートモーダル -->
+<div class="report-overlay" id="reportOverlay">
+  <div class="report-sheet" id="reportSheet">
+    <div class="rp-header">
+      <div class="rp-header-left">
+        <div class="rp-title">体調記録レポート</div>
+        <div class="rp-subtitle" id="rpSubtitle">記録データから自動生成</div>
+      </div>
+      <button class="rp-close-btn" onclick="closeReport()">✕</button>
+    </div>
+    <div class="rp-body" id="rpBody">
+      <!-- JS で描画 -->
+    </div>
+    <div class="rp-footer">
+      <span id="rpFooterDate"></span>
+      <div style="display:flex;gap:8px;">
+        <button class="rp-copy-btn" onclick="copyReportText()">📋 コピー</button>
+        <button class="rp-print-btn" onclick="printReport()">🖨️ 印刷</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 印刷用ヘッダー（画面には非表示） -->
+<div class="print-header" id="printHeader">
+  <div class="print-header-title">体調記録レポート</div>
+  <div class="print-header-sub" id="printHeaderSub"></div>
+</div>
+
 <div class="wrap">
 
 <!-- ヘッダー -->
 <div class="hdr">
-  <div class="hdr-eyebrow" id="hdrEyebrow">体調 × 気候</div>
+  <div class="hdr-top-row">
+    <div class="hdr-eyebrow" id="hdrEyebrow">体調 × 気候</div>
+    <button class="theme-toggle-btn" id="themeToggleBtn" onclick="toggleTheme()" title="ライト/ダーク切り替え">🌙</button>
+  </div>
   <div class="hdr-title" id="hdrTitle">今日の<br><span>体調記録</span></div>
   <div class="hdr-date" id="hdrDate"></div>
+</div>
+
+<!-- あなた専用インサイト -->
+<div class="sec" id="insightSec" style="display:none;">
+  <div class="sec-kw">あなた専用の予報</div>
+  <div id="insightContent"></div>
+</div>
+
+<!-- 癒やしメッセージ -->
+<div class="detox-banner" id="detoxBanner" style="display:none;">
+  <div class="detox-icon" id="detoxIcon">🌙</div>
+  <div class="detox-body">
+    <div class="detox-title" id="detoxTitle">今日はスマホを置きませんか</div>
+    <div class="detox-text" id="detoxText">あなたの体調が心配です。記録はできました。あとは目を閉じて、ゆっくり休んでください。</div>
+  </div>
 </div>
 
 <!-- 気象 -->
 <div class="sec">
   <div class="sec-kw">気象データ</div>
-  <button class="gps-btn" id="fetchBtn" onclick="fetchByGPS()">
+  <button class="gps-btn ripple-btn" id="fetchBtn" onclick="fetchByGPS()" onmousedown="addRipple(event,this)">
     <span class="gps-pip" id="gpsPip"></span>
     <span id="fetchLbl">現在地から気象を取得する</span>
   </button>
   <div class="gps-status" id="gpsSt"></div>
+  <div class="wx-error-card" id="wxErrorCard">
+    <div class="wxe-icon" id="wxeIcon">📡</div>
+    <div class="wxe-body">
+      <div class="wxe-title">気象データを取得できませんでした</div>
+      <div class="wxe-msg" id="wxErrMsg"></div>
+      <div class="wxe-actions">
+        <button class="wxe-retry-btn ripple-btn" onclick="fetchByGPS()" onmousedown="addRipple(event,this)">
+          もう一度試す
+        </button>
+        <button class="wxe-setting-btn" onclick="openSettings()">
+          場所を設定する
+        </button>
+      </div>
+      <div class="wxe-manual-toggle" onclick="toggleManualInput()">
+        ✏️ 手動で気象を入力する
+      </div>
+      <div class="wxe-manual-form" id="wxeManualForm">
+        <div class="wxe-form-title">今日の気象を手動入力</div>
+        <div class="wxe-form-grid">
+          <div class="wxe-field">
+            <label>🌡️ 気温(°C)</label>
+            <input type="number" id="mTemp" placeholder="例: 18" min="-20" max="45">
+          </div>
+          <div class="wxe-field">
+            <label>💧 湿度(%)</label>
+            <input type="number" id="mHumid" placeholder="例: 60" min="0" max="100">
+          </div>
+          <div class="wxe-field">
+            <label>🌀 気圧(hPa)</label>
+            <input type="number" id="mPress" placeholder="例: 1013" min="950" max="1060">
+          </div>
+          <div class="wxe-field">
+            <label>☁️ 天気</label>
+            <select id="mWeather">
+              <option value="800">☀️ 快晴</option>
+              <option value="801">🌤️ 晴れ</option>
+              <option value="802">⛅ 曇り時々晴れ</option>
+              <option value="803">☁️ 曇り</option>
+              <option value="500">🌧️ 雨</option>
+              <option value="600">❄️ 雪</option>
+              <option value="200">⛈️ 雷雨</option>
+            </select>
+          </div>
+        </div>
+        <div class="wxe-field" style="margin-top:8px;">
+          <label>🌀 気圧の変化</label>
+          <select id="mPressKey">
+            <option value="stable">→ 安定している</option>
+            <option value="down_small">↓ やや下がっている</option>
+            <option value="down_big">↓↓ 大きく下がっている</option>
+            <option value="up_small">↑ やや上がっている</option>
+            <option value="up_big">↑↑ 大きく上がっている</option>
+          </select>
+        </div>
+        <button class="wxe-submit-btn ripple-btn" onclick="applyManualWx()" onmousedown="addRipple(event,this)">
+          この内容で設定する
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 手動入力ショートカット（常時表示） -->
+  <div class="manual-shortcut" id="manualShortcut">
+    <button class="manual-shortcut-btn" onclick="showManualDirectly()">
+      ✏️ 手動で今日の気象を入力する
+    </button>
+  </div>
+
+  <!-- 手動入力パネル（直接開く版） -->
+  <div class="manual-direct-panel" id="manualDirectPanel">
+    <div class="mdp-header">
+      <div class="mdp-title">今日の気象を手動入力</div>
+      <button class="mdp-close" onclick="hideManualDirect()">✕</button>
+    </div>
+    <div class="wxe-form-grid">
+      <div class="wxe-field">
+        <label>🌡️ 気温(°C)</label>
+        <input type="number" id="dTemp" placeholder="例: 18" min="-20" max="45">
+      </div>
+      <div class="wxe-field">
+        <label>💧 湿度(%)</label>
+        <input type="number" id="dHumid" placeholder="例: 60" min="0" max="100">
+      </div>
+      <div class="wxe-field">
+        <label>🌀 気圧(hPa)</label>
+        <input type="number" id="dPress" placeholder="例: 1013" min="950" max="1060">
+      </div>
+      <div class="wxe-field">
+        <label>☁️ 天気</label>
+        <select id="dWeather">
+          <option value="800">☀️ 快晴</option>
+          <option value="801">🌤️ 晴れ</option>
+          <option value="802">⛅ 曇り時々晴れ</option>
+          <option value="803">☁️ 曇り</option>
+          <option value="500">🌧️ 雨</option>
+          <option value="600">❄️ 雪</option>
+          <option value="200">⛈️ 雷雨</option>
+        </select>
+      </div>
+    </div>
+    <div class="wxe-field" style="margin-top:8px;">
+      <label>🌀 気圧の変化（体感でOK）</label>
+      <select id="dPressKey">
+        <option value="stable">→ 安定・よくわからない</option>
+        <option value="down_small">↓ なんか気圧低そう</option>
+        <option value="down_big">↓↓ 頭が重い・明らかに低気圧</option>
+        <option value="up_small">↑ やや高そう</option>
+        <option value="up_big">↑↑ 高気圧・晴れ晴れしてる</option>
+      </select>
+    </div>
+    <button class="wxe-submit-btn ripple-btn" onclick="applyDirectWx()" onmousedown="addRipple(event,this)" style="margin-top:14px;">
+      この内容で気象データを設定する
+    </button>
+  </div>
+
+  <!-- ローディングアニメーション -->
+  <div class="wx-loader" id="wxLoader">
+    <svg class="loader-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+      <!-- 地平線 -->
+      <line class="ld-line ld-h" x1="10" y1="90" x2="190" y2="90" stroke-dasharray="180" stroke-dashoffset="180"/>
+      <!-- 山 -->
+      <polyline class="ld-line ld-m1" points="20,90 60,50 100,90" stroke-dasharray="120" stroke-dashoffset="120"/>
+      <polyline class="ld-line ld-m2" points="70,90 110,35 150,90" stroke-dasharray="130" stroke-dashoffset="130"/>
+      <polyline class="ld-line ld-m3" points="120,90 155,60 190,90" stroke-dasharray="100" stroke-dashoffset="100"/>
+      <!-- 太陽/月の円 -->
+      <circle class="ld-circle" cx="155" cy="30" r="14" stroke-dasharray="88" stroke-dashoffset="88"/>
+      <!-- 光線 -->
+      <line class="ld-ray ld-r1" x1="155" y1="10" x2="155" y2="6" stroke-dasharray="4" stroke-dashoffset="4"/>
+      <line class="ld-ray ld-r2" x1="172" y1="17" x2="175" y2="14" stroke-dasharray="4" stroke-dashoffset="4"/>
+      <line class="ld-ray ld-r3" x1="175" y1="30" x2="179" y2="30" stroke-dasharray="4" stroke-dashoffset="4"/>
+      <line class="ld-ray ld-r4" x1="138" y1="17" x2="135" y2="14" stroke-dasharray="4" stroke-dashoffset="4"/>
+      <line class="ld-ray ld-r5" x1="135" y1="30" x2="131" y2="30" stroke-dasharray="4" stroke-dashoffset="4"/>
+      <!-- 雲 -->
+      <path class="ld-cloud" d="M30,35 Q35,25 45,28 Q48,18 60,20 Q72,18 75,28 Q85,25 88,35 Q88,42 60,42 Q30,42 30,35Z" stroke-dasharray="200" stroke-dashoffset="200"/>
+    </svg>
+    <div class="loader-msg" id="loaderMsg">位置情報を取得中</div>
+    <div class="loader-dots"><span></span><span></span><span></span></div>
+  </div>
 
   <div class="wx-hero" id="wxHero">
     <div class="wx-card">
@@ -445,9 +2001,36 @@ input[type=range]::-webkit-slider-thumb{
   </div>
 </div>
 
+<!-- パーソナライズ予報 + デトックスバナー -->
+<div class="sec" id="pfSec" style="padding-top:0;padding-bottom:0;display:none;">
+  <div class="detox-banner" id="detoxBanner">
+    <button class="detox-close" onclick="closeDetox()">✕</button>
+    <span class="detox-icon">🌿</span>
+    <div class="detox-title" id="detoxTitle">今日はスマホを置いて休みましょう</div>
+    <div class="detox-body" id="detoxBody"></div>
+  </div>
+  <div class="personal-forecast" id="personalForecast">
+    <div class="pf-kw">あなた専用の体調予報</div>
+    <div class="pf-title" id="pfTitle"></div>
+    <div class="pf-body" id="pfBody"></div>
+    <div class="pf-score-badge" id="pfBadge" style="display:none;"></div>
+  </div>
+</div>
+
 <!-- スコア -->
 <div class="sec">
   <div class="sec-kw">今日のしんどさ</div>
+
+  <!-- 日時選択 -->
+  <div class="datetime-row">
+    <div class="dt-label">記録する日時</div>
+    <div class="dt-inputs">
+      <input type="date" id="recDate" class="dt-input">
+      <input type="time" id="recTime" class="dt-input" step="1800">
+    </div>
+    <div class="dt-hint" id="dtHint"></div>
+  </div>
+
   <div class="score-card">
     <div class="score-row">
       <div class="score-circle sc-m" id="scCircle">
@@ -460,8 +2043,17 @@ input[type=range]::-webkit-slider-thumb{
         <div class="sc-bar-wrap"><div class="sc-bar" id="scBar" style="width:44%;background:var(--gold);"></div></div>
       </div>
     </div>
-    <input type="range" id="slider" min="1" max="10" step="1" value="5" oninput="onScore(+this.value)">
-    <div class="ticks"><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+    <div class="slider-wrap">
+      <input type="range" id="slider" min="1" max="10" step="1" value="5" oninput="onScore(+this.value)">
+      <div class="slider-track-glow" id="sliderGlow"></div>
+    </div>
+    <div class="ticks">
+      <span data-v="1">1</span><span data-v="2">2</span><span data-v="3">3</span>
+      <span data-v="4">4</span><span data-v="5">5</span><span data-v="6">6</span>
+      <span data-v="7">7</span><span data-v="8">8</span><span data-v="9">9</span>
+      <span data-v="10">10</span>
+    </div>
+    <div class="slider-hint" id="sliderHint">← スライドして体調を入力</div>
   </div>
 
   <div class="feel-hdr">
@@ -470,9 +2062,30 @@ input[type=range]::-webkit-slider-thumb{
   </div>
   <div class="feel-grid" id="feelGrid"></div>
 
-  <button class="rec-btn" onclick="saveEntry()">今日を記録する</button>
+  <div class="rec-date-row">
+    <button class="rec-btn ripple-btn" onclick="saveEntry()" onmousedown="addRipple(event,this)">今日を記録する</button>
+    <button class="rec-past-btn" onclick="togglePastDate()" title="過去の日付に記録">📅</button>
+  </div>
+  <div class="past-date-area" id="pastDateArea">
+    <div class="past-date-label">過去の日付に記録する</div>
+    <div class="past-date-grid" id="pastDateGrid"></div>
+  </div>
   <button class="mgr-btn" onclick="toggleHist()">過去の記録を管理する</button>
+
+  <!-- 記録完了フィードバック -->
+  <div class="save-feedback" id="saveFeedback">
+    <span class="sf-emoji" id="sfEmoji">✨</span>
+    <div class="sf-title" id="sfTitle">記録しました</div>
+    <div class="sf-msg" id="sfMsg">お疲れさまでした。今日も記録できましたね。</div>
+    <button class="sf-close" onclick="closeFeedback()">閉じる</button>
+  </div>
   <div class="hist-panel" id="histPanel"></div>
+</div>
+
+<!-- パーソナライズインサイト -->
+<div class="sec" id="insightSec" style="display:none;">
+  <div class="sec-kw">あなた専用の分析</div>
+  <div id="insightContent"></div>
 </div>
 
 <!-- グラフ・分析・アドバイス -->
@@ -484,6 +2097,7 @@ input[type=range]::-webkit-slider-thumb{
   </div>
 
   <div id="pChart">
+    <div class="record-calendar" id="recCalendar" style="display:none;"></div>
     <div class="stats-row" id="statsRow" style="display:none;"></div>
     <div class="g-togs">
       <button class="gtog g-sc" onclick="toggleGraph(0,this)">● しんどさ</button>
@@ -499,6 +2113,10 @@ input[type=range]::-webkit-slider-thumb{
       <span class="g-leg"><span class="g-line" style="background:#c05858;"></span>気温</span>
       <span class="g-leg"><span class="g-line" style="background:#4ab0d0;"></span>湿度</span>
       <span class="g-leg"><span class="g-line" style="background:#b8935a;"></span>花粉</span>
+      <button onclick="openReport()" style="width:100%;margin-top:16px;padding:15px;min-height:52px;background:rgba(72,120,168,0.12);border:1px solid rgba(72,120,168,0.35);border-radius:14px;color:#88b8e8;font-size:14px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;transition:all .25s;letter-spacing:1px;display:flex;align-items:center;justify-content:center;gap:10px;">
+        <span style="font-size:20px;">🩺</span>
+        <span>お医者さんに見せるレポートを表示</span>
+      </button>
     </div>
   </div>
   <div id="pAnalysis" style="display:none;"></div>
@@ -507,6 +2125,9 @@ input[type=range]::-webkit-slider-thumb{
 
 </div>
 <div class="toast" id="toast"></div>
+<div class="print-footer" id="printFooter">
+  このレポートは「体調ログ」アプリで作成されました。データは本人の自己記録です。
+</div>
 
 <script>
 const API_KEY='310a1db2273963a2b2552a75b5461714';
@@ -573,23 +2194,183 @@ function init(){
     const b=document.createElement('button');
     b.className='feel-btn';
     b.innerHTML=`<span class="feel-ico">${f.icon}</span><span class="feel-nm">${f.name}</span><span class="feel-ds">${f.desc}</span>`;
+    b.classList.add('ripple-btn');
+    b.addEventListener('mousedown', e=>addRipple(e,b));
     b.addEventListener('click',()=>{
       if(st.feels.has(f.name)){st.feels.delete(f.name);b.classList.remove('on');}
       else{st.feels.add(f.name);b.classList.add('on');}
     });
     fg.appendChild(b);
   });
-  onScore(5);renderChart();renderAdvice();
+  onScore(5);renderChart();renderAdvice();initDateTime();
+  // tick クリックでスコア設定
+  document.querySelectorAll('.ticks span').forEach(s=>{
+    s.addEventListener('click',()=>{
+      const v=+s.dataset.v;
+      document.getElementById('slider').value=v;
+      onScore(v);
+    });
+  });
   const cached=localStorage.getItem('hwa_wx_cache');
-  if(cached){try{const o=JSON.parse(cached);if(o.date===new Date().toDateString()){applyWx(o.data);return;}}catch(e){}}
+  if(cached){try{const o=JSON.parse(cached);if(o.date===new Date().toDateString()){applyWx(o.data);}else{
+    const fl=localStorage.getItem('hwa_fixed_lat');
+    const flo=localStorage.getItem('hwa_fixed_lon');
+    const fc=localStorage.getItem('hwa_fixed_city');
+    if(fl&&flo)fetchWxAt(+fl,+flo,fc||'設定地点');
+  }}catch(e){}}
+  renderInsight();
 }
 
+function showWxError(msg, type){
+  const card=document.getElementById('wxErrorCard');
+  const msgEl=document.getElementById('wxErrMsg');
+  const iconEl=document.getElementById('wxeIcon');
+  if(!card)return;
+  // アイコンをエラー種別で変更
+  if(type==='permission'){iconEl.textContent='🔒';}
+  else if(type==='network'){iconEl.textContent='📶';}
+  else if(type==='timeout'){iconEl.textContent='⏱️';}
+  else{iconEl.textContent='🌥️';}
+  msgEl.innerHTML=msg;
+  card.classList.add('show');
+  // ヒントを毎回リセット
+  card.querySelectorAll('.wxe-tip').forEach(e=>e.remove());
+  const tips={
+    permission:'設定アプリ → ブラウザ → 位置情報を「許可」にしてから再度お試しください',
+    network:'Wi-Fi や 4G/5G の接続を確認してみてください。または⚙️設定から場所を手動設定できます',
+    timeout:'もう少し電波の良い場所で試してみてください。または⚙️設定から場所を固定することもできます',
+    default:'⚙️設定から郵便番号や市区町村名で場所を固定すると、GPSなしでも気象を取得できます',
+  };
+  const tipEl=document.createElement('div');
+  tipEl.className='wxe-tip';
+  tipEl.style.cssText='font-size:11px;color:var(--ink3);margin-top:12px;line-height:1.7;letter-spacing:0.3px;padding:10px 12px;background:rgba(255,255,255,0.04);border-radius:10px;';
+  tipEl.textContent='💡 '+( tips[type]||tips.default );
+  card.appendChild(tipEl);
+}
+function hideWxError(){
+  const card=document.getElementById('wxErrorCard');
+  if(!card)return;
+  card.classList.remove('show');
+  card.querySelectorAll('.wxe-tip').forEach(e=>e.remove());
+  const form=document.getElementById('wxeManualForm');
+  if(form)form.classList.remove('show');
+  const toggle=document.querySelector('.wxe-manual-toggle');
+  if(toggle)toggle.textContent='✏️ 手動で気象を入力する';
+}
+function showManualDirectly(){
+  const panel=document.getElementById('manualDirectPanel');
+  if(!panel)return;
+  panel.classList.add('show');
+  panel.scrollIntoView({behavior:'smooth',block:'nearest'});
+  // 既存の気象データがあればフォームに反映
+  if(st.wx){
+    const t=document.getElementById('dTemp');
+    const h=document.getElementById('dHumid');
+    const p=document.getElementById('dPress');
+    if(t&&st.wx.temp!=null)t.value=st.wx.temp;
+    if(h&&st.wx.humidity!=null)h.value=st.wx.humidity;
+    if(p&&st.wx.pressure!=null)p.value=st.wx.pressure;
+    const wSel=document.getElementById('dWeather');
+    if(wSel&&st.wx.code)wSel.value=st.wx.code;
+    const pSel=document.getElementById('dPressKey');
+    if(pSel&&st.wx.pressKey)pSel.value=st.wx.pressKey;
+  }
+}
+function hideManualDirect(){
+  const panel=document.getElementById('manualDirectPanel');
+  if(panel)panel.classList.remove('show');
+}
+function applyDirectWx(){
+  const tempVal=document.getElementById('dTemp').value;
+  const humidVal=document.getElementById('dHumid').value;
+  if(!tempVal){toast('気温を入力してください');return;}
+  if(!humidVal){toast('湿度を入力してください');return;}
+  const temp=+tempVal;
+  const humid=+humidVal;
+  const press=+document.getElementById('dPress').value||1013;
+  const code=+document.getElementById('dWeather').value;
+  const pressKey=document.getElementById('dPressKey').value;
+  const precip=(code>=500&&code<600)?1:0;
+  const wxObj={code,temp,humidity:humid,pressure:press,pressKey,wind:0,precip,city:'手動入力',lat:null,lon:null};
+  localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
+  localStorage.setItem('hwa_last_pressure',press);
+  applyWx(wxObj);
+  hideManualDirect();
+  const pip=document.getElementById('gpsPip');
+  const lbl=document.getElementById('fetchLbl');
+  if(pip){pip.style.background='var(--gold)';pip.style.boxShadow='0 0 8px rgba(184,147,90,0.6)';}
+  if(lbl)lbl.textContent='現在地から気象を取得する';
+  document.getElementById('gpsSt').textContent='✓ 手動入力のデータを使用しています';
+  toast('気象データを手動で設定しました');
+}
+function toggleManualInput(){
+  const form=document.getElementById('wxeManualForm');
+  if(!form)return;
+  const showing=form.classList.toggle('show');
+  const toggle=document.querySelector('.wxe-manual-toggle');
+  if(toggle)toggle.textContent=showing?'✕ 閉じる':'✏️ 手動で気象を入力する';
+}
+function applyManualWx(){
+  const tempVal=document.getElementById('mTemp').value;
+  const humidVal=document.getElementById('mHumid').value;
+  if(!tempVal){toast('気温を入力してください');return;}
+  if(!humidVal){toast('湿度を入力してください');return;}
+  const temp=+tempVal;
+  const humid=+humidVal;
+  const press=+document.getElementById('mPress').value||1013;
+  const code=+document.getElementById('mWeather').value;
+  const pressKey=document.getElementById('mPressKey').value;
+  const precip=(code>=500&&code<600)?1:0;
+  const wxObj={code,temp,humidity:humid,pressure:press,pressKey,wind:0,precip,city:'手動入力',lat:null,lon:null};
+  localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wxObj}));
+  localStorage.setItem('hwa_last_pressure',press);
+  applyWx(wxObj);
+  hideWxError();
+  // GPSボタンの状態も更新
+  const pip=document.getElementById('gpsPip');
+  const lbl=document.getElementById('fetchLbl');
+  if(pip)pip.style.background='var(--gold)';
+  if(lbl)lbl.textContent='気象データを手動設定済み';
+  document.getElementById('gpsSt').textContent='✓ 手動入力のデータを使用しています';
+  toast('気象データを手動で設定しました');
+}
+const LOADER_MSGS = [
+  '空の様子を確認しています',
+  '雲の動きを読んでいます',
+  '気圧を計測中です',
+  '風向きを確かめています',
+  '今日の天気を取得中です',
+];
+function showLoader(msg){
+  const el=document.getElementById('wxLoader');
+  if(!el)return;
+  el.classList.add('show');
+  // ランダムな詩的メッセージを表示
+  const displayMsg = msg || LOADER_MSGS[Math.floor(Math.random()*LOADER_MSGS.length)];
+  document.getElementById('loaderMsg').textContent=displayMsg;
+  document.querySelectorAll('.ld-line,.ld-circle,.ld-cloud,.ld-ray').forEach(e=>{
+    e.style.animation='none';
+    requestAnimationFrame(()=>{e.style.animation='';});
+  });
+}
+function hideLoader(){
+  const el=document.getElementById('wxLoader');
+  if(el)el.classList.remove('show');
+}
 async function fetchByGPS(){
   const btn=document.getElementById('fetchBtn');
   const st2=document.getElementById('gpsSt');
   const lbl=document.getElementById('fetchLbl');
   const pip=document.getElementById('gpsPip');
-  if(!navigator.geolocation){st2.textContent='このブラウザは位置情報に対応していません';return;}
+  // 固定場所が設定されている場合はそちらを使う
+  const fixedLat=localStorage.getItem('hwa_fixed_lat');
+  const fixedLon=localStorage.getItem('hwa_fixed_lon');
+  const fixedCity=localStorage.getItem('hwa_fixed_city');
+  if(fixedLat&&fixedLon){
+    await fetchWxAt(+fixedLat,+fixedLon,fixedCity||'設定地点');
+    return;
+  }
+  if(!navigator.geolocation){st2.textContent='このブラウザは位置情報に対応していません。設定から場所を指定してください';return;}
   btn.disabled=true;
   pip.style.background='var(--orange)';pip.style.boxShadow='0 0 8px rgba(192,120,64,0.6)';
   lbl.innerHTML='<span class="spin"></span> 位置情報を取得中…';st2.textContent='';
@@ -597,7 +2378,8 @@ async function fetchByGPS(){
     async pos=>{
       const lat=pos.coords.latitude.toFixed(4);
       const lon=pos.coords.longitude.toFixed(4);
-      lbl.innerHTML='<span class="spin"></span> 気象データを取得中…';
+      lbl.textContent='気象データを取得中…';
+      showLoader('気圧と湿度を読み取っています');
       try{
         const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`);
         const d=await res.json();
@@ -617,17 +2399,23 @@ async function fetchByGPS(){
         const wx={code,temp,humidity,pressure,pressKey,wind,precip};
         localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wx}));
         applyWx(wx);
+        hideLoader();
+        hideWxError();
         pip.style.background='var(--green)';pip.style.boxShadow='0 0 8px rgba(74,144,96,0.6)';
         lbl.textContent='現在地から気象を取得する';btn.disabled=false;
         st2.textContent='✓ 気象データを更新しました';toast('気象データを取得しました');
       }catch(e){
+        hideLoader();
         pip.style.background='var(--red)';lbl.textContent='現在地から気象を取得する';btn.disabled=false;
-        st2.textContent='取得エラー: '+e.message;
+        showWxError('気象データの取得に失敗しました', 'network');
       }
     },
     err=>{
+      hideLoader();
       pip.style.background='var(--red)';lbl.textContent='現在地から気象を取得する';btn.disabled=false;
-      st2.textContent={1:'位置情報の許可が必要です',2:'位置情報を取得できませんでした',3:'タイムアウトしました'}[err.code]||err.message;
+      const errTypes={1:'permission',2:'network',3:'timeout'};
+      const msgs={1:'位置情報へのアクセスが許可されていません',2:'現在地を取得できませんでした',3:'時間がかかりすぎています'};
+      showWxError(msgs[err.code]||err.message, errTypes[err.code]||'default');
     },
     {timeout:10000,maximumAge:300000,enableHighAccuracy:false}
   );
@@ -635,10 +2423,19 @@ async function fetchByGPS(){
 
 function applyWx(w){
   st.wx=w;
+  hideLoader();
   document.getElementById('wxHero').classList.add('show');
   document.getElementById('wxIco').textContent=wxCode(w.code).i;
   document.getElementById('wxTemp').innerHTML=`${w.temp}<sup>°C</sup>`;
-  document.getElementById('wxCond').textContent=wxCode(w.code).l+'　湿度 '+w.humidity+'%';
+  // メインの説明文に比喩を追加
+  const mainDesc = (() => {
+    const parts = [wxCode(w.code).l];
+    if(w.pressKey==='down_big') parts.push('気圧が急降下中（体への負担大）');
+    else if(w.pressKey==='down_small') parts.push('気圧がやや低下中');
+    parts.push(`湿度${w.humidity}%`);
+    return parts.join('　');
+  })();
+  document.getElementById('wxCond').textContent=mainDesc;
   document.getElementById('wxTs').textContent='OpenWeatherMap — '+new Date().toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'})+'取得';
 
   const pp=document.getElementById('wxPills');pp.innerHTML='';
@@ -653,18 +2450,78 @@ function applyWx(w){
   aP(`💨 ${w.wind}m/s`,'pill-b');
 
   const PL={up_big:'大きく上昇',up_small:'少し上昇',stable:'安定',down_small:'少し下降',down_big:'大きく下降'};
+  // 比喩表現
+  const pressMetaphor = {
+    down_big:  {txt:'急降下中',   sub:'ジェットコースター級の変化',  color:'var(--red)'},
+    down_small:{txt:'少し下がり気味',sub:'エレベーターで数階降りた感じ',color:'var(--orange)'},
+    stable:    {txt:'安定',       sub:'穏やかな高原にいるような気圧', color:'var(--green)'},
+    up_small:  {txt:'少し上がり気味',sub:'気持ち的には回復傾向',       color:'var(--ink2)'},
+    up_big:    {txt:'大きく上昇', sub:'山から平地に降りてきた感じ',   color:'var(--ink2)'},
+  }[w.pressKey];
+  const humidMetaphor =
+    w.humidity>=80?{txt:'かなり蒸し暑い',sub:'サウナの中にいるような湿度'}:
+    w.humidity>=65?{txt:'少し蒸し暑い', sub:'洗濯物が乾きにくい日'}:
+    w.humidity<=30?{txt:'カラカラに乾燥',sub:'砂漠のように乾いた空気'}:
+    w.humidity<=45?{txt:'やや乾燥気味', sub:'のどや肌が渇きやすい'}:
+                   {txt:'快適な湿度',   sub:'体への負担が少ない空気'};
+  const tempMetaphor =
+    w.temp>=35?{txt:'危険な暑さ',  sub:'熱中症のリスクが高い気温'}:
+    w.temp>=30?{txt:'真夏日',      sub:'じっとしていても汗が出る'}:
+    w.temp>=25?{txt:'夏日',        sub:'活動的には動きにくい暑さ'}:
+    w.temp>=20?{txt:'快適',        sub:'体に負担の少ない過ごしやすい気温'}:
+    w.temp>=15?{txt:'少し肌寒い',  sub:'上着があると安心な気温'}:
+    w.temp>=10?{txt:'肌寒い',      sub:'重ね着が必要な気温'}:
+    w.temp>=5? {txt:'かなり寒い',  sub:'冬の寒さ。体が縮こまる'}:
+               {txt:'極寒',        sub:'露出した肌が痛くなる寒さ'};
+  const windMetaphor =
+    w.wind>=15?{txt:'暴風',        sub:'傘が壊れるほどの強風'}:
+    w.wind>=10?{txt:'強風',        sub:'歩くのに力がいる風'}:
+    w.wind>=5? {txt:'やや強め',    sub:'髪や服がなびく風'}:
+    w.wind>=2? {txt:'そよ風',      sub:'心地よく感じる程度の風'}:
+               {txt:'ほぼ無風',    sub:'風の影響をほぼ感じない'};
+
   const pc=w.pressKey==='down_big'?'bad':w.pressKey==='down_small'?'warn':'ok';
-  const hc=w.humidity>=70||w.humidity<=35?'warn':'ok';
+  const hc=w.humidity>=65||w.humidity<=45?'warn':'ok';
   document.getElementById('mtrGrid').innerHTML=`
-    <div class="mtr ${hc}"><span class="mtr-ico">💧</span><div class="mtr-v">${w.humidity}%</div><div class="mtr-l">湿度<br>${w.humidity>=70?'高湿度':w.humidity<=35?'乾燥':'快適'}</div></div>
-    <div class="mtr ${pc}"><span class="mtr-ico">🌀</span><div class="mtr-v" style="font-size:15px;">${w.pressure}<span style="font-size:9px;font-family:'Noto Sans JP'"> hPa</span></div><div class="mtr-l">気圧<br>${PL[w.pressKey]}</div></div>
-    <div class="mtr neu"><span class="mtr-ico">💨</span><div class="mtr-v">${w.wind}<span style="font-size:9px;font-family:'Noto Sans JP'"> m/s</span></div><div class="mtr-l">風速<br>${w.wind>=10?'強風':w.wind>=5?'やや強':'穏やか'}</div></div>
-    <div class="mtr ${w.precip>0?'warn':'ok'}"><span class="mtr-ico">🌂</span><div class="mtr-v">${w.precip}<span style="font-size:9px;font-family:'Noto Sans JP'"> mm</span></div><div class="mtr-l">降水量<br>${w.precip>5?'傘必要':w.precip>0?'小雨':'なし'}</div></div>
-    <div class="mtr neu"><span class="mtr-ico">🌡️</span><div class="mtr-v">${w.temp}<span style="font-size:9px;font-family:'Noto Sans JP'">°C</span></div><div class="mtr-l">気温<br>${w.temp>30?'猛暑':w.temp>25?'夏日':w.temp>15?'快適':w.temp>5?'やや寒':'寒い'}</div></div>
-    <div class="mtr neu"><span class="mtr-ico">${wxCode(w.code).i}</span><div class="mtr-v" style="font-size:12px;color:var(--ink2);font-family:'Noto Sans JP';">${wxCode(w.code).l}</div><div class="mtr-l">天気</div></div>
+    <div class="mtr ${pc}">
+      <span class="mtr-ico">🌀</span>
+      <div class="mtr-v" style="font-size:13px;">${w.pressure}<span style="font-size:9px;font-family:'Noto Sans JP'"> hPa</span></div>
+      <div class="mtr-l" style="font-weight:400;color:${pressMetaphor.color};">${pressMetaphor.txt}</div>
+      <div class="mtr-meta">${pressMetaphor.sub}</div>
+    </div>
+    <div class="mtr ${hc}">
+      <span class="mtr-ico">💧</span>
+      <div class="mtr-v">${w.humidity}%</div>
+      <div class="mtr-l">${humidMetaphor.txt}</div>
+      <div class="mtr-meta">${humidMetaphor.sub}</div>
+    </div>
+    <div class="mtr neu">
+      <span class="mtr-ico">🌡️</span>
+      <div class="mtr-v">${w.temp}<span style="font-size:9px;font-family:'Noto Sans JP'">°C</span></div>
+      <div class="mtr-l">${tempMetaphor.txt}</div>
+      <div class="mtr-meta">${tempMetaphor.sub}</div>
+    </div>
+    <div class="mtr neu">
+      <span class="mtr-ico">💨</span>
+      <div class="mtr-v">${w.wind}<span style="font-size:9px;font-family:'Noto Sans JP'"> m/s</span></div>
+      <div class="mtr-l">${windMetaphor.txt}</div>
+      <div class="mtr-meta">${windMetaphor.sub}</div>
+    </div>
+    <div class="mtr ${w.precip>0?'warn':'ok'}">
+      <span class="mtr-ico">🌂</span>
+      <div class="mtr-v">${w.precip}<span style="font-size:9px;font-family:'Noto Sans JP'"> mm</span></div>
+      <div class="mtr-l">${w.precip>10?'強い雨':w.precip>3?'雨':w.precip>0?'小雨':'降水なし'}</div>
+      <div class="mtr-meta">${w.precip>10?'傘は必須。外出は注意して':w.precip>3?'折りたたみ傘を持って':w.precip>0?'念のため傘があると安心':'今日は傘なしでOK'}</div>
+    </div>
+    <div class="mtr neu">
+      <span class="mtr-ico">${wxCode(w.code).i}</span>
+      <div class="mtr-v" style="font-size:12px;color:var(--ink2);font-family:'Noto Sans JP';">${wxCode(w.code).l}</div>
+      <div class="mtr-meta" style="margin-top:4px;">天気</div>
+    </div>
   `;
   renderPollen(new Date().getMonth()+1,w.temp,w.code);
   renderAdvice();
+  renderInsight();
 }
 
 function renderPollen(month,temp,code){
@@ -701,34 +2558,83 @@ function onScore(v){
   document.getElementById('scNum').textContent=v;
   document.getElementById('scTitle').textContent=m.t;
   document.getElementById('scDesc').textContent=m.d;
+  const pct=Math.round((v-1)/9*100);
+  // スコアバー
   const bar=document.getElementById('scBar');
-  bar.style.width=((v-1)/9*100).toFixed(0)+'%';
+  bar.style.width=pct+'%';
   bar.style.background=v<=3?'var(--green)':v<=6?'var(--gold)':'var(--red)';
+  // グローライン更新
+  const glow=document.getElementById('sliderGlow');
+  if(glow){
+    glow.style.width=pct+'%';
+    if(v<=3){
+      glow.style.background='linear-gradient(to right,var(--green),rgba(74,144,96,0.4))';
+      glow.style.boxShadow='0 0 14px rgba(74,144,96,0.6)';
+    }else if(v<=6){
+      glow.style.background='linear-gradient(to right,var(--green),var(--gold))';
+      glow.style.boxShadow='0 0 14px rgba(184,147,90,0.55)';
+    }else{
+      glow.style.background='linear-gradient(to right,var(--green),var(--gold),var(--red))';
+      glow.style.boxShadow='0 0 14px rgba(192,80,74,0.6)';
+    }
+  }
+  // ティックハイライト
+  document.querySelectorAll('.ticks span').forEach(s=>{
+    s.classList.toggle('active',+s.dataset.v===v);
+  });
+  // 初回動かしたときヒントを消す
+  const hint=document.getElementById('sliderHint');
+  if(hint)hint.classList.add('hidden');
+  // スコアサークルをピコンと動かす
+  pingScoreCircle();
+  // スコアが高い時はデトックスバナーを更新
+  if(v>=7&&st.wx)renderPersonalForecast();
+  else if(v<7){
+    const db=document.getElementById('detoxBanner');
+    if(db)db.classList.remove('show');
+    sessionStorage.removeItem('detox_closed');
+  }
 }
 
 function saveEntry(){
-  const today=new Date();const ds=`${today.getMonth()+1}/${today.getDate()}`;
+  const recDt = getRecordingDateTime();
+  const today = new Date();
+  const ds = selectedDate || getRecordingDateStr();
+  const isFuture = (recDt - today) / 3600000 > 0.5;
+  if(isFuture){toast('未来の日時には記録できません');return;}
+  // 過去気象データがあればそちらを使う
+  const wxSrc = st._pastWx || st.wx;
   const entry={
     date:ds,score:st.score,feels:[...st.feels],
-    weather:st.wx?wxCode(st.wx.code).l:'未記録',
-    temp:st.wx?st.wx.temp:null,humidity:st.wx?st.wx.humidity:null,
-    pressure:st.wx?st.wx.pressure:null,pressKey:st.wx?st.wx.pressKey:'stable',
+    weather:wxSrc?wxCode(wxSrc.code).l:'未記録',
+    temp:wxSrc?wxSrc.temp:null,humidity:wxSrc?wxSrc.humidity:null,
+    pressure:wxSrc?wxSrc.pressure:null,pressKey:wxSrc?wxSrc.pressKey:'stable',
     pollen:st.pollen?Object.values(st.pollen).sort((a,b)=>POLLEN_SCORE[b.v]-POLLEN_SCORE[a.v])[0].v:'none',
-    ts:Date.now()
+    ts:recDt.getTime()
   };
+  st._pastWx = null; // リセット
   const idx=st.entries.findIndex(e=>e.date===ds);
   if(idx>=0)st.entries[idx]=entry;else st.entries.push(entry);
   if(st.entries.length>30)st.entries=st.entries.slice(-30);
   try{localStorage.setItem('hwa_gps',JSON.stringify(st.entries));}catch(e){}
-  toast('記録しました');
   renderChart();renderAnalysis();renderAdvice();
+  renderCalendar();renderInsight();
   if(document.getElementById('histPanel').classList.contains('show'))renderHist();
+
+  // 過去日付リセット
+  if(selectedDate){
+    selectedDate=null;
+    document.querySelector('.rec-btn').textContent='今日を記録する';
+    const area=document.getElementById('pastDateArea');
+    if(area.classList.contains('show'))renderPastDateGrid();
+  }
 }
 
 function showTab(name,btn){
   ['chart','analysis','advice'].forEach(n=>{document.getElementById('p'+n[0].toUpperCase()+n.slice(1)).style.display=n===name?'':'none';});
   document.querySelectorAll('.tab').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
-  if(name==='analysis')renderAnalysis();if(name==='advice')renderAdvice();
+  if(name==='analysis'){renderAnalysis();renderInsight();}
+  if(name==='advice')renderAdvice();
 }
 
 function toggleGraph(idx,btn){
@@ -750,7 +2656,7 @@ function renderHist(){
   p.innerHTML=`
     <div class="hist-hdr">
       <span class="hist-kw">記録一覧（${E.length}件）</span>
-      <button class="del-all" onclick="deleteAll()">すべて削除</button>
+      <button class="del-all" onclick="showDelAllConfirm()">すべて削除</button>
     </div>
     ${E.map(e=>`
     <div class="hist-row">
@@ -766,20 +2672,39 @@ function renderHist(){
 }
 
 function deleteEntry(ts){
+  const deleted=st.entries.find(e=>e.ts===ts);
   st.entries=st.entries.filter(e=>e.ts!==ts);
   try{localStorage.setItem('hwa_gps',JSON.stringify(st.entries));}catch(e){}
   if(st.chart){st.chart.destroy();st.chart=null;}
   document.getElementById('statsRow').style.display='none';
-  renderChart();renderAnalysis();renderAdvice();renderHist();toast('削除しました');
+  renderChart();renderAnalysis();renderAdvice();renderCalendar();renderHist();
+
+  toast('削除しました');
 }
 
+function showDelAllConfirm(){
+  const p=document.getElementById('histPanel');
+  const existing=p.querySelector('.del-confirm-box');
+  if(existing){existing.remove();return;}
+  const box=document.createElement('div');
+  box.className='del-confirm-box';
+  box.innerHTML=`
+    <div class="dcb-msg">全データを削除しますか？<br>この操作は取り消せません</div>
+    <div class="dcb-btns">
+      <button class="dcb-yes" onclick="deleteAll()">削除する</button>
+      <button class="dcb-no" onclick="this.closest('.del-confirm-box').remove()">キャンセル</button>
+    </div>
+  `;
+  p.querySelector('.hist-hdr').after(box);
+}
 function deleteAll(){
-  if(!confirm('全データを削除しますか？この操作は取り消せません。'))return;
   st.entries=[];
   if(st.chart){st.chart.destroy();st.chart=null;}
   localStorage.removeItem('hwa_gps');
   document.getElementById('statsRow').style.display='none';
-  renderChart();renderAnalysis();renderAdvice();renderHist();toast('全データを削除しました');
+  renderChart();renderAnalysis();renderAdvice();renderCalendar();
+  renderHist();
+  toast('全データを削除しました');
 }
 
 function renderChart(){
@@ -792,6 +2717,7 @@ function renderChart(){
     <div class="stat"><div class="stat-v">${Math.min(...E.map(e=>e.score))}</div><div class="stat-l">最良</div></div>
     <div class="stat"><div class="stat-v">${Math.max(...E.map(e=>e.score))}</div><div class="stat-l">最悪</div></div>
   `;
+  renderCalendar();
   if(st.chart){st.chart.destroy();st.chart=null;}
   const scores=E.map(e=>e.score);
   st.chart=new Chart(document.getElementById('mc').getContext('2d'),{
@@ -858,8 +2784,10 @@ function renderAnalysis(){
     if(worst.length)html+=`<div class="a-blk hi"><div class="a-kw w">しんどい日の症状</div><div class="a-body">「${worst.map(e=>e[0]).join('」「')}」が出る日は体調が特に悪い傾向（平均 ${(worst[0][1].t/worst[0][1].c).toFixed(1)}）</div></div>`;
     if(best.length)html+=`<div class="a-blk"><div class="a-kw">調子がいい日の傾向</div><div class="a-body">「${best.map(e=>e[0]).join('」「')}」を選んだ日は体調が比較的よい傾向があります</div></div>`;
   }
-  if(!html)html='<div class="no-data">分析データが不足しています</div>';
-  el.innerHTML=html;
+  // パーソナライズ分析ブロックを先頭に追加
+  const personalBlock=renderPersonalAnalysisBlock();
+  if(!html&&!personalBlock)html='<div class="no-data">分析データが不足しています</div>';
+  el.innerHTML=personalBlock+html;
 }
 
 function renderAdvice(){
@@ -874,11 +2802,13 @@ function renderAdvice(){
     advs.push({icon:'✨',t:'体調良好 — 今日を記録しよう',b:'調子がいい日の条件を記録しておくと、悪い日との比較に役立ちます。',c:''});
   }
   if(wx){
-    if(wx.pressKey==='down_big')advs.push({icon:'🧘',t:'気圧が大きく下降中',b:'自律神経が乱れやすい状態です。首・肩のストレッチ、温かい飲み物、頭痛薬は早めに。',c:'urgent'});
-    else if(wx.pressKey==='down_small')advs.push({icon:'🌀',t:'気圧がやや低下中',b:'軽い頭重感や眠気が出やすいです。こまめに休憩を挟みましょう。',c:'caution'});
-    if(wx.humidity<=35)advs.push({icon:'🌬️',t:'乾燥注意',b:'喉・鼻の粘膜が乾燥しやすい日。マスクとこまめな水分補給を。',c:'caution'});
-    if(wx.humidity>=75)advs.push({icon:'💧',t:'高湿度 — こまめな水分補給を',b:'体温調節に余分なエネルギーを使います。冷房を活用して。',c:'caution'});
-    if(wx.temp>=32)advs.push({icon:'🥵',t:'熱中症リスクが高い日',b:'30分ごとに水分補給、日陰での休憩を。体感でしんどくなくても急に来ます。',c:'urgent'});
+    if(wx.pressKey==='down_big')advs.push({icon:'🧘',t:'気圧がジェットコースター級に急降下中',b:'まるで高い山から一気に下りてきたような気圧変化。頭痛・だるさ・眠気が出やすい日です。頭痛薬は早めに、首・肩のストレッチ、温かい飲み物で乗り切りましょう。',c:'urgent'});
+    else if(wx.pressKey==='down_small')advs.push({icon:'🌀',t:'気圧がエレベーターで数階分、じわじわ低下中',b:'体が気づいてなくても、少しずつ負荷がかかっています。軽い頭重感や眠気が出やすいです。こまめに休憩を。',c:'caution'});
+    if(wx.humidity<=35)advs.push({icon:'🌬️',t:'空気がカラカラ — 砂漠並みの乾燥',b:'喉や鼻の粘膜が乾燥してウイルスに弱くなります。マスク着用、水分は一口ずつでもこまめに。',c:'caution'});
+    if(wx.humidity>=80)advs.push({icon:'💧',t:'サウナのような蒸し暑さ',b:'体温を下げようとして体が頑張りすぎています。エアコンを積極的に使って。疲れやすい日なので無理しないで。',c:'caution'});
+    else if(wx.humidity>=65)advs.push({icon:'💧',t:'少し蒸し暑い — 洗濯物が乾かない日',b:'体温調節に余分なエネルギーを使います。こまめな水分補給と休憩を。',c:'caution'});
+    if(wx.temp>=35)advs.push({icon:'🥵',t:'危険な暑さ — 外に出るのは最小限に',b:'じっとしていても体力が奪われる気温です。15〜30分ごとに水分補給、エアコンの効いた場所にいて。体が「まだ大丈夫」と言っても過信しないで。',c:'urgent'});
+    else if(wx.temp>=30)advs.push({icon:'🥵',t:'真夏日 — 熱中症に要注意',b:'汗がどんどん出る気温。30分ごとに水分補給、日陰での休憩を。体感でしんどくなくても急に来るのが熱中症です。',c:'urgent'});
     if(st.pollen){
       const high=Object.values(st.pollen).filter(p=>p.v==='high'||p.v==='vhigh');
       if(high.length>0)advs.push({icon:'🌸',t:high.map(p=>p.n).join('・')+'の花粉が多い',b:'外出時は必ずマスク・花粉用眼鏡を。帰宅後すぐ洗顔・うがいを。',c:'caution'});
@@ -887,11 +2817,1129 @@ function renderAdvice(){
   }else{
     advs.push({icon:'📍',t:'まず気象データを取得してください',b:'上のボタンから現在地の気象を取得すると、より詳しいアドバイスが表示されます。',c:''});
   }
-  el.innerHTML=advs.map(a=>`<div class="adv-blk ${a.c}"><span class="adv-ico">${a.icon}</span><div><div class="adv-t">${a.t}</div><div class="adv-b">${a.b}</div></div></div>`).join('');
+  // デジタルデトックスカード
+  const detox = getDetoxMessage(score, wx);
+  let detoxHtml = '';
+  if(detox.show){
+    detoxHtml = `<div class="detox-card">
+      <span class="detox-icon">${detox.icon}</span>
+      <div class="detox-title">${detox.title}</div>
+      <div class="detox-body">${detox.body}</div>
+      <button class="detox-btn" onclick="detoxAction()">${detox.btn}</button>
+    </div>`;
+    window._detoxAction = detox.action;
+  }
+  el.innerHTML = detoxHtml + advs.map(a=>`<div class="adv-blk ${a.c}"><span class="adv-ico">${a.icon}</span><div><div class="adv-t">${a.t}</div><div class="adv-b">${a.b}</div></div></div>`).join('');
+}
+function detoxAction(){ if(window._detoxAction)window._detoxAction(); }
+
+// ── パーソナライズ分析エンジン ──
+
+function analyzePersonal(){
+  const E = st.entries;
+  if(E.length < 5) return null; // 5日以上必要
+
+  // 気圧データがある記録のみ
+  const withPressure = E.filter(e => e.pressure && e.pressKey);
+  if(withPressure.length < 4) return null;
+
+  // 気圧変化別の平均スコア
+  const byChange = {down_big:[], down_small:[], stable:[], up_small:[], up_big:[]};
+  withPressure.forEach(e => { if(byChange[e.pressKey]) byChange[e.pressKey].push(e.score); });
+
+  const avg = arr => arr.length ? arr.reduce((a,b)=>a+b,0)/arr.length : null;
+  const avgDown = avg([...byChange.down_big, ...byChange.down_small]);
+  const avgUp   = avg([...byChange.up_big, ...byChange.up_small]);
+  const avgStable = avg(byChange.stable);
+
+  // 気圧の閾値を計算（しんどさ7以上の日の気圧平均）
+  const badDays = withPressure.filter(e => e.score >= 7);
+  const goodDays = withPressure.filter(e => e.score <= 3);
+  const badPressAvg = avg(badDays.map(e=>e.pressure));
+  const goodPressAvg = avg(goodDays.map(e=>e.pressure));
+
+  // 気質タイプ判定
+  let pressType = 'none';
+  let typeLabel = '';
+  let typeBadgeClass = 'type-none';
+  if(avgDown !== null && avgUp !== null && avgStable !== null){
+    const downWorse = avgDown > (avgStable||5) + 0.8;
+    const upWorse   = avgUp   > (avgStable||5) + 0.8;
+    if(downWorse && upWorse){ pressType='both'; typeLabel='気圧変動に敏感'; typeBadgeClass='type-both'; }
+    else if(downWorse){ pressType='low'; typeLabel='低気圧タイプ'; typeBadgeClass='type-low'; }
+    else if(upWorse){ pressType='high'; typeLabel='高気圧崩れタイプ'; typeBadgeClass='type-high'; }
+  }
+
+  // 直近7日の傾向
+  const recent7 = E.slice(-7);
+  const recentAvg = avg(recent7.map(e=>e.score));
+  const allAvg = avg(E.map(e=>e.score));
+  const trend = recentAvg > allAvg + 0.5 ? 'worse' : recentAvg < allAvg - 0.5 ? 'better' : 'stable';
+
+  // 症状との相関
+  const symptomMap = {};
+  withPressure.filter(e=>e.pressKey==='down_big'||e.pressKey==='down_small').forEach(e=>{
+    (e.feels||[]).forEach(f=>{if(!symptomMap[f])symptomMap[f]=0; symptomMap[f]++;});
+  });
+  const topSymptom = Object.entries(symptomMap).sort((a,b)=>b[1]-a[1])[0];
+
+  return {
+    pressType, typeLabel, typeBadgeClass,
+    avgDown: avgDown?.toFixed(1), avgUp: avgUp?.toFixed(1), avgStable: avgStable?.toFixed(1),
+    badPressAvg: badPressAvg ? Math.round(badPressAvg) : null,
+    goodPressAvg: goodPressAvg ? Math.round(goodPressAvg) : null,
+    trend, recentAvg: recentAvg?.toFixed(1), allAvg: allAvg?.toFixed(1),
+    topSymptom: topSymptom?.[0],
+    dataCount: E.length,
+    badDayCount: badDays.length,
+  };
+}
+
+async function fetchForecastPressure(){
+  const wx = st.wx;
+  if(!wx) return null;
+  try{
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?lat=${wx.lat||34.69}&lon=${wx.lon||135.50}&appid=${API_KEY}&units=metric&cnt=8`);
+    const d = await res.json();
+    if(!d.list) return null;
+    return d.list.slice(0,8).map(item=>({
+      time: new Date(item.dt*1000).toLocaleTimeString('ja-JP',{hour:'2-digit',minute:'2-digit'}),
+      pressure: Math.round(item.main.pressure),
+      temp: Math.round(item.main.temp),
+    }));
+  }catch(e){ return null; }
+}
+
+async function renderInsight(){
+  const sec = document.getElementById('insightSec');
+  const content = document.getElementById('insightContent');
+  const analysis = analyzePersonal();
+
+  if(!analysis){
+    sec.style.display = 'none';
+    return;
+  }
+  sec.style.display = 'block';
+
+  let html = '';
+
+  // 気圧タイプバッジ
+  if(analysis.pressType !== 'none'){
+    const typeEmoji = {low:'🌧️', high:'🌤️', both:'🌀'}[analysis.pressType];
+    html += `<div style="margin-bottom:16px;"><span class="type-badge ${analysis.typeBadgeClass}">${typeEmoji} ${analysis.typeLabel}</span></div>`;
+  }
+
+  // メインインサイトカード
+  html += '<div class="insight-card"><div class="insight-header">';
+  html += '<div class="insight-icon">🔮</div><div>';
+  html += '<div class="insight-title">あなたの体調パターン</div>';
+  html += `<div class="insight-subtitle">${analysis.dataCount}日分のデータから分析</div>`;
+  html += '</div></div><div class="insight-body">';
+
+  if(analysis.pressType === 'low'){
+    html += `気圧が低下する日（平均スコア <strong>${analysis.avgDown}</strong>）は、安定している日（<strong>${analysis.avgStable}</strong>）より体調を崩しやすい傾向があります。`;
+    if(analysis.badPressAvg) html += ` <strong>${analysis.badPressAvg}hPa以下</strong>になるとしんどくなりやすいパターンが見られます。`;
+  } else if(analysis.pressType === 'high'){
+    html += `気圧が上昇する日（平均スコア <strong>${analysis.avgUp}</strong>）に体調が乱れやすい傾向があります。高気圧に移り変わる時の自律神経の揺らぎが影響している可能性があります。`;
+  } else if(analysis.pressType === 'both'){
+    html += `気圧の変動そのものに敏感なタイプです。下降時（スコア <strong>${analysis.avgDown}</strong>）・上昇時（<strong>${analysis.avgUp}</strong>）ともに安定時（<strong>${analysis.avgStable}</strong>）より体調が崩れやすい傾向があります。`;
+  } else {
+    html += `現時点では気圧と体調の明確な相関は見られません。引き続き記録を続けると、より詳しいパターンが見えてきます。`;
+  }
+
+  if(analysis.topSymptom && (analysis.pressType === 'low' || analysis.pressType === 'both')){
+    html += ` 低気圧の日は特に「<strong>${analysis.topSymptom}</strong>」が出やすい傾向があります。`;
+  }
+
+  if(analysis.trend === 'worse'){
+    html += ` 直近7日の平均（<strong>${analysis.recentAvg}</strong>）は全体平均（<strong>${analysis.allAvg}</strong>）より高く、最近やや体調が低下気味です。無理をしないようにしましょう。`;
+  } else if(analysis.trend === 'better'){
+    html += ` 直近7日の平均（<strong>${analysis.recentAvg}</strong>）は全体平均（<strong>${analysis.allAvg}</strong>）より低く、最近調子が上向きです。`;
+  }
+
+  html += '</div>';
+
+  // 24時間気圧予報
+  const forecast = await fetchForecastPressure();
+  if(forecast && analysis.pressType !== 'none'){
+    const currentPress = st.wx?.pressure || 1013;
+    const alertThresh = analysis.badPressAvg || (currentPress - 8);
+    const pressRange = [Math.min(...forecast.map(f=>f.pressure))-2, Math.max(...forecast.map(f=>f.pressure))+2];
+    const hasAlert = forecast.some(f=>f.pressure <= alertThresh);
+
+    html += '<div class="insight-forecast"><div class="forecast-label">今後24時間の気圧予報</div>';
+    if(hasAlert && analysis.pressType === 'low'){
+      html += `<div style="font-size:11px;color:var(--orange);margin-bottom:10px;letter-spacing:0.5px;">⚠️ あなたの体調が崩れやすい${alertThresh}hPa付近に達する可能性があります</div>`;
+    }
+    forecast.forEach(f=>{
+      const pct = Math.max(5,Math.min(95, (f.pressure - pressRange[0]) / (pressRange[1]-pressRange[0]) * 100));
+      const isAlert = f.pressure <= alertThresh && (analysis.pressType==='low'||analysis.pressType==='both');
+      html += `<div class="forecast-row">
+        <div class="forecast-time">${f.time}</div>
+        <div class="forecast-bar-wrap"><div class="forecast-bar" style="width:${pct}%;background:${isAlert?'rgba(192,120,64,0.7)':'rgba(72,120,168,0.5)'};"></div></div>
+        <div class="forecast-val">${f.pressure} hPa</div>
+        ${isAlert?'<span class="forecast-alert fa-warn">注意</span>':'<span class="forecast-alert fa-ok">良好</span>'}
+      </div>`;
+    });
+    html += '</div>';
+  }
+  html += '</div>';
+
+  // 転ばぬ先の杖アドバイス
+  if(forecast && analysis.pressType !== 'none'){
+    const currentPress = st.wx?.pressure || 1013;
+    const alertThresh = analysis.badPressAvg || (currentPress - 8);
+    const nextAlertTime = forecast.find(f=>f.pressure<=alertThresh);
+    if(nextAlertTime){
+      html += `<div class="insight-card" style="border-color:rgba(192,120,64,0.3);">
+        <div class="insight-header">
+          <div class="insight-icon">⏰</div>
+          <div>
+            <div class="insight-title">転ばぬ先の杖</div>
+            <div class="insight-subtitle">あなた専用の事前アドバイス</div>
+          </div>
+        </div>
+        <div class="insight-body">
+          <strong>${nextAlertTime.time}頃</strong>から気圧が体調に影響しやすいレベル（${Math.round(alertThresh)}hPa）に近づく予報です。<br><br>
+          今のうちに重要なタスクを済ませ、その時間帯は無理のないスケジュールにしておくと安心です。頭痛薬を手元に置いておくのもおすすめです。
+        </div>
+      </div>`;
+    }
+  }
+
+  content.innerHTML = html;
+}
+
+// ── デジタルデトックス ──
+function getDetoxMessage(score, wx){
+  if(score >= 8){
+    return {
+      show: true,
+      icon: '📵',
+      title: 'スマホを置いてください',
+      body: 'スコアが高い状態です。今は情報を追うより、目を閉じて休むことが一番の薬です。このアプリも今日はもうここまでにしましょう。',
+      btn: '画面を閉じる',
+      action: ()=>{ if(window.history.length>1)window.history.back();else window.close(); }
+    };
+  }
+  if(score >= 6){
+    const hasPress = wx?.pressKey === 'down_big' || wx?.pressKey === 'down_small';
+    if(hasPress){
+      return {
+        show: true,
+        icon: '🌿',
+        title: '今日は穏やかに過ごしてください',
+        body: 'しんどさと気圧低下が重なっています。スマホを見続けると目と脳が疲れます。記録できたので、あとはゆっくり休みましょう。',
+        btn: '休憩モードへ',
+        action: ()=>{ document.body.style.filter='brightness(0.4)'; setTimeout(()=>document.body.style.filter='',5000); }
+      };
+    }
+  }
+  return { show: false };
+}
+
+// ── 過去日付記録 ──
+let selectedDate = null;
+function togglePastDate(){
+  const area=document.getElementById('pastDateArea');
+  if(area.classList.toggle('show'))renderPastDateGrid();
+}
+
+function renderPastDateGrid(){
+  const grid=document.getElementById('pastDateGrid');
+  const today=new Date();
+  const days=['日','月','火','水','木','金','土'];
+  grid.innerHTML='';
+  for(let i=1;i<=14;i++){
+    const d=new Date(today);
+    d.setDate(today.getDate()-i);
+    const ds=`${d.getMonth()+1}/${d.getDate()}`;
+    const hasRec=st.entries.some(e=>e.date===ds);
+    const btn=document.createElement('button');
+    btn.className='pdate-btn'+(hasRec?' has-record':'')+(selectedDate===ds?' selected':'');
+    btn.innerHTML=`${d.getDate()}日<br><span style="font-size:9px;font-family:'Noto Sans JP';">${days[d.getDay()]}</span>${hasRec?'<div class="pdate-dot"></div>':''}`;
+    btn.addEventListener('click',()=>selectPastDate(ds,btn));
+    grid.appendChild(btn);
+  }
+  // 今日ボタン
+  const todayDs=`${today.getMonth()+1}/${today.getDate()}`;
+  const todayBtn=document.createElement('button');
+  todayBtn.className='pdate-btn'+(selectedDate===null?' selected':'');
+  todayBtn.innerHTML=`今日<br><span style="font-size:9px;font-family:'Noto Sans JP';">${days[today.getDay()]}</span>`;
+  todayBtn.addEventListener('click',()=>selectPastDate(null,todayBtn));
+  grid.prepend(todayBtn);
+}
+
+function selectPastDate(ds,btn){
+  selectedDate=ds;
+  document.querySelectorAll('.pdate-btn').forEach(b=>b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const recBtn=document.querySelector('.rec-btn');
+  recBtn.textContent=ds?`${ds} に記録する`:'今日を記録する';
+  // 既存の記録があればスライダーに反映
+  if(ds){
+    const entry=st.entries.find(e=>e.date===ds);
+    if(entry){
+      document.getElementById('slider').value=entry.score;
+      onScore(entry.score);
+      // 症状ボタンも反映
+      document.querySelectorAll('.feel-btn').forEach(b=>b.classList.remove('on'));
+      st.feels=new Set(entry.feels||[]);
+      document.querySelectorAll('.feel-btn').forEach(b=>{
+        const nm=b.querySelector('.feel-nm')?.textContent;
+        if(nm&&st.feels.has(nm))b.classList.add('on');
+      });
+    }
+  }
+}
+
+// ── 記録カレンダー（歯抜けを責めない） ──
+function renderCalendar(){
+  const cal=document.getElementById('recCalendar');
+  if(!st.entries.length){cal.style.display='none';return;}
+  cal.style.display='block';
+  const today=new Date();
+  const daysOfWeek=['日','月','火','水','木','金','土'];
+  // 28日分を表示
+  const cells=[];
+  for(let i=27;i>=0;i--){
+    const d=new Date(today);d.setDate(today.getDate()-i);
+    const ds=`${d.getMonth()+1}/${d.getDate()}`;
+    const entry=st.entries.find(e=>e.date===ds);
+    const isToday=i===0;
+    cells.push({d,ds,entry,isToday});
+  }
+  const startDow=cells[0].d.getDay();
+  let html='<div class="cal-title">記録カレンダー — 直近4週間</div>';
+  html+='<div class="cal-grid">';
+  daysOfWeek.forEach(d=>{html+=`<div class="cal-hdr-day">${d}</div>`;});
+  // 最初の空白
+  for(let i=0;i<startDow;i++)html+='<div class="cal-day empty"></div>';
+  cells.forEach(({d,ds,entry,isToday})=>{
+    let cls='cal-day';
+    if(entry){
+      cls+=' has-rec';
+      if(entry.score<=3)cls+=' score-g';
+      else if(entry.score<=6)cls+=' score-m';
+      else cls+=' score-b';
+    }
+    if(isToday)cls+=' today';
+    const dayNum=d.getDate();
+    const score=entry?`<div style="font-size:8px;color:inherit;opacity:0.7;">${entry.score}</div>`:'';
+    html+=`<div class="${cls}" title="${ds}${entry?' スコア'+entry.score:' 未記録'}">${dayNum}${score}</div>`;
+  });
+  html+='</div>';
+  html+='<div style="display:flex;gap:16px;margin-top:10px;font-size:10px;color:var(--ink3);">'
+    +'<span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:rgba(74,144,96,0.3);display:inline-block;border:1px solid rgba(74,144,96,0.5);"></span>良好</span>'
+    +'<span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:rgba(192,120,64,0.3);display:inline-block;border:1px solid rgba(192,120,64,0.4);"></span>普通</span>'
+    +'<span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:rgba(192,80,74,0.3);display:inline-block;border:1px solid rgba(192,80,74,0.4);"></span>しんどい</span>'
+    +'<span style="display:flex;align-items:center;gap:5px;"><span style="width:10px;height:10px;border-radius:3px;background:var(--paper2);display:inline-block;border:1px solid var(--border);"></span>未記録</span>'
+    +'</div>';
+  cal.innerHTML=html;
+}
+
+// ══════════════════════════════════════════
+// パーソナライズ気圧分析エンジン
+// ══════════════════════════════════════════
+
+function analyzeUserType(){
+  const E=st.entries;
+  if(E.length<5)return null;
+
+  // 気圧変化別の平均スコアを計算
+  const groups={
+    down_big:[],down_small:[],stable:[],up_small:[],up_big:[]
+  };
+  E.forEach(e=>{if(e.pressKey&&groups[e.pressKey])groups[e.pressKey].push(e.score);});
+
+  const avg=arr=>arr.length?arr.reduce((s,v)=>s+v,0)/arr.length:null;
+  const avgDown=avg([...groups.down_big,...groups.down_small]);
+  const avgUp=avg([...groups.up_big,...groups.up_small]);
+  const avgStable=avg(groups.stable);
+
+  if(!avgStable)return null;
+
+  const downDiff=avgDown?avgDown-avgStable:0;
+  const upDiff=avgUp?avgUp-avgStable:0;
+  const humidE=E.filter(e=>e.humidity!=null);
+  const highHumid=humidE.filter(e=>e.humidity>=70);
+  const avgHighHumid=avg(highHumid.map(e=>e.score));
+  const avgLowHumid=avg(humidE.filter(e=>e.humidity<=40).map(e=>e.score));
+  const humidDiff=avgHighHumid&&avgLowHumid?avgHighHumid-avgLowHumid:0;
+
+  // 気圧閾値: しんどいスコア(>=6)が多い日の気圧を収集
+  const badDays=E.filter(e=>e.score>=6&&e.pressure);
+  const pressureThreshold=badDays.length>=3?
+    Math.round(badDays.reduce((s,e)=>s+e.pressure,0)/badDays.length):null;
+
+  return {downDiff,upDiff,humidDiff,pressureThreshold,avgStable,avgDown,avgUp,
+    isDownType:downDiff>1.2,isUpType:upDiff>1.2,isHumidType:humidDiff>1.2,
+    dataCount:E.length};
+}
+
+function renderPersonalForecast(){
+  const pfSec=document.getElementById('pfSec');
+  const pf=document.getElementById('personalForecast');
+  const detox=document.getElementById('detoxBanner');
+
+  const analysis=analyzeUserType();
+  const wx=st.wx;
+  const score=st.score;
+  let pfShown=false,detoxShown=false;
+
+  // デジタルデトックスバナー
+  if(score>=7&&!sessionStorage.getItem('detox_closed')){
+    detox.classList.add('show');
+    const msgs=[
+      {t:'今日は画面から離れてみましょう',b:'スコアが高い日は、スマホの光自体が頭痛や疲労を悪化させます。記録はもう十分です。スマホを伏せて、目を閉じて深呼吸してみてください。'},
+      {t:'あなたの体が休息を求めています',b:'このアプリは「記録すること」が目的ではなく「あなたが楽になること」が目的です。今日はここで終わりにして、横になってください。'},
+      {t:'スマホは置いて、今日は休みましょう',b:'しんどい時ほど情報を求めてしまいがちですが、今一番必要なのは休息です。通知もオフにして、ゆっくりしてください。'},
+    ];
+    const m=msgs[Math.floor(Math.random()*msgs.length)];
+    document.getElementById('detoxTitle').textContent=m.t;
+    document.getElementById('detoxBody').textContent=m.b;
+    detoxShown=true;
+  }
+
+  // パーソナライズ予報（データが5件以上の場合）
+  if(analysis&&wx){
+    const {isDownType,isUpType,isHumidType,pressureThreshold,downDiff,upDiff}=analysis;
+    let title='',body='',urgent=false,badgeText='';
+
+    const pressKey=wx.pressKey;
+    const pressure=wx.pressure;
+
+    if(isDownType&&(pressKey==='down_big'||pressKey==='down_small')){
+      urgent=pressKey==='down_big';
+      title=urgent?
+        '⚠️ あなたが最も体調を崩しやすいパターンです':
+        '注意: あなたは気圧低下時に体調が崩れやすいタイプです';
+      body=`蓄積されたデータから、あなたは気圧が${pressKey==='down_big'?'大きく':''}低下する日に体調スコアが平均より約${downDiff.toFixed(1)}ポイント高くなる傾向があります。`+
+        (pressureThreshold?`特に気圧が${pressureThreshold}hPa付近になると不調が出やすいです。`:'')+
+        `今日は早めに重要なタスクを片付け、午後以降は無理をしないようにしましょう。頭痛薬をお手元に準備しておくことをお勧めします。`;
+      badgeText='低気圧タイプ 🌀';
+    } else if(isUpType&&(pressKey==='up_big'||pressKey==='up_small')){
+      urgent=pressKey==='up_big';
+      title='気圧が上昇しています — あなたはこの変化が苦手な傾向があります';
+      body=`あなたのデータを分析すると、気圧が上昇する日にも体調スコアが平均より約${upDiff.toFixed(1)}ポイント高くなる傾向があります。`+
+        '気圧上昇時の頭痛・肩こりに心当たりがあれば、それがパターンかもしれません。'+
+        '今日は水分をしっかり摂って、首周りのストレッチを意識してみてください。';
+      badgeText='気圧上昇タイプ ↑';
+    } else if(isHumidType&&wx.humidity>=70){
+      title='高湿度 — あなたは湿度の影響を受けやすいタイプです';
+      body='あなたのデータから、湿度が高い日に体調が悪化しやすい傾向が見られます。'+
+        '今日は湿度が高めです。エアコンの除湿機能を活用し、ゆったりとした服装で体温調節を意識してください。';
+      badgeText='湿度感応タイプ 💧';
+    } else if(analysis.dataCount>=10&&(pressKey==='down_big'||pressKey==='down_small')&&!isDownType){
+      title='今日は気圧が低下していますが、あなたへの影響は比較的少ない傾向があります';
+      body='蓄積データによると、あなたは気圧変化への耐性が比較的強いタイプです。ただし過労や睡眠不足があると影響を受けやすくなります。今日の状態を教えてください。';
+      badgeText='気圧耐性タイプ 💪';
+    } else if(pressKey==='stable'&&analysis.dataCount>=7){
+      title='今日は気圧が安定しています — あなたの体調が整いやすいコンディションです';
+      body='蓄積データからあなたの体調が最も安定しやすいのは、気圧が安定している日です。体を動かすなら今日が◎。やりたかったことをやる日に適しています。';
+      badgeText='安定コンディション ✨';
+    }
+
+    if(title){
+      pf.classList.toggle('pf-urgent',urgent);
+      pf.classList.toggle('pf-caution',!urgent&&(isDownType||isUpType||isHumidType));
+      pf.classList.add('show');
+      document.getElementById('pfTitle').textContent=title;
+      document.getElementById('pfBody').textContent=body;
+      const badge=document.getElementById('pfBadge');
+      if(badgeText){badge.textContent=badgeText;badge.style.display='inline-flex';}
+      pfShown=true;
+    }
+  } else if(st.entries.length>=1&&st.entries.length<5&&wx){
+    // データ不足時のメッセージ
+    pf.classList.add('show');
+    document.getElementById('pfTitle').textContent=`あと${5-st.entries.length}日記録するとあなた専用の体調予報が始まります`;
+    document.getElementById('pfBody').textContent='蓄積データが増えるほど「あなたが気圧低下に弱いタイプか」「湿度の影響を受けやすいか」などを自動で分析し、その日の天気に合わせた専用アドバイスを提供します。';
+    pfShown=true;
+  }
+
+  pfSec.style.display=(pfShown||detoxShown)?'block':'none';
+}
+
+function closeDetox(){
+  document.getElementById('detoxBanner').classList.remove('show');
+  sessionStorage.setItem('detox_closed','1');
+  const pfSec=document.getElementById('pfSec');
+  if(!document.getElementById('personalForecast').classList.contains('show')){
+    pfSec.style.display='none';
+  }
+}
+
+// 分析タブのパーソナライズ分析を強化
+function renderPersonalAnalysisBlock(){
+  const analysis=analyzeUserType();
+  if(!analysis)return '';
+  const {isDownType,isUpType,isHumidType,pressureThreshold,avgDown,avgUp,avgStable,dataCount}=analysis;
+  if(!isDownType&&!isUpType&&!isHumidType)return '';
+
+  let html='<div class="a-blk hi"><div class="a-kw w">あなたの体調タイプ</div>';
+  if(isDownType){
+    html+=`<div style="margin-bottom:8px;"><span class="pf-type-badge pf-type-down">低気圧タイプ 🌀</span></div>`;
+    html+=`<div class="a-body">気圧が低下する日の平均スコアは <strong style="color:var(--orange)">${avgDown?.toFixed(1)||'-'}</strong>、安定日は <strong style="color:var(--green)">${avgStable?.toFixed(1)||'-'}</strong>。`;
+    if(pressureThreshold)html+=`気圧が約${pressureThreshold}hPa付近で特に体調が崩れやすい傾向があります。`;
+    html+='低気圧が近づく前日に準備をしておきましょう。</div>';
+  }
+  if(isUpType){
+    html+=`<div style="margin-top:10px;"><span class="pf-type-badge pf-type-up">気圧上昇タイプ ↑</span></div>`;
+    html+=`<div class="a-body">気圧上昇日の平均スコアは <strong style="color:var(--orange)">${avgUp?.toFixed(1)||'-'}</strong>。多くの人が「低気圧に弱い」と思いがちですが、あなたは気圧上昇時にも体調変化が起きやすいタイプです。</div>`;
+  }
+  if(isHumidType){
+    html+=`<div style="margin-top:10px;"><span class="pf-type-badge pf-type-humid">高湿度タイプ 💧</span></div>`;
+    html+='<div class="a-body">湿度70%以上の日に体調スコアが高くなる傾向があります。梅雨・夏は特に注意。除湿機やエアコンの活用が効果的です。</div>';
+  }
+  html+='</div>';
+  return html;
+}
+
+// ── 日時入力の初期化と過去気象API ──
+function initDateTime(){
+  const now = new Date();
+  const pad = n => String(n).padStart(2,'0');
+  document.getElementById('recDate').value =
+    `${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())}`;
+  document.getElementById('recTime').value =
+    `${pad(now.getHours())}:${pad(Math.floor(now.getMinutes()/30)*30)}`;
+  document.getElementById('recDate').addEventListener('change', onDateTimeChange);
+  document.getElementById('recTime').addEventListener('change', onDateTimeChange);
+}
+
+function getRecordingDateTime(){
+  const d = document.getElementById('recDate').value;
+  const t = document.getElementById('recTime').value;
+  if(!d) return new Date();
+  return new Date(`${d}T${t||'00:00'}:00`);
+}
+
+function getRecordingDateStr(){
+  const dt = getRecordingDateTime();
+  return `${dt.getMonth()+1}/${dt.getDate()}`;
+}
+
+async function onDateTimeChange(){
+  const dt = getRecordingDateTime();
+  const now = new Date();
+  const diffHours = (now - dt) / 3600000;
+  const hint = document.getElementById('dtHint');
+
+  if(diffHours < -0.5){
+    hint.textContent = '⚠️ 未来の日時は記録できません';
+    hint.style.color = 'var(--red)';
+    return;
+  }
+
+  if(diffHours >= 1){
+    // 過去の日時 → Open-Meteo で過去気象データを取得
+    const lat = localStorage.getItem('hwa_fixed_lat');
+    const lon = localStorage.getItem('hwa_fixed_lon');
+    if(!lat || !lon){
+      hint.textContent = '📍 場所を設定すると、その時刻の気象データを自動取得できます';
+      hint.style.color = 'var(--ink3)';
+      return;
+    }
+    hint.textContent = '⏳ その時刻の気象データを取得中...';
+    hint.style.color = 'var(--gold2)';
+    try{
+      const dateStr = dt.toISOString().slice(0,10);
+      const hourStr = dt.toISOString().slice(0,10) + 'T' + String(dt.getHours()).padStart(2,'0') + ':00';
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&hourly=temperature_2m,relativehumidity_2m,surface_pressure,precipitation,windspeed_10m&start_date=${dateStr}&end_date=${dateStr}&timezone=Asia/Tokyo`;
+      const res = await fetch(url);
+      const data = await res.json();
+      const hi = dt.getHours();
+      const temp = Math.round(data.hourly.temperature_2m[hi]);
+      const hum = Math.round(data.hourly.relativehumidity_2m[hi]);
+      const pres = Math.round(data.hourly.surface_pressure[hi]);
+      const prec = Math.round((data.hourly.precipitation[hi]||0)*10)/10;
+      const wind = Math.round((data.hourly.windspeed_10m[hi]||0)*10)/10;
+      // 気圧変化（前6時間比）
+      const prevPres = Math.round(data.hourly.surface_pressure[Math.max(0,hi-6)]);
+      const diff = pres - prevPres;
+      let pressKey = 'stable';
+      if(diff>=5)pressKey='up_big'; else if(diff>=1)pressKey='up_small';
+      else if(diff<=-5)pressKey='down_big'; else if(diff<=-1)pressKey='down_small';
+      // 一時的に保存
+      st._pastWx = {temp, humidity:hum, pressure:pres, pressKey, wind, precip:prec, code:800};
+      hint.textContent = `✓ ${dt.getMonth()+1}/${dt.getDate()} ${dt.getHours()}時の気象: ${temp}°C 湿度${hum}% 気圧${pres}hPa`;
+      hint.style.color = 'var(--green)';
+    }catch(e){
+      hint.textContent = '気象データの取得に失敗しました（手動入力の値が使われます）';
+      hint.style.color = 'var(--ink3)';
+      st._pastWx = null;
+    }
+  } else {
+    hint.textContent = '';
+    st._pastWx = null;
+  }
+}
+
+// ── 記録完了フィードバック ──
+const FEEDBACK_BY_SCORE = {
+  // しんどい日（7-10）
+  bad: [
+    {e:'🫂', m:'しんどい日に記録してくれて、ありがとう。今夜はゆっくり休んでください。'},
+    {e:'🌙', m:'今日は無理しないで。横になるだけでも、体は回復しようとしています。'},
+    {e:'🍵', m:'しんどい日のデータが、あなたの体の謎を解くカギになります。記録できました。'},
+    {e:'🌿', m:'体がつらいとき、自分の状態を知ろうとすること、それだけで十分です。'},
+    {e:'🕯️', m:'今夜は何もしなくていい。ただ、休むことだけを大切にしてください。'},
+  ],
+  // 普通の日（4-6）
+  mid: [
+    {e:'✨', m:'今日も記録できました。続けることが、体を知る一番の近道です。'},
+    {e:'🌿', m:'記録しました。小さな積み重ねが、大きな気づきになります。'},
+    {e:'🍵', m:'お疲れさまでした。一杯の温かい飲み物で、ほっとひと息つきましょう。'},
+    {e:'🌸', m:'今日の記録が、未来の自分を助けてくれます。よく記録できました。'},
+    {e:'📖', m:'記録しました。あなたの体の日記が、また一ページ増えました。'},
+  ],
+  // 調子いい日（1-3）
+  good: [
+    {e:'🌟', m:'調子がいい日を記録できました。この状態のときに何が違うか、ぜひ振り返ってみてください。'},
+    {e:'☀️', m:'元気な日のデータも、とても大切な記録です。この調子を大切に。'},
+    {e:'🌱', m:'記録しました。調子がいい日が増えるヒントが、あなたのデータの中にあります。'},
+    {e:'✨', m:'今日は調子がいいですね。そのまま無理せず、良い一日を過ごしてください。'},
+  ],
+};
+
+function showSaveFeedback(score){
+  const pool = score >= 7 ? FEEDBACK_BY_SCORE.bad
+             : score <= 3 ? FEEDBACK_BY_SCORE.good
+             : FEEDBACK_BY_SCORE.mid;
+  const m = pool[Math.floor(Math.random()*pool.length)];
+  document.getElementById('sfEmoji').textContent = m.e;
+  document.getElementById('sfTitle').textContent = '記録しました';
+  document.getElementById('sfMsg').textContent = m.m;
+  const fb = document.getElementById('saveFeedback');
+  fb.classList.add('show');
+  setTimeout(()=>fb.scrollIntoView({behavior:'smooth', block:'nearest'}), 100);
+}
+
+function closeFeedback(){
+  document.getElementById('saveFeedback').classList.remove('show');
+}
+
+// ── インポート ──
+function importJSON(){
+  document.getElementById('importFile').click();
+}
+function handleImport(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    try{
+      const data = JSON.parse(e.target.result);
+      const entries = data.entries || data; // 両形式対応
+      if(!Array.isArray(entries)) throw new Error('不正なフォーマット');
+      const count = entries.length;
+      // 既存データとマージ（同じ日付は上書き）
+      entries.forEach(imported => {
+        const idx = st.entries.findIndex(x => x.date === imported.date);
+        if(idx >= 0) st.entries[idx] = imported;
+        else st.entries.push(imported);
+      });
+      st.entries.sort((a,b) => new Date('2024/'+a.date) - new Date('2024/'+b.date));
+      if(st.entries.length > 30) st.entries = st.entries.slice(-30);
+      localStorage.setItem('hwa_gps', JSON.stringify(st.entries));
+      renderChart(); renderAnalysis(); renderAdvice(); renderCalendar();
+      toast(`${count}件のデータを復元しました`);
+      closeSettings();
+    }catch(err){
+      toast('ファイルの読み込みに失敗しました');
+    }
+    event.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
+// ── 医師向けレポートモーダル ──
+let _reportText = '';
+
+function openReport(){
+  if(!st.entries.length){toast('記録がありません。数日記録してから開いてください。');return;}
+  document.getElementById('reportOverlay').classList.add('show');
+  document.body.style.overflow='hidden';
+  renderReport();
+}
+
+function closeReport(){
+  document.getElementById('reportOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
+
+function toggleDoctorPanel(){openReport();}
+
+function renderReport(){
+  const E=st.entries;
+  const today=new Date();
+  const todayStr=`${today.getFullYear()}年${today.getMonth()+1}月${today.getDate()}日`;
+  const avg=(E.reduce((s,e)=>s+e.score,0)/E.length).toFixed(1);
+  const worst=Math.max(...E.map(e=>e.score));
+  const best=Math.min(...E.map(e=>e.score));
+  const badDays=E.filter(e=>e.score>=7).length;
+  const goodDays=E.filter(e=>e.score<=3).length;
+  const range=E.length>1?`${E[0].date} 〜 ${E[E.length-1].date}`:E[0].date;
+
+  const fm={};
+  E.forEach(e=>(e.feels||[]).forEach(f=>{fm[f]=(fm[f]||0)+1;}));
+  const topFeels=Object.entries(fm).sort((a,b)=>b[1]-a[1]).slice(0,6);
+  const maxCount=topFeels[0]?.[1]||1;
+
+  const pressDown=E.filter(e=>e.pressKey==='down_big'||e.pressKey==='down_small');
+  const pressStable=E.filter(e=>e.pressKey==='stable'||e.pressKey==='up_small'||e.pressKey==='up_big');
+  const avgDown=pressDown.length?(pressDown.reduce((s,e)=>s+e.score,0)/pressDown.length).toFixed(1):null;
+  const avgStable=pressStable.length?(pressStable.reduce((s,e)=>s+e.score,0)/pressStable.length).toFixed(1):null;
+
+  const noteLines=[
+    `記録期間：${range}（${E.length}日分）`,
+    `しんどさスコア：平均 ${avg}／最良 ${best}／最悪 ${worst}（10点満点、高いほどしんどい）`,
+    `体調不良日（スコア7以上）：${badDays}日`,
+    goodDays>0?`良好日（スコア3以下）：${goodDays}日`:'',
+    topFeels.length>0?`多い症状：${topFeels.slice(0,3).map(([k,v])=>`${k}（${v}日）`).join('、')}` : '',
+    avgDown&&avgStable?`低気圧時の平均スコア：${avgDown}（安定時：${avgStable}）`:'',
+  ].filter(Boolean).join('\n');
+  _reportText=noteLines;
+
+  document.getElementById('rpSubtitle').textContent=`${range}（${E.length}日分）`;
+  document.getElementById('rpFooterDate').textContent=`出力日：${todayStr}`;
+
+  // カレンダー
+  const days=['日','月','火','水','木','金','土'];
+  let calHtml='<div class="rp-cal-grid">';
+  days.forEach(d=>{calHtml+=`<div class="rp-cal-hdr">${d}</div>`;});
+  const startDate=new Date(today);startDate.setDate(today.getDate()-27);
+  const startDow=startDate.getDay();
+  for(let i=0;i<startDow;i++)calHtml+='<div class="rp-cal-day rp-empty"></div>';
+  for(let i=0;i<28;i++){
+    const d=new Date(startDate);d.setDate(startDate.getDate()+i);
+    const ds=`${d.getMonth()+1}/${d.getDate()}`;
+    const entry=E.find(e=>e.date===ds);
+    const isToday=(d.toDateString()===today.toDateString());
+    let cls='rp-cal-day';
+    if(entry){cls+=entry.score<=3?' rp-g':entry.score<=6?' rp-m':' rp-b';}
+    if(isToday)cls+=' rp-today';
+    const sc=entry?`<div style="font-size:8px;margin-top:1px;">${entry.score}</div>`:'';
+    calHtml+=`<div class="${cls}">${d.getDate()}${sc}</div>`;
+  }
+  calHtml+='</div>';
+  calHtml+=`<div style="display:flex;gap:12px;margin-top:8px;font-size:10px;color:#888;">
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#e8f5ee;border:1px solid #b0d8bc;display:inline-block;"></span>良好(1-3)</span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#fff3e8;border:1px solid #f0c898;display:inline-block;"></span>普通(4-6)</span>
+    <span style="display:flex;align-items:center;gap:4px;"><span style="width:10px;height:10px;border-radius:3px;background:#feeaea;border:1px solid #f0b0b0;display:inline-block;"></span>不良(7+)</span>
+  </div>`;
+
+  const symptomHtml=topFeels.length===0
+    ?'<div style="color:#aaa;font-size:13px;">症状の記録がありません</div>'
+    :topFeels.map(([name,count])=>`
+      <div class="rp-symptom-row">
+        <div class="rp-symptom-name">${name}</div>
+        <div class="rp-symptom-bar-wrap"><div class="rp-symptom-bar" style="width:${Math.round(count/maxCount*100)}%;"></div></div>
+        <div class="rp-symptom-count">${count}日</div>
+      </div>`).join('');
+
+  const pressHtml=avgDown&&avgStable?`
+    <div class="rp-insight-box ${parseFloat(avgDown)-parseFloat(avgStable)>1?'warn':'ok'}">
+      <div class="rp-insight-label">気圧との関係</div>
+      <div class="rp-insight-text">
+        低気圧日の平均スコア：<strong>${avgDown}</strong>　安定日の平均スコア：<strong>${avgStable}</strong><br>
+        ${parseFloat(avgDown)-parseFloat(avgStable)>1
+          ?'→ 低気圧時に体調が悪化する傾向があります'
+          :'→ 気圧による体調への影響は少ない傾向があります'}
+      </div>
+    </div>`
+    :`<div class="rp-insight-box"><div class="rp-insight-label">気圧との関係</div><div class="rp-insight-text">気象データを取得した日が増えると表示されます</div></div>`;
+
+  document.getElementById('rpBody').innerHTML=`
+    <div class="rp-section">
+      <div class="rp-section-title">基本統計</div>
+      <div class="rp-summary-grid">
+        <div class="rp-stat"><div class="rp-stat-val">${avg}</div><div class="rp-stat-lbl">平均スコア</div></div>
+        <div class="rp-stat"><div class="rp-stat-val" style="color:#c05858;">${worst}</div><div class="rp-stat-lbl">最悪スコア</div></div>
+        <div class="rp-stat"><div class="rp-stat-val" style="color:#4a9060;">${best}</div><div class="rp-stat-lbl">最良スコア</div></div>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <div class="rp-stat" style="flex:1;"><div class="rp-stat-val" style="font-size:22px;color:#c05858;">${badDays}</div><div class="rp-stat-lbl">体調不良日（7以上）</div></div>
+        <div class="rp-stat" style="flex:1;"><div class="rp-stat-val" style="font-size:22px;color:#4a9060;">${goodDays}</div><div class="rp-stat-lbl">良好日（3以下）</div></div>
+        <div class="rp-stat" style="flex:1;"><div class="rp-stat-val" style="font-size:22px;">${E.length}</div><div class="rp-stat-lbl">記録日数</div></div>
+      </div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-section-title">記録カレンダー（直近4週間）</div>
+      <div class="rp-cal">${calHtml}</div>
+    </div>
+    <div class="rp-section">
+      <div class="rp-section-title">症状の頻度</div>
+      ${symptomHtml}
+    </div>
+    <div class="rp-section">
+      <div class="rp-section-title">気象との関係</div>
+      ${pressHtml}
+    </div>
+    <div class="rp-section">
+      <div class="rp-section-title">先生への申し送り文（コピーしてお使いください）</div>
+      <div class="rp-note-box">
+        <div class="rp-note-title">体調記録アプリ（自己記録）より</div>
+        <div class="rp-note-text">${noteLines.split('\n').join('<br>')}</div>
+      </div>
+    </div>
+    <div style="font-size:10px;color:#aaa;line-height:1.8;padding-top:8px;">
+      ※ このデータは患者本人による自己記録です。診断の参考情報としてご活用ください。<br>
+      ※ スコアは患者の主観的な評価です（1=最良 / 10=最悪）。
+    </div>
+  `;
+}
+
+function copyReportText(){
+  const text=_reportText;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>toast('申し送り文をコピーしました'));
+  } else {
+    const el=document.createElement('textarea');el.value=text;
+    document.body.appendChild(el);el.select();
+    document.execCommand('copy');document.body.removeChild(el);
+    toast('申し送り文をコピーしました');
+  }
+}
+
+function copyDoctorText(){copyReportText();}
+function printReport(){
+  // 印刷用ヘッダーにサマリーを設定
+  const E = st.entries;
+  const today = new Date();
+  const sub = document.getElementById('printHeaderSub');
+  if(sub && E.length){
+    sub.textContent = `記録期間: ${E[0].date} 〜 ${E[E.length-1].date}（${E.length}日）/ 出力日: ${today.getFullYear()}/${today.getMonth()+1}/${today.getDate()}`;
+  }
+  window.print();
+}
+
+function copyDoctorText(){
+  const text = _doctorSummaryText;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(()=>toast('テキストをコピーしました'));
+  } else {
+    const el = document.createElement('textarea');
+    el.value = text;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    toast('テキストをコピーしました');
+  }
+}
+
+// ── リップルエフェクト ──
+function addRipple(e, el){
+  const rect = el.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height) * 2;
+  const x = (e.clientX - rect.left) - size/2;
+  const y = (e.clientY - rect.top) - size/2;
+  const wave = document.createElement('span');
+  wave.className = 'ripple-wave';
+  wave.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px;`;
+  el.appendChild(wave);
+  wave.addEventListener('animationend', ()=>wave.remove());
+}
+
+// ── スコアサークルのping ──
+function pingScoreCircle(){
+  const c = document.getElementById('scCircle');
+  c.classList.remove('ping');
+  void c.offsetWidth; // reflow
+  c.classList.add('ping');
+  c.addEventListener('animationend', ()=>c.classList.remove('ping'), {once:true});
 }
 
 function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2200);}
+
+// ── 郵便番号→座標 ──
+const ZIP3={
+  '060':[43.06,141.35],'064':[43.06,141.35],'040':[41.77,140.73],'070':[43.77,142.36],
+  '080':[43.18,143.60],'085':[43.76,144.10],'090':[43.80,143.89],'030':[40.82,140.74],
+  '020':[39.70,141.15],'990':[38.24,140.36],'980':[38.26,140.87],'960':[37.75,140.47],
+  '310':[36.34,140.45],'320':[36.57,139.88],'370':[36.39,139.06],'330':[35.86,139.65],
+  '260':[35.61,140.12],'100':[35.69,139.69],'150':[35.66,139.70],'160':[35.69,139.70],
+  '180':[35.70,139.56],'190':[35.71,139.43],'220':[35.45,139.64],'210':[35.54,139.66],
+  '250':[35.37,139.27],'940':[37.90,139.02],'950':[37.92,139.03],'930':[36.70,137.21],
+  '920':[36.59,136.63],'910':[36.07,136.22],'400':[35.66,138.57],'380':[36.65,138.18],
+  '390':[36.24,137.97],'500':[35.39,136.72],'420':[34.97,138.38],'430':[34.71,137.73],
+  '460':[35.18,136.91],'440':[34.77,137.39],'510':[34.73,136.51],'514':[34.73,136.51],
+  '520':[35.00,135.87],'525':[35.02,135.99],'600':[35.02,135.76],'610':[34.91,135.74],
+  '530':[34.69,135.50],'540':[34.68,135.52],'550':[34.68,135.49],'560':[34.78,135.44],
+  '570':[34.78,135.56],'572':[34.76,135.58],'573':[34.77,135.58],'574':[34.81,135.59],
+  '575':[34.74,135.64],'577':[34.67,135.60],'580':[34.60,135.50],'581':[34.60,135.52],
+  '583':[34.57,135.64],'584':[34.55,135.59],'585':[34.50,135.54],'586':[34.53,135.61],
+  '590':[34.59,135.47],'591':[34.55,135.50],'592':[34.47,135.41],'593':[34.43,135.37],
+  '594':[34.42,135.40],'595':[34.40,135.38],'596':[34.35,135.38],'597':[34.32,135.39],
+  '598':[34.33,135.43],'650':[34.69,135.19],'660':[34.72,135.36],'661':[34.75,135.40],
+  '662':[34.73,135.34],'663':[34.74,135.34],'664':[34.79,135.36],'665':[34.80,135.38],
+  '670':[34.77,134.69],'675':[34.75,134.84],'630':[34.69,135.83],'634':[34.46,135.83],
+  '640':[34.23,135.17],'680':[35.50,134.24],'683':[35.43,133.33],'690':[35.47,133.05],
+  '692':[35.34,132.76],'700':[34.66,133.93],'710':[34.59,133.77],'730':[34.40,132.46],
+  '720':[34.36,132.44],'750':[34.18,131.47],'754':[34.17,131.47],'770':[34.07,134.55],
+  '760':[34.34,134.04],'790':[33.84,132.77],'794':[33.55,132.55],'780':[33.56,133.53],
+  '810':[33.61,130.42],'812':[33.60,130.42],'820':[33.88,130.87],'840':[33.25,130.30],
+  '850':[32.74,129.87],'857':[32.91,129.86],'860':[32.79,130.74],'870':[33.24,131.61],
+  '880':[31.91,131.42],'890':[31.56,130.56],'900':[26.21,127.68],'904':[26.36,127.81],
+};
+
+const CITY_COORDS=[
+  [43.06,141.35,'札幌市'],[41.77,140.73,'函館市'],[43.77,142.36,'旭川市'],
+  [40.82,140.74,'青森市'],[39.70,141.15,'盛岡市'],[38.26,140.87,'仙台市'],
+  [39.72,140.10,'秋田市'],[38.24,140.36,'山形市'],[37.75,140.47,'福島市'],
+  [36.34,140.45,'水戸市'],[36.57,139.88,'宇都宮市'],[36.39,139.06,'前橋市'],
+  [35.86,139.65,'さいたま市'],[35.61,140.12,'千葉市'],[35.69,139.69,'東京'],
+  [35.45,139.64,'横浜市'],[35.54,139.66,'川崎市'],[37.90,139.02,'新潟市'],
+  [36.70,137.21,'富山市'],[36.59,136.63,'金沢市'],[36.07,136.22,'福井市'],
+  [35.66,138.57,'甲府市'],[36.65,138.18,'長野市'],[36.24,137.97,'松本市'],
+  [35.39,136.72,'岐阜市'],[34.97,138.38,'静岡市'],[34.71,137.73,'浜松市'],
+  [35.18,136.91,'名古屋市'],[34.73,136.51,'津市'],[35.00,135.87,'大津市'],
+  [35.02,135.76,'京都市'],[34.69,135.50,'大阪市'],[34.78,135.44,'豊中市'],
+  [34.76,135.58,'寝屋川市'],[34.67,135.60,'東大阪市'],[34.60,135.52,'八尾市'],
+  [34.60,135.50,'堺市'],[34.69,135.19,'神戸市'],[34.72,135.36,'尼崎市'],
+  [34.75,135.40,'西宮市'],[34.80,135.38,'宝塚市'],[34.77,134.69,'姫路市'],
+  [34.75,134.84,'加古川市'],[34.69,135.83,'奈良市'],[34.46,135.83,'橿原市'],
+  [34.23,135.17,'和歌山市'],[35.50,134.24,'鳥取市'],[35.47,133.05,'松江市'],
+  [35.34,132.76,'出雲市'],[34.66,133.93,'岡山市'],[34.59,133.77,'倉敷市'],
+  [34.40,132.46,'広島市'],[34.18,131.47,'山口市'],[34.07,134.55,'徳島市'],
+  [34.34,134.04,'高松市'],[33.84,132.77,'松山市'],[33.56,133.53,'高知市'],
+  [33.61,130.42,'福岡市'],[33.88,130.87,'北九州市'],[33.25,130.30,'佐賀市'],
+  [32.74,129.87,'長崎市'],[32.79,130.74,'熊本市'],[33.24,131.61,'大分市'],
+  [31.91,131.42,'宮崎市'],[31.56,130.56,'鹿児島市'],[26.21,127.68,'那覇市'],
+];
+
+function toRad(d){return d*Math.PI/180;}
+function haversine(la1,lo1,la2,lo2){
+  const dLa=toRad(la2-la1),dLo=toRad(lo2-lo1);
+  const a=Math.sin(dLa/2)**2+Math.cos(toRad(la1))*Math.cos(toRad(la2))*Math.sin(dLo/2)**2;
+  return 6371*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+function nearestCity(lat,lon){
+  let best='現在地',minD=Infinity;
+  for(const [la,lo,name] of CITY_COORDS){const d=haversine(lat,lon,la,lo);if(d<minD){minD=d;best=name;}}
+  return best;
+}
+
+async function searchLocation(){
+  const raw=document.getElementById('locInput').value.trim();
+  const st2=document.getElementById('locStatus');
+  if(!raw){st2.textContent='郵便番号または市区町村名を入力してください';return;}
+  st2.textContent='検索中…';
+  const postal=raw.replace(/[-－]/g,'');
+  let lat,lon,cityName;
+
+  // 郵便番号判定
+  if(/^\d{7}$/.test(postal)){
+    const coords=ZIP3[postal.slice(0,3)]||ZIP3[postal.slice(0,2)+'0'];
+    if(coords){[lat,lon]=coords;cityName=nearestCity(lat,lon)+'付近';}
+    else{st2.textContent='この郵便番号は対応していません。市区町村名で試してください';return;}
+  } else {
+    // 市区町村名で検索
+    const found=CITY_COORDS.find(c=>c[2].includes(raw)||raw.includes(c[2].replace(/[市区町村]/g,'')));
+    if(found){[lat,lon,cityName]=found;}
+    else{st2.textContent=`「${raw}」が見つかりませんでした。主要な市区町村名で試してください`;return;}
+  }
+
+  localStorage.setItem('hwa_fixed_lat',lat);
+  localStorage.setItem('hwa_fixed_lon',lon);
+  localStorage.setItem('hwa_fixed_city',cityName);
+  st2.textContent='';
+  showLocCurrent(cityName);
+  toast(`${cityName}に設定しました`);
+  await fetchWxAt(lat,lon,cityName);
+}
+
+function showLocCurrent(name){
+  const el=document.getElementById('locCurrent');
+  el.textContent=`📍 現在の設定場所: ${name}`;
+  el.classList.add('show');
+}
+
+async function useGPSManual(){
+  closeSettings();
+  await fetchByGPS();
+  localStorage.removeItem('hwa_fixed_lat');
+  localStorage.removeItem('hwa_fixed_lon');
+  localStorage.removeItem('hwa_fixed_city');
+  document.getElementById('locCurrent').classList.remove('show');
+}
+
+async function fetchWxAt(lat,lon,cityName){
+  const pip=document.getElementById('gpsPip');
+  const lbl=document.getElementById('fetchLbl');
+  const st2=document.getElementById('gpsSt');
+  pip.style.background='var(--orange)';lbl.textContent='気象データを取得中…';
+  showLoader(`${cityName}の空の様子を確認中`);
+  showLoader(`${cityName}の空の様子を確認中`);
+  try{
+    const res=await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${API_KEY}&units=metric&lang=ja`);
+    const d=await res.json();
+    if(!d.main)throw new Error(d.message||'データ取得エラー');
+    const temp=Math.round(d.main.temp);
+    const humidity=Math.round(d.main.humidity);
+    const code=d.weather[0].id;
+    const pressure=Math.round(d.main.pressure);
+    const wind=Math.round((d.wind?.speed||0)*10)/10;
+    const precip=Math.round(((d.rain?.['1h']||d.rain?.['3h']||d.snow?.['1h']||0))*10)/10;
+    const prev=+(localStorage.getItem('hwa_last_pressure')||pressure);
+    localStorage.setItem('hwa_last_pressure',pressure);
+    const diff=pressure-prev;
+    let pressKey='stable';
+    if(diff>=5)pressKey='up_big';else if(diff>=1)pressKey='up_small';
+    else if(diff<=-5)pressKey='down_big';else if(diff<=-1)pressKey='down_small';
+    const wx={code,temp,humidity,pressure,pressKey,wind,precip};
+    localStorage.setItem('hwa_wx_cache',JSON.stringify({date:new Date().toDateString(),data:wx}));
+    applyWx(wx);
+    hideLoader();
+    hideWxError();
+    pip.style.background='var(--green)';pip.style.boxShadow='0 0 8px rgba(74,144,96,0.6)';
+    lbl.textContent='現在地から気象を取得する';
+    st2.textContent=`✓ ${cityName}の気象データを更新しました`;
+    toast('気象データを取得しました');
+    closeSettings();
+  }catch(e){
+    pip.style.background='var(--red)';lbl.textContent='現在地から気象を取得する';
+    st2.textContent='取得エラー: '+e.message;
+  }
+}
+
+// ── 設定パネル ──
+function openSettings(){
+  document.getElementById('settingsOverlay').classList.add('show');
+  const city=localStorage.getItem('hwa_fixed_city');
+  if(city)showLocCurrent(city);
+  ['hc','lg'].forEach(m=>{
+    document.getElementById('sw-'+m).classList.toggle('on',document.body.classList.contains(m));
+  });
+  const swLight=document.getElementById('sw-light');
+  if(swLight)swLight.classList.toggle('on',document.body.classList.contains('light'));
+}
+function closeSettings(){document.getElementById('settingsOverlay').classList.remove('show');}
+function toggleTheme(){
+  const isLight=document.body.classList.toggle('light');
+  localStorage.setItem('mode_light', isLight?'1':'0');
+  const btn=document.getElementById('themeToggleBtn');
+  const sw=document.getElementById('sw-light');
+  if(btn){btn.textContent=isLight?'🌙 ダーク':'☀️ ライト';}
+  if(sw){sw.classList.toggle('on',isLight);}
+  // 高コントラストモードが入っている場合は一度外して再適用
+  if(document.body.classList.contains('hc')){
+    document.body.classList.remove('hc');
+    requestAnimationFrame(()=>document.body.classList.add('hc'));
+  }
+}
+function toggleMode(m){
+  document.body.classList.toggle(m);
+  document.getElementById('sw-'+m).classList.toggle('on',document.body.classList.contains(m));
+  localStorage.setItem('mode_'+m, document.body.classList.contains(m)?'1':'0');
+}
+
+// ── エクスポート ──
+function downloadFile(content,filename,type){
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([content],{type}));
+  a.download=filename;a.click();URL.revokeObjectURL(a.href);
+}
+function exportJSON(){
+  if(!st.entries.length){toast('記録がありません');return;}
+  const today=new Date();
+  const fname=`taichou_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.json`;
+  downloadFile(JSON.stringify({exported:new Date().toISOString(),entries:st.entries},null,2),fname,'application/json');
+  toast('JSONをエクスポートしました');
+}
+function exportCSV(){
+  if(!st.entries.length){toast('記録がありません');return;}
+  const headers=['日付','しんどさ','症状','天気','気温','湿度','気圧','気圧変化','花粉'];
+  const rows=st.entries.map(e=>[
+    e.date,e.score,
+    (e.feels||[]).join('|'),
+    e.weather||'',e.temp||'',e.humidity||'',e.pressure||'',
+    e.pressKey||'',e.pollen||''
+  ]);
+  const csv=[headers,...rows].map(r=>r.map(v=>`"${String(v).replace(/"/g,'""')}"`).join(',')).join('\n');
+  const today=new Date();
+  const fname=`taichou_${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}.csv`;
+  downloadFile('\uFEFF'+csv,fname,'text/csv;charset=utf-8');
+  toast('CSVをエクスポートしました');
+}
+
+// ── オフライン検知 ──
+function updateOnlineStatus(){
+  document.getElementById('offlineBanner').classList.toggle('show',!navigator.onLine);
+}
+window.addEventListener('online',updateOnlineStatus);
+window.addEventListener('offline',updateOnlineStatus);
+
+// ── インライン manifest ──
+const manifestData = {
+  name:'体調ログ — 体調と気候の記録',
+  short_name:'体調ログ',
+  description:'毎日の体調と気候を記録して相関を分析するアプリ',
+  start_url:'/',display:'standalone',
+  background_color:'#0e0d0b',theme_color:'#0e0d0b',
+  orientation:'portrait',lang:'ja',
+  icons:[
+    {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192"><rect width="192" height="192" rx="40" fill="%230e0d0b"/><text x="96" y="130" font-size="100" text-anchor="middle">🌿</text></svg>',sizes:'192x192',type:'image/svg+xml',purpose:'any maskable'},
+    {src:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="100" fill="%230e0d0b"/><text x="256" y="340" font-size="260" text-anchor="middle">🌿</text></svg>',sizes:'512x512',type:'image/svg+xml',purpose:'any maskable'}
+  ]
+};
+const manifestBlob = new Blob([JSON.stringify(manifestData)],{type:'application/json'});
+const manifestURL = URL.createObjectURL(manifestBlob);
+const manifestLink = document.createElement('link');
+manifestLink.rel = 'manifest';
+manifestLink.href = manifestURL;
+document.head.appendChild(manifestLink);
+
+// ── インライン Service Worker ──
+if('serviceWorker' in navigator){
+  const swCode = `
+const CACHE='taichou-v2';
+self.addEventListener('install',e=>{self.skipWaiting();});
+self.addEventListener('activate',e=>{
+  e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));
+  self.clients.claim();
+});
+self.addEventListener('fetch',e=>{
+  if(e.request.url.includes('openweathermap')||e.request.url.includes('open-meteo')||e.request.url.includes('fonts.g')){
+    e.respondWith(fetch(e.request).catch(()=>new Response('',{status:503})));
+    return;
+  }
+  e.respondWith(
+    caches.match(e.request).then(cached=>cached||fetch(e.request).then(res=>{
+      const clone=res.clone();
+      caches.open(CACHE).then(c=>c.put(e.request,clone));
+      return res;
+    })).catch(()=>caches.match('/'))
+  );
+});
+  `;
+  const swBlob = new Blob([swCode],{type:'application/javascript'});
+  const swURL = URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swURL,{scope:'/'}).catch(()=>{});
+}
+
 init();
+
+// 起動時の設定復元
+['hc','lg'].forEach(m=>{if(localStorage.getItem('mode_'+m)==='1'){document.body.classList.add(m);}});
+// ライトモード復元
+if(localStorage.getItem('mode_light')==='1'){
+  document.body.classList.add('light');
+  const btn=document.getElementById('themeToggleBtn');
+  if(btn)btn.textContent='🌙 ダーク';
+} else {
+  const btn=document.getElementById('themeToggleBtn');
+  if(btn)btn.textContent='☀️ ライト';
+}
+updateOnlineStatus();
+// 固定場所がある場合は表示
+const _fc=localStorage.getItem('hwa_fixed_city');
+if(_fc){
+  // メインGPSボタンのラベルを更新
+  document.getElementById('fetchLbl').textContent=`${_fc}の気象を取得する`;
+}
 </script>
 </body>
 </html>
